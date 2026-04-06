@@ -279,6 +279,8 @@ const signedImageUrlCacheKey = "emma-falkehed-signed-image-cache-v2";
 const reviewPasswordSessionKey = "emma-falkehed-review-password";
 const desktopGalleryColumnCount = 3;
 const imagePaddingOptions = new Set(["none", "small", "medium", "big"]);
+const estimatedPortfolioTotalMegabytes = 143;
+const portfolioImageLoadConcurrency = 4;
 
 const navButtons = [...document.querySelectorAll(".category-link")];
 const siteHeader = document.getElementById("site-header");
@@ -286,6 +288,12 @@ const galleryView = document.getElementById("gallery-view");
 const cvView = document.getElementById("cv-view");
 const galleryTrack = document.getElementById("gallery-track");
 const unlockPanel = document.getElementById("unlock-panel");
+const loadingPanel = document.getElementById("loading-panel");
+const loadingTitle = document.getElementById("loading-title");
+const loadingDetail = document.getElementById("loading-detail");
+const loadingProgressBar = document.getElementById("loading-progress-bar");
+const loadingProgressFill = document.getElementById("loading-progress-fill");
+const loadingProgressText = document.getElementById("loading-progress-text");
 const unlockForm = document.getElementById("unlock-form");
 const unlockInput = document.getElementById("review-password");
 const unlockButton = document.getElementById("unlock-button");
@@ -301,14 +309,31 @@ const lightboxMeta = document.getElementById("lightbox-meta");
 let activeCategoryId = getInitialCategory();
 let reviewPassword = "";
 let signedImageUrlMap = new Map();
-let categoryFetchPromises = new Map();
-let categoryPrefetchSequence = 0;
-let renderSequence = 0;
+let portfolioFetchPromise = null;
+let portfolioPreloadPromise = null;
+let navigationSequence = 0;
 let galleryColumnCount = getGalleryColumnCount();
+const preloadedSignedImageUrls = new Set();
+const signedImageMetadataMap = new Map();
 
 restoreCachedAccessState();
-void renderCategory(activeCategoryId);
 bindEvents();
+void initializeApp();
+
+async function initializeApp() {
+  if (activeCategoryId === "cv") {
+    renderCategory(activeCategoryId);
+    return;
+  }
+
+  const isReady = await ensurePortfolioReady();
+
+  if (!isReady) {
+    return;
+  }
+
+  renderCategory(activeCategoryId);
+}
 
 function bindEvents() {
   navButtons.forEach((button) => {
@@ -361,29 +386,43 @@ async function handleUnlockSubmit(event) {
     return;
   }
 
-  const isUnlocked = await ensureCategoryImages(activeCategoryId, password, {
-    announceSuccess: true,
-    showUnlockPending: true,
+  setUnlockPending(true);
+
+  const isUnlocked = await ensurePortfolioReady({
+    password,
   });
+
+  setUnlockPending(false);
 
   if (!isUnlocked) {
     return;
   }
 
   unlockInput.value = "";
-  await renderCategory(activeCategoryId);
-  void prefetchRemainingCategories(activeCategoryId);
+  renderCategory(activeCategoryId);
 }
 
-async function setActiveCategory(categoryId) {
+async function setActiveCategory(categoryId, { skipHistory = false } = {}) {
+  const currentNavigation = ++navigationSequence;
+
   activeCategoryId = categoryId;
-  window.history.replaceState(null, "", `#${categoryId}`);
-  await renderCategory(categoryId);
+
+  if (!skipHistory) {
+    window.history.replaceState(null, "", `#${categoryId}`);
+  }
+
+  if (categoryId !== "cv") {
+    const isReady = await ensurePortfolioReady();
+
+    if (!isReady || currentNavigation !== navigationSequence) {
+      return;
+    }
+  }
+
+  renderCategory(categoryId);
 }
 
-async function renderCategory(categoryId) {
-  const currentRender = ++renderSequence;
-
+function renderCategory(categoryId) {
   navButtons.forEach((button) => {
     button.classList.toggle("is-active", button.dataset.category === categoryId);
   });
@@ -402,36 +441,7 @@ async function renderCategory(categoryId) {
     return;
   }
 
-  if (!hasFreshCategoryImages(category.id)) {
-    if (!reviewPassword) {
-      const statusMessage = unlockStatus.textContent;
-      const statusState = unlockStatus.dataset.state || "";
-      showUnlockPanel(
-        reviewPassword ? statusMessage || "Enter the password again." : "",
-        reviewPassword ? statusState || "error" : ""
-      );
-      return;
-    }
-
-    renderGalleryCategory(category);
-
-    const hasImageAccess = await ensureCategoryImages(category.id);
-
-    if (currentRender !== renderSequence) {
-      return;
-    }
-
-    if (!hasImageAccess) {
-      showUnlockPanel(
-        unlockStatus.textContent || "Enter the password again.",
-        unlockStatus.dataset.state || "error"
-      );
-      return;
-    }
-  }
-
   renderGalleryCategory(category);
-  void prefetchRemainingCategories(category.id);
 }
 
 function createWorkCard(item, categoryId, categoryLabel, index) {
@@ -478,10 +488,22 @@ function createSingleMedia(item, categoryId, categoryLabel, index) {
   if (signedImageUrl || !item.src) {
     const image = document.createElement("img");
     image.className = "work-card__media";
+    applyImageMetadata(image, storagePath);
     image.src = resolveImageSource(item, categoryId, categoryLabel, index);
     image.alt = item.alt || item.title;
     image.loading = "lazy";
     image.decoding = "async";
+
+    if (storagePath) {
+      image.addEventListener(
+        "load",
+        () => {
+          rememberImageMetadata(storagePath, image.naturalWidth, image.naturalHeight);
+        },
+        { once: true }
+      );
+    }
+
     frame.appendChild(image);
     button.appendChild(frame);
     button.addEventListener("click", () => {
@@ -585,9 +607,22 @@ function showUnlockPanel(message = "", state = "") {
   cvView.classList.add("is-hidden");
   copyrightBadge.classList.add("is-hidden");
   unlockPanel.classList.remove("is-hidden");
+  loadingPanel.classList.add("is-hidden");
   galleryTrack.classList.add("is-hidden");
   galleryTrack.innerHTML = "";
   setUnlockStatus(message, state);
+}
+
+function showLoadingPanel(title, detail) {
+  siteHeader.classList.add("is-hidden");
+  galleryView.classList.remove("is-hidden");
+  cvView.classList.add("is-hidden");
+  copyrightBadge.classList.add("is-hidden");
+  unlockPanel.classList.add("is-hidden");
+  loadingPanel.classList.remove("is-hidden");
+  galleryTrack.classList.add("is-hidden");
+  galleryTrack.innerHTML = "";
+  setLoadingPendingState(title, detail);
 }
 
 function setUnlockStatus(message = "", state = "") {
@@ -614,6 +649,7 @@ function renderGalleryCategory(category) {
   cvView.classList.add("is-hidden");
   copyrightBadge.classList.remove("is-hidden");
   unlockPanel.classList.add("is-hidden");
+  loadingPanel.classList.add("is-hidden");
   galleryTrack.classList.remove("is-hidden");
   galleryTrack.innerHTML = "";
   galleryTrack.dataset.columns = String(galleryColumnCount);
@@ -652,7 +688,7 @@ function handleGalleryViewportChange() {
   }
 
   galleryColumnCount = nextColumnCount;
-  void renderCategory(activeCategoryId);
+  void setActiveCategory(activeCategoryId, { skipHistory: true });
 }
 
 function getGalleryColumnCount() {
@@ -697,6 +733,29 @@ function getSourceFilename(sourcePath) {
   return decodeURIComponent(sourcePath.replace(/^assets\/images\//, ""));
 }
 
+function applyImageMetadata(image, storagePath) {
+  if (!storagePath) {
+    return;
+  }
+
+  const metadata = signedImageMetadataMap.get(storagePath);
+
+  if (!metadata) {
+    return;
+  }
+
+  image.width = metadata.width;
+  image.height = metadata.height;
+}
+
+function rememberImageMetadata(storagePath, width, height) {
+  if (!storagePath || !Number.isFinite(width) || !Number.isFinite(height) || width <= 0 || height <= 0) {
+    return;
+  }
+
+  signedImageMetadataMap.set(storagePath, { width, height });
+}
+
 function getCategoryPaths(categoryId) {
   const category = getCategoryById(categoryId);
 
@@ -705,6 +764,12 @@ function getCategoryPaths(categoryId) {
   }
 
   return [...new Set(category.items.map((item) => getStoragePath(item, categoryId)).filter(Boolean))];
+}
+
+function getAllPortfolioPaths() {
+  return [
+    ...new Set(portfolioData.categories.flatMap((category) => getCategoryPaths(category.id))),
+  ];
 }
 
 function restoreCachedAccessState() {
@@ -823,6 +888,17 @@ function hasFreshCategoryImages(categoryId) {
   return paths.every((path) => Boolean(getFreshSignedImageUrl(path)));
 }
 
+function hasFreshPortfolioImages() {
+  return getAllPortfolioPaths().every((path) => Boolean(getFreshSignedImageUrl(path)));
+}
+
+function hasPreloadedPortfolioImages() {
+  return getAllPortfolioPaths().every((path) => {
+    const signedUrl = getFreshSignedImageUrl(path);
+    return Boolean(signedUrl) && preloadedSignedImageUrls.has(signedUrl);
+  });
+}
+
 async function ensureImageForItem(item, categoryId) {
   const storagePath = getStoragePath(item, categoryId);
 
@@ -834,15 +910,56 @@ async function ensureImageForItem(item, categoryId) {
     return false;
   }
 
-  return ensureCategoryImages(categoryId);
+  return ensurePortfolioReady();
 }
 
-async function ensureCategoryImages(
-  categoryId,
-  password = reviewPassword,
-  { announceSuccess = false, showUnlockPending = false } = {}
-) {
-  if (hasFreshCategoryImages(categoryId)) {
+async function ensurePortfolioReady({ password = reviewPassword } = {}) {
+  if (hasFreshPortfolioImages() && hasPreloadedPortfolioImages()) {
+    return true;
+  }
+
+  if (!password) {
+    showUnlockPanel();
+    return false;
+  }
+
+  if (!hasFreshPortfolioImages()) {
+    showLoadingPanel(
+      "Preparing portfolio",
+      "Requesting secure access to the full image archive."
+    );
+
+    const hasImageAccess = await ensureAllPortfolioImages(password);
+
+    if (!hasImageAccess) {
+      showUnlockPanel(
+        unlockStatus.textContent || "Enter the password again.",
+        unlockStatus.dataset.state || "error"
+      );
+      return false;
+    }
+  }
+
+  showLoadingPanel(
+    "Preparing portfolio",
+    "Loading the full image archive before opening the gallery."
+  );
+
+  const areImagesLoaded = await preloadPortfolioImages();
+
+  if (!areImagesLoaded) {
+    showUnlockPanel(
+      unlockStatus.textContent || "Unable to finish loading the portfolio.",
+      unlockStatus.dataset.state || "error"
+    );
+    return false;
+  }
+
+  return true;
+}
+
+async function ensureAllPortfolioImages(password = reviewPassword) {
+  if (hasFreshPortfolioImages()) {
     return true;
   }
 
@@ -850,48 +967,153 @@ async function ensureCategoryImages(
     return false;
   }
 
-  const existingFetch = categoryFetchPromises.get(categoryId);
-
-  if (existingFetch) {
-    return existingFetch;
+  if (portfolioFetchPromise) {
+    return portfolioFetchPromise;
   }
 
-  const fetchPromise = fetchSignedImageUrlsForPaths(password, getCategoryPaths(categoryId), {
-    announceSuccess,
-    showUnlockPending,
-  }).finally(() => {
-    categoryFetchPromises.delete(categoryId);
+  const missingPaths = getAllPortfolioPaths().filter((path) => !getFreshSignedImageUrl(path));
+
+  portfolioFetchPromise = fetchSignedImageUrlsForPaths(password, missingPaths).finally(() => {
+    portfolioFetchPromise = null;
   });
 
-  categoryFetchPromises.set(categoryId, fetchPromise);
-  return fetchPromise;
+  return portfolioFetchPromise;
 }
 
-async function prefetchRemainingCategories(priorityCategoryId) {
-  if (!reviewPassword) {
-    return;
+async function preloadPortfolioImages() {
+  if (hasPreloadedPortfolioImages()) {
+    updateLoadingProgress(getAllPortfolioPaths().length, getAllPortfolioPaths().length);
+    return true;
   }
 
-  const currentSequence = ++categoryPrefetchSequence;
-  const categoryIds = portfolioData.categories
-    .map((category) => category.id)
-    .filter((categoryId) => categoryId !== priorityCategoryId);
-
-  for (const categoryId of categoryIds) {
-    if (currentSequence !== categoryPrefetchSequence) {
-      return;
-    }
-
-    if (hasFreshCategoryImages(categoryId)) {
-      continue;
-    }
-
-    const wasFetched = await ensureCategoryImages(categoryId);
-
-    if (!wasFetched) {
-      return;
-    }
+  if (portfolioPreloadPromise) {
+    return portfolioPreloadPromise;
   }
+
+  const allPaths = getAllPortfolioPaths();
+  const urlsToPreload = allPaths
+    .map((path) => ({
+      path,
+      signedUrl: getFreshSignedImageUrl(path),
+    }))
+    .filter(({ signedUrl }) => signedUrl && !preloadedSignedImageUrls.has(signedUrl));
+
+  portfolioPreloadPromise = runPortfolioPreload(allPaths, urlsToPreload).finally(() => {
+    portfolioPreloadPromise = null;
+  });
+
+  return portfolioPreloadPromise;
+}
+
+async function runPortfolioPreload(allPaths, urlsToPreload) {
+  let completedCount = allPaths.length - urlsToPreload.length;
+  let preloadError = null;
+
+  updateLoadingProgress(completedCount, allPaths.length);
+
+  if (!urlsToPreload.length) {
+    return true;
+  }
+
+  const queue = [...urlsToPreload];
+  const workerCount = Math.min(portfolioImageLoadConcurrency, queue.length);
+
+  await Promise.all(
+    Array.from({ length: workerCount }, async () => {
+      while (queue.length && !preloadError) {
+        const nextImage = queue.shift();
+
+        if (!nextImage) {
+          return;
+        }
+
+        try {
+          const metadata = await preloadSignedImage(nextImage.signedUrl);
+          rememberImageMetadata(nextImage.path, metadata.width, metadata.height);
+          preloadedSignedImageUrls.add(nextImage.signedUrl);
+          completedCount += 1;
+          updateLoadingProgress(completedCount, allPaths.length);
+        } catch (error) {
+          preloadError =
+            error instanceof Error
+              ? error
+              : new Error("Unable to finish loading the portfolio images.");
+        }
+      }
+    })
+  );
+
+  if (preloadError) {
+    setUnlockStatus(preloadError.message, "error");
+    return false;
+  }
+
+  return true;
+}
+
+function preloadSignedImage(signedUrl) {
+  return new Promise((resolve, reject) => {
+    const image = new Image();
+    let isSettled = false;
+
+    image.decoding = "async";
+
+    const finishLoad = () => {
+      if (isSettled) {
+        return;
+      }
+
+      isSettled = true;
+
+      if (typeof image.decode === "function") {
+        image.decode().catch(() => {
+          // Some browsers reject decode for cached or already-decoded images.
+        });
+      }
+
+      resolve({
+        width: image.naturalWidth,
+        height: image.naturalHeight,
+      });
+    };
+
+    image.onload = finishLoad;
+    image.onerror = () => {
+      if (isSettled) {
+        return;
+      }
+
+      isSettled = true;
+      reject(new Error("One of the private images could not be loaded."));
+    };
+    image.src = signedUrl;
+
+    if (image.complete && image.naturalWidth > 0) {
+      finishLoad();
+    }
+  });
+}
+
+function setLoadingPendingState(title, detail) {
+  loadingTitle.textContent = title;
+  loadingDetail.textContent = detail;
+  loadingProgressBar.classList.add("is-indeterminate");
+  loadingProgressFill.style.width = "34%";
+  loadingProgressText.textContent = `0 of ${getAllPortfolioPaths().length} images`;
+}
+
+function updateLoadingProgress(loadedCount, totalCount) {
+  const safeTotalCount = totalCount || 1;
+  const progressRatio = Math.min(Math.max(loadedCount / safeTotalCount, 0), 1);
+  const loadedMegabytes = estimatedPortfolioTotalMegabytes * progressRatio;
+
+  loadingTitle.textContent = "Preparing portfolio";
+  loadingDetail.textContent = "Waiting until every image is ready before opening the gallery.";
+  loadingProgressBar.classList.remove("is-indeterminate");
+  loadingProgressFill.style.width = `${progressRatio * 100}%`;
+  loadingProgressText.textContent =
+    `${loadedCount} of ${totalCount} images` +
+    ` • ${loadedMegabytes.toFixed(1)} / ${estimatedPortfolioTotalMegabytes.toFixed(0)} MB estimated`;
 }
 
 async function fetchSignedImageUrlsForPaths(
@@ -955,6 +1177,12 @@ async function fetchSignedImageUrlsForPaths(
 
     if (!receivedCount) {
       throw new Error("No private image URLs were returned.");
+    }
+
+    const unresolvedPaths = paths.filter((path) => !getFreshSignedImageUrl(path));
+
+    if (unresolvedPaths.length) {
+      throw new Error("Some private images could not be unlocked.");
     }
 
     reviewPassword = password;

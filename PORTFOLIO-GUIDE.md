@@ -43,6 +43,30 @@ Example:
 - `marceau-detail-01.jpg`
 - `tray-side-view.jpg`
 
+For the private review site, each image should also be uploaded to Supabase Storage with the same
+filename, unless you set a custom `storagePath` in `script.js`.
+
+## What happens after login
+
+When you enter the review password, the gallery now waits on a loading page before it opens.
+
+The site will:
+
+- fetch secure signed image links from Supabase
+- cache those signed links in the browser for about 55 minutes
+- preload the full portfolio
+- open the gallery only after all private images are loaded
+
+This keeps the private gallery smoother to browse, while still reducing repeated API calls during
+local development.
+
+The loading page shows:
+
+- image progress, for example `12 of 25 images`
+- an estimated MB progress value based on the whole portfolio being `143 MB`
+
+If that total changes later, update `estimatedPortfolioTotalMegabytes` in `script.js`.
+
 ## How to change a title or description
 
 Open `script.js`.
@@ -69,9 +93,10 @@ You can leave `alt` alone if you want, but it is good to update it when you chan
 ## How to replace a picture
 
 1. Put the new image in `assets/images`
-2. Open `script.js`
-3. Find the picture you want to replace
-4. Change only the `src` line
+2. Upload the same file to the private Supabase bucket using the same filename
+3. Open `script.js`
+4. Find the picture you want to replace
+5. Change only the `src` line
 
 Example:
 
@@ -79,14 +104,21 @@ Example:
 src: "assets/images/my-new-picture.jpg",
 ```
 
+If the bucket filename is different, add:
+
+```js
+storagePath: "my-custom-file-name.jpg",
+```
+
 ## How to add a new picture
 
 1. Put the new image in `assets/images`
-2. Open `script.js`
-3. Find the category where you want it
-4. Copy one existing picture block
-5. Paste it underneath another picture in the same category
-6. Update `slug`, `title`, `meta`, `src`, and `alt`
+2. Upload the same file to the private Supabase bucket using the same filename
+3. Open `script.js`
+4. Find the category where you want it
+5. Copy one existing picture block
+6. Paste it underneath another picture in the same category
+7. Update `slug`, `title`, `meta`, `src`, and `alt`
 
 Example:
 
@@ -105,6 +137,7 @@ Important:
 - `slug` should be short and unique inside that category
 - use lowercase
 - use hyphens instead of spaces
+- you can also add `column`, `padding`, `zoom`, or `storagePath` when needed
 
 Good examples:
 
@@ -158,6 +191,12 @@ Each picture has its own section name, for example:
   --media-origin: center center;
 }
 ```
+
+In `script.js`, you can also use:
+
+- `column` to choose desktop column `1`, `2`, or `3`
+- `padding` to add inner spacing: `none`, `small`, `medium`, or `big`
+- `zoom` for extra zoom inside the frame, from `0` to `1`
 
 ### What each line means
 
@@ -332,6 +371,9 @@ After that:
 3. Save the file
 4. Go back to the browser
 5. Refresh the page if needed
+
+If you changed private images, the loading screen may appear again after refresh while the browser
+reloads the full portfolio. That is expected.
 
 ### How to stop the local website
 

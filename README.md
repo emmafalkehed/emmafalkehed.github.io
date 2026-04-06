@@ -24,16 +24,37 @@ Edit [`script.js`](/Users/dmazzuca/src/emmafalkehed/script.js).
 
 For each item you can update:
 
+- `slug`: short unique id inside the category
 - `src`: path to your image file
 - `title`: short legend title
 - `meta`: smaller legend text
-- `frame.width`: width of the card in the gallery
-- `frame.aspectRatio`: shape of the frame
-- `image.scale`: zoom level inside the frame
-- `image.position`: crop anchor, for example `50% 40%`
-- `image.translateX` and `image.translateY`: manual nudge values
+- `alt`: accessible image description
+- `column`: desktop column placement (`1`, `2`, or `3`)
+- `padding`: inner spacing around the image (`none`, `small`, `medium`, `big`)
+- `zoom`: extra zoom inside the frame (`0` to `1`)
+- `storagePath`: optional custom Supabase bucket path if it differs from the filename in `src`
 
 If `src` is left empty, the site shows a generated placeholder.
+
+For image positioning and crop adjustments, edit
+[`gallery-overrides.css`](/Users/dmazzuca/src/emmafalkehed/gallery-overrides.css).
+
+## Login, loading, and cache behavior
+
+After entering the review password, the site now:
+
+- requests signed private image URLs from the Supabase Edge Function
+- keeps those signed URLs in `localStorage` for about 55 minutes
+- keeps the accepted password in `sessionStorage` for the current tab session
+- shows a loading page and waits until all portfolio images are loaded before opening the gallery
+
+This keeps the smoother post-login experience while still reducing repeated API calls during local
+development.
+
+The loading screen also shows an estimated MB progress value. Right now that estimate is based on
+the whole portfolio being `143 MB` in total, spread proportionally across the current image count.
+If the total portfolio weight changes later, update `estimatedPortfolioTotalMegabytes` in
+[`script.js`](/Users/dmazzuca/src/emmafalkehed/script.js).
 
 ## Suggested image folder
 
