@@ -1,16 +1,14 @@
 /*
-  Manual gallery crop controls:
+  Manual gallery display controls:
 
-  - Leave `--frame-crop-height: auto;` to show the full image at natural height.
-  - Set `--frame-crop-height` to a fixed value like `26rem` if you want a cropped frame.
-  - Increase `--media-scale` to zoom in.
+  - Loaded images now follow their natural aspect ratio by default.
+  - `--frame-aspect-ratio` mainly affects the loading placeholder shape.
+  - Increase `--media-scale` or use `zoom` in `script.js` to crop in.
   - Use `--media-shift-x` / `--media-shift-y` to re-center.
-  - Increase `--media-width` above `100%` if you want the image itself to run wider inside the crop.
 
   Example:
   .work-card[data-card="ceramics-glass-penelope"] {
-    --frame-crop-height: 26rem;
-    --media-width: 108%;
+    --frame-aspect-ratio: 3 / 4;
     --media-scale: 1.04;
     --media-shift-x: -6px;
     --media-shift-y: -12px;
@@ -38,8 +36,7 @@
 .work-card[data-card="projects-line-bursegan-project"],
 .work-card[data-card="projects-nestor-joinery"],
 .work-card[data-card="projects-black-vessel-form"] {
-  --frame-crop-height: auto;
-  --media-width: 100%;
+  --frame-aspect-ratio: 4 / 5;
   --media-scale: 1;
   --media-shift-x: 0px;
   --media-shift-y: 0px;

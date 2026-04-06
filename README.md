@@ -39,6 +39,9 @@ If `src` is left empty, the site shows a generated placeholder.
 
 Place new images in [`assets/images`](/Users/dmazzuca/src/emmafalkehed/assets/images).
 
+For Supabase Storage, upload each private image to the `Images` bucket using the same standardized
+filename from `assets/images`, for example `ceramics-glass-image-01.jpg`.
+
 ## Font files
 
 If you want to use FF Zwo on the website, place the licensed webfont files in

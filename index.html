@@ -16,7 +16,7 @@
   </head>
   <body>
     <div class="page-shell">
-      <header class="site-header">
+      <header class="site-header is-hidden" id="site-header">
         <h1>EMMA FALKEHED</h1>
         <nav class="category-nav" aria-label="Portfolio categories">
           <button class="category-link is-active" data-category="ceramics-glass" type="button">
@@ -42,7 +42,28 @@
 
       <main class="content">
         <section class="gallery-view" id="gallery-view" aria-live="polite">
-          <div class="gallery-track" id="gallery-track"></div>
+          <div class="unlock-panel" id="unlock-panel">
+            <form class="unlock-form" id="unlock-form">
+              <h1 class="unlock-name">Emma Falkehed</h1>
+              <div class="unlock-row">
+                <input
+                  class="unlock-input"
+                  id="review-password"
+                  name="password"
+                  type="password"
+                  autocomplete="current-password"
+                  placeholder="Password"
+                  required
+                />
+                <button class="unlock-button" id="unlock-button" type="submit">
+                  Enter
+                </button>
+              </div>
+              <p class="unlock-status" id="unlock-status" role="status" aria-live="polite"></p>
+            </form>
+          </div>
+
+          <div class="gallery-track is-hidden" id="gallery-track"></div>
         </section>
 
         <section class="cv-view is-hidden" id="cv-view">
