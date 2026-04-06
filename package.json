@@ -1,0 +1,9 @@
+{
+  "name": "emma-falkehed-portfolio",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Minimal portfolio website for Emma Falkehed.",
+  "scripts": {
+    "start": "live-server --host=127.0.0.1 --port=4173 --open=/index.html ."
+  }
+}

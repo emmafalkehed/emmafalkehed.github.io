@@ -1,0 +1,47 @@
+/*
+  Manual gallery crop controls:
+
+  - Leave `--frame-crop-height: auto;` to show the full image at natural height.
+  - Set `--frame-crop-height` to a fixed value like `26rem` if you want a cropped frame.
+  - Increase `--media-scale` to zoom in.
+  - Use `--media-shift-x` / `--media-shift-y` to re-center.
+  - Increase `--media-width` above `100%` if you want the image itself to run wider inside the crop.
+
+  Example:
+  .work-card[data-card="ceramics-glass-penelope"] {
+    --frame-crop-height: 26rem;
+    --media-width: 108%;
+    --media-scale: 1.04;
+    --media-shift-x: -6px;
+    --media-shift-y: -12px;
+    --media-origin: center center;
+  }
+*/
+
+.work-card[data-card="ceramics-glass-penelope"],
+.work-card[data-card="ceramics-glass-ulysse-figue"],
+.work-card[data-card="ceramics-glass-marceau-group"],
+.work-card[data-card="ceramics-glass-black-vessel-top"],
+.work-card[data-card="wood-lacquer-nestor-full"],
+.work-card[data-card="wood-lacquer-nestor-detail"],
+.work-card[data-card="wood-lacquer-trinity-mocha"],
+.work-card[data-card="wood-lacquer-black-object-side"],
+.work-card[data-card="metal-silver-line-bursegan-interior"],
+.work-card[data-card="metal-silver-black-vessel-rim"],
+.work-card[data-card="metal-silver-black-vessel-overhead"],
+.work-card[data-card="metal-silver-trinity-gloss"],
+.work-card[data-card="furniture-line-bursegan-console"],
+.work-card[data-card="furniture-marceau-context"],
+.work-card[data-card="furniture-nestor-composition"],
+.work-card[data-card="furniture-object-study-black"],
+.work-card[data-card="projects-marceau-overview"],
+.work-card[data-card="projects-line-bursegan-project"],
+.work-card[data-card="projects-nestor-joinery"],
+.work-card[data-card="projects-black-vessel-form"] {
+  --frame-crop-height: auto;
+  --media-width: 100%;
+  --media-scale: 1;
+  --media-shift-x: 0px;
+  --media-shift-y: 0px;
+  --media-origin: center center;
+}
