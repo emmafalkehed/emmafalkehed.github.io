@@ -304,6 +304,8 @@ const signedImageUrlCacheKey = "emma-falkehed-signed-image-cache-v2";
 const reviewPasswordSessionKey = "emma-falkehed-review-password";
 const reviewPasswordQueryParamKey = "pwd";
 const reviewReviewerIdSessionKey = "emma-falkehed-reviewer-id";
+const passwordMaxLength = 256;
+const pathMaxLength = 512;
 const desktopGalleryColumnCount = 3;
 const imagePaddingOptions = new Set(["none", "small", "medium", "big"]);
 const portfolioImageLoadConcurrency = 4;
@@ -476,7 +478,7 @@ function renderCvSections() {
 async function handleUnlockSubmit(event) {
   event.preventDefault();
 
-  const password = unlockInput.value.trim();
+  const password = sanitizePasswordInput(unlockInput.value);
 
   if (!password) {
     setUnlockStatus("Enter the password.", "error");
@@ -901,7 +903,7 @@ function consumeLinkedReviewPassword() {
     return "";
   }
 
-  return linkedPassword.trim();
+  return sanitizePasswordInput(linkedPassword);
 }
 
 function getAccessPassword() {
@@ -920,10 +922,19 @@ function getAccessPassword() {
 
 function restoreSessionAuth() {
   try {
-    reviewPassword = window.sessionStorage.getItem(reviewPasswordSessionKey) || "";
+    const storedPassword = window.sessionStorage.getItem(reviewPasswordSessionKey) || "";
+    reviewPassword = sanitizePasswordInput(storedPassword);
     reviewReviewerId = normalizeReviewerId(
       window.sessionStorage.getItem(reviewReviewerIdSessionKey) || ""
     );
+
+    if (!reviewPassword) {
+      window.sessionStorage.removeItem(reviewPasswordSessionKey);
+      window.sessionStorage.removeItem(reviewReviewerIdSessionKey);
+      reviewReviewerId = "";
+    } else if (reviewPassword !== storedPassword) {
+      window.sessionStorage.setItem(reviewPasswordSessionKey, reviewPassword);
+    }
   } catch {
     reviewPassword = "";
     reviewReviewerId = "";
@@ -931,9 +942,22 @@ function restoreSessionAuth() {
 }
 
 function persistSessionAuth(password, reviewerId = reviewReviewerId) {
+  const sanitizedPassword = sanitizePasswordInput(password);
+  const sanitizedReviewerId = normalizeReviewerId(reviewerId);
+
+  if (!sanitizedPassword) {
+    clearSessionAuth();
+    return;
+  }
+
   try {
-    window.sessionStorage.setItem(reviewPasswordSessionKey, password);
-    window.sessionStorage.setItem(reviewReviewerIdSessionKey, normalizeReviewerId(reviewerId));
+    window.sessionStorage.setItem(reviewPasswordSessionKey, sanitizedPassword);
+
+    if (sanitizedReviewerId) {
+      window.sessionStorage.setItem(reviewReviewerIdSessionKey, sanitizedReviewerId);
+    } else {
+      window.sessionStorage.removeItem(reviewReviewerIdSessionKey);
+    }
   } catch {
     // Ignore storage failures and continue with in-memory state.
   }
@@ -1062,7 +1086,7 @@ async function ensureImageForItem(item, categoryId) {
 }
 
 async function ensurePortfolioReady({ password = reviewPassword } = {}) {
-  const accessPassword = password || getAccessPassword();
+  const accessPassword = sanitizePasswordInput(password) || getAccessPassword();
 
   if (hasFreshPortfolioImages() && hasPreloadedPortfolioImages()) {
     return true;
@@ -1103,11 +1127,13 @@ async function ensurePortfolioReady({ password = reviewPassword } = {}) {
 }
 
 async function ensureAllPortfolioImages(password = reviewPassword) {
+  const sanitizedPassword = sanitizePasswordInput(password);
+
   if (hasFreshPortfolioImages()) {
     return true;
   }
 
-  if (!password) {
+  if (!sanitizedPassword) {
     return false;
   }
 
@@ -1117,7 +1143,7 @@ async function ensureAllPortfolioImages(password = reviewPassword) {
 
   const missingPaths = getAllPortfolioPaths().filter((path) => !getFreshSignedImageUrl(path));
 
-  portfolioFetchPromise = fetchSignedImageUrlsForPaths(password, missingPaths).finally(() => {
+  portfolioFetchPromise = fetchSignedImageUrlsForPaths(sanitizedPassword, missingPaths).finally(() => {
     portfolioFetchPromise = null;
   });
 
@@ -1278,8 +1304,16 @@ async function fetchSignedImageUrlsForPaths(
   paths,
   { announceSuccess = false, showUnlockPending = false } = {}
 ) {
-  if (!paths.length) {
+  const sanitizedPassword = sanitizePasswordInput(password);
+  const sanitizedPaths = sanitizeImagePaths(paths);
+
+  if (!sanitizedPaths.length) {
     return true;
+  }
+
+  if (!sanitizedPassword) {
+    setUnlockStatus("Enter the password.", "error");
+    return false;
   }
 
   if (showUnlockPending) {
@@ -1300,7 +1334,7 @@ async function fetchSignedImageUrlsForPaths(
           apikey: supabaseConfig.anonKey,
           Authorization: `Bearer ${supabaseConfig.anonKey}`,
         },
-        body: JSON.stringify({ password, paths }),
+        body: JSON.stringify({ password: sanitizedPassword, paths: sanitizedPaths }),
       }
     );
 
@@ -1336,15 +1370,15 @@ async function fetchSignedImageUrlsForPaths(
       throw new Error("No private image URLs were returned.");
     }
 
-    const unresolvedPaths = paths.filter((path) => !getFreshSignedImageUrl(path));
+    const unresolvedPaths = sanitizedPaths.filter((path) => !getFreshSignedImageUrl(path));
 
     if (unresolvedPaths.length) {
       throw new Error("Some private images could not be unlocked.");
     }
 
     reviewReviewerId = getReviewerIdFromPayload(payload);
-    reviewPassword = password;
-    persistSessionAuth(password, reviewReviewerId);
+    reviewPassword = sanitizedPassword;
+    persistSessionAuth(sanitizedPassword, reviewReviewerId);
     persistSignedImageUrlCache();
     setUnlockStatus(announceSuccess ? "Access granted." : "", announceSuccess ? "success" : "");
     return true;
@@ -1387,6 +1421,70 @@ function escapeXml(value) {
     .replaceAll(">", "&gt;")
     .replaceAll('"', "&quot;")
     .replaceAll("'", "&apos;");
+}
+
+function sanitizePasswordInput(value) {
+  if (typeof value !== "string") {
+    return "";
+  }
+
+  const sanitizedValue = value.trim();
+
+  if (
+    !sanitizedValue ||
+    sanitizedValue.length > passwordMaxLength ||
+    /[\u0000-\u001F\u007F]/.test(sanitizedValue)
+  ) {
+    return "";
+  }
+
+  return sanitizedValue;
+}
+
+function sanitizeImagePaths(paths) {
+  if (!Array.isArray(paths)) {
+    return [];
+  }
+
+  return [
+    ...new Set(
+      paths
+        .map((path) => sanitizeImagePath(path))
+        .filter(Boolean)
+    ),
+  ];
+}
+
+function sanitizeImagePath(path) {
+  if (typeof path !== "string") {
+    return "";
+  }
+
+  const sanitizedPath = path.trim();
+
+  if (!sanitizedPath || sanitizedPath.length > pathMaxLength) {
+    return "";
+  }
+
+  if (/[\u0000-\u001F\u007F\\]/.test(sanitizedPath)) {
+    return "";
+  }
+
+  if (
+    sanitizedPath.startsWith("/") ||
+    sanitizedPath.endsWith("/") ||
+    sanitizedPath.includes("//")
+  ) {
+    return "";
+  }
+
+  const segments = sanitizedPath.split("/");
+
+  if (segments.some((segment) => !segment || segment === "." || segment === "..")) {
+    return "";
+  }
+
+  return sanitizedPath;
 }
 
 /*
