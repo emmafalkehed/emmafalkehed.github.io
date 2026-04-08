@@ -48,6 +48,15 @@ After entering the review password, the site now:
 - keeps the accepted password in `sessionStorage` for the current tab session
 - shows a loading page and waits until all portfolio images are loaded before opening the gallery
 
+Reviewer quick links can also include `?pwd=...`, for example
+`https://emmafalkehed.github.io/?pwd=example-password`.
+
+When that parameter is present, the site:
+
+- removes `pwd` from the URL immediately with `history.replaceState`
+- uses the provided password once through the normal unlock flow if no session password is already active
+- falls back to the normal manual password form if the linked password is invalid
+
 This keeps the smoother post-login experience while still reducing repeated API calls during local
 development.
 
