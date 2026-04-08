@@ -6,7 +6,7 @@
       name="viewport"
       content="width=device-width, initial-scale=1.0"
     />
-    <title>Emma Falkehed Portfolio</title>
+    <title>Emma Falkehed</title>
     <meta
       name="description"
       content="Emma Falkehed"
@@ -18,26 +18,7 @@
     <div class="page-shell">
       <header class="site-header is-hidden" id="site-header">
         <h1>EMMA FALKEHED</h1>
-        <nav class="category-nav" aria-label="Portfolio categories">
-          <button class="category-link is-active" data-category="ceramics-glass" type="button">
-            ceramics &amp; glass
-          </button>
-          <button class="category-link" data-category="wood-lacquer" type="button">
-            wood &amp; lacquer
-          </button>
-          <button class="category-link" data-category="metal-silver" type="button">
-            metal &amp; silver
-          </button>
-          <button class="category-link" data-category="furniture" type="button">
-            furniture
-          </button>
-          <button class="category-link" data-category="projects" type="button">
-            projects
-          </button>
-          <button class="category-link" data-category="cv" type="button">
-            cv
-          </button>
-        </nav>
+        <nav class="category-nav" id="category-nav" aria-label="Site navigation"></nav>
       </header>
 
       <main class="content">
@@ -66,68 +47,27 @@
           <div class="loading-panel is-hidden" id="loading-panel" aria-live="polite">
             <div class="unlock-form loading-shell">
               <h1 class="unlock-name">Emma Falkehed</h1>
-              <p class="loading-title" id="loading-title">Preparing portfolio</p>
-              <p class="loading-detail" id="loading-detail">
-                Requesting secure access to the image archive.
-              </p>
+              <p class="loading-title" id="loading-title">Verifying access</p>
+              <p class="loading-detail" id="loading-detail">Requesting secure download links.</p>
               <div class="loading-progress-bar is-indeterminate" id="loading-progress-bar">
                 <span class="loading-progress-fill" id="loading-progress-fill"></span>
               </div>
-              <p class="loading-progress-text" id="loading-progress-text">0 of 25 images</p>
+              <p class="loading-progress-text" id="loading-progress-text">Loading details</p>
             </div>
           </div>
 
           <div class="gallery-track is-hidden" id="gallery-track"></div>
         </section>
 
-        <section class="cv-view is-hidden" id="cv-view">
-          <div class="cv-grid">
-            <section class="cv-block">
-              <h2>Biography</h2>
-              <p>
-                Add a short introduction to Emma Falkehed here. This space works well for a concise
-                design statement, creative focus, and approach to materials.
-              </p>
-            </section>
-
-            <section class="cv-block">
-              <h2>Work experience</h2>
-              <p>
-                Add selected positions, internships, collaborations, exhibitions, or commissions here.
-              </p>
-            </section>
-
-            <section class="cv-block">
-              <h2>Education</h2>
-              <p>
-                Add schools, degrees, exchange studies, workshops, or specialist training here.
-              </p>
-            </section>
-
-            <section class="cv-block">
-              <h2>Skills</h2>
-              <p>
-                Add materials, processes, software, prototyping methods, languages, and production
-                skills here.
-              </p>
-            </section>
-
-            <section class="cv-block">
-              <h2>Contact details</h2>
-              <p>
-                Add email, phone, location, portfolio links, and social or professional profiles here.
-              </p>
-            </section>
-          </div>
-        </section>
+        <section class="cv-view is-hidden" id="cv-view"></section>
       </main>
     </div>
 
-    <aside class="copyright-badge" id="copyright-badge">
+    <aside class="copyright-badge is-hidden" id="copyright-badge">
       Copyright of Gilles&amp;Boissier
     </aside>
 
-    <dialog class="lightbox" id="lightbox" aria-label="Expanded portfolio image">
+    <dialog class="lightbox" id="lightbox" aria-label="Expanded image">
       <div class="lightbox-surface">
         <button class="lightbox-close" id="lightbox-close" type="button" aria-label="Close image">
           close
