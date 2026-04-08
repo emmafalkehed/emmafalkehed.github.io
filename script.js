@@ -277,6 +277,7 @@ const supabaseConfig = {
 const signedUrlRefreshWindowMs = 55 * 60 * 1000;
 const signedImageUrlCacheKey = "emma-falkehed-signed-image-cache-v2";
 const reviewPasswordSessionKey = "emma-falkehed-review-password";
+const reviewReviewerIdSessionKey = "emma-falkehed-reviewer-id";
 const desktopGalleryColumnCount = 3;
 const imagePaddingOptions = new Set(["none", "small", "medium", "big"]);
 const estimatedPortfolioTotalMegabytes = 143;
@@ -308,6 +309,7 @@ const lightboxMeta = document.getElementById("lightbox-meta");
 
 let activeCategoryId = getInitialCategory();
 let reviewPassword = "";
+let reviewReviewerId = "";
 let signedImageUrlMap = new Map();
 let portfolioFetchPromise = null;
 let portfolioPreloadPromise = null;
@@ -773,31 +775,38 @@ function getAllPortfolioPaths() {
 }
 
 function restoreCachedAccessState() {
-  restoreSessionPassword();
+  restoreSessionAuth();
   restoreSignedImageUrlCache();
 }
 
-function restoreSessionPassword() {
+function restoreSessionAuth() {
   try {
     reviewPassword = window.sessionStorage.getItem(reviewPasswordSessionKey) || "";
+    reviewReviewerId = normalizeReviewerId(
+      window.sessionStorage.getItem(reviewReviewerIdSessionKey) || ""
+    );
   } catch {
     reviewPassword = "";
+    reviewReviewerId = "";
   }
 }
 
-function persistSessionPassword(password) {
+function persistSessionAuth(password, reviewerId = reviewReviewerId) {
   try {
     window.sessionStorage.setItem(reviewPasswordSessionKey, password);
+    window.sessionStorage.setItem(reviewReviewerIdSessionKey, normalizeReviewerId(reviewerId));
   } catch {
     // Ignore storage failures and continue with in-memory state.
   }
 }
 
-function clearSessionPassword() {
+function clearSessionAuth() {
   reviewPassword = "";
+  reviewReviewerId = "";
 
   try {
     window.sessionStorage.removeItem(reviewPasswordSessionKey);
+    window.sessionStorage.removeItem(reviewReviewerIdSessionKey);
   } catch {
     // Ignore storage failures and continue clearing in-memory state.
   }
@@ -1116,6 +1125,18 @@ function updateLoadingProgress(loadedCount, totalCount) {
     ` • ${loadedMegabytes.toFixed(1)} / ${estimatedPortfolioTotalMegabytes.toFixed(0)} MB estimated`;
 }
 
+function normalizeReviewerId(value) {
+  return typeof value === "string" ? value.trim() : "";
+}
+
+function getReviewerIdFromPayload(payload) {
+  return (
+    normalizeReviewerId(payload?.reviewerId) ||
+    normalizeReviewerId(payload?.reviewer?.id) ||
+    "shared"
+  );
+}
+
 async function fetchSignedImageUrlsForPaths(
   password,
   paths,
@@ -1151,7 +1172,7 @@ async function fetchSignedImageUrlsForPaths(
 
     if (!response.ok) {
       if (response.status === 401) {
-        clearSessionPassword();
+        clearSessionAuth();
         clearSignedImageUrlCache();
       }
 
@@ -1185,8 +1206,9 @@ async function fetchSignedImageUrlsForPaths(
       throw new Error("Some private images could not be unlocked.");
     }
 
+    reviewReviewerId = getReviewerIdFromPayload(payload);
     reviewPassword = password;
-    persistSessionPassword(password);
+    persistSessionAuth(password, reviewReviewerId);
     persistSignedImageUrlCache();
     setUnlockStatus(announceSuccess ? "Access granted." : "", announceSuccess ? "success" : "");
     return true;
