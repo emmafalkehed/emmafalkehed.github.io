@@ -274,15 +274,41 @@ const supabaseConfig = {
   functionName: "download-images",
 };
 
+const cvSections = [
+  {
+    heading: "Biography",
+    body:
+      "Add a short introduction to Emma Falkehed here. This space works well for a concise design statement, creative focus, and approach to materials.",
+  },
+  {
+    heading: "Work experience",
+    body: "Add selected positions, internships, collaborations, exhibitions, or commissions here.",
+  },
+  {
+    heading: "Education",
+    body: "Add schools, degrees, exchange studies, workshops, or specialist training here.",
+  },
+  {
+    heading: "Skills",
+    body:
+      "Add materials, processes, software, prototyping methods, languages, and production skills here.",
+  },
+  {
+    heading: "Contact details",
+    body: "Add email, phone, location, portfolio links, and social or professional profiles here.",
+  },
+];
+
 const signedUrlRefreshWindowMs = 55 * 60 * 1000;
 const signedImageUrlCacheKey = "emma-falkehed-signed-image-cache-v2";
 const reviewPasswordSessionKey = "emma-falkehed-review-password";
 const desktopGalleryColumnCount = 3;
 const imagePaddingOptions = new Set(["none", "small", "medium", "big"]);
-const estimatedPortfolioTotalMegabytes = 143;
 const portfolioImageLoadConcurrency = 4;
+const estimatedPortfolioTotalMegabytes = 143;
+const defaultCategoryId = portfolioData.categories[0]?.id || "gallery";
 
-const navButtons = [...document.querySelectorAll(".category-link")];
+const categoryNav = document.getElementById("category-nav");
 const siteHeader = document.getElementById("site-header");
 const galleryView = document.getElementById("gallery-view");
 const cvView = document.getElementById("cv-view");
@@ -306,6 +332,8 @@ const lightboxImage = document.getElementById("lightbox-image");
 const lightboxTitle = document.getElementById("lightbox-title");
 const lightboxMeta = document.getElementById("lightbox-meta");
 
+let navButtons = [];
+let hasBuiltProtectedUi = false;
 let activeCategoryId = getInitialCategory();
 let reviewPassword = "";
 let signedImageUrlMap = new Map();
@@ -321,11 +349,6 @@ bindEvents();
 void initializeApp();
 
 async function initializeApp() {
-  if (activeCategoryId === "cv") {
-    renderCategory(activeCategoryId);
-    return;
-  }
-
   const isReady = await ensurePortfolioReady();
 
   if (!isReady) {
@@ -336,10 +359,14 @@ async function initializeApp() {
 }
 
 function bindEvents() {
-  navButtons.forEach((button) => {
-    button.addEventListener("click", () => {
-      void setActiveCategory(button.dataset.category || "ceramics-glass");
-    });
+  categoryNav?.addEventListener("click", (event) => {
+    const button = event.target.closest(".category-link");
+
+    if (!(button instanceof HTMLButtonElement)) {
+      return;
+    }
+
+    void setActiveCategory(button.dataset.category || defaultCategoryId);
   });
 
   unlockForm.addEventListener("submit", (event) => {
@@ -373,6 +400,71 @@ function bindEvents() {
   });
 
   window.addEventListener("resize", handleGalleryViewportChange);
+}
+
+function buildProtectedUi() {
+  if (hasBuiltProtectedUi) {
+    return;
+  }
+
+  renderCategoryNavigation();
+  renderCvSections();
+  hasBuiltProtectedUi = true;
+}
+
+function renderCategoryNavigation() {
+  if (!categoryNav) {
+    return;
+  }
+
+  categoryNav.innerHTML = "";
+
+  const fragment = document.createDocumentFragment();
+
+  portfolioData.categories.forEach((category) => {
+    const button = document.createElement("button");
+    button.className = "category-link";
+    button.type = "button";
+    button.dataset.category = category.id;
+    button.textContent = category.label;
+    fragment.appendChild(button);
+  });
+
+  const cvButton = document.createElement("button");
+  cvButton.className = "category-link";
+  cvButton.type = "button";
+  cvButton.dataset.category = "cv";
+  cvButton.textContent = "cv";
+  fragment.appendChild(cvButton);
+
+  categoryNav.appendChild(fragment);
+  navButtons = [...categoryNav.querySelectorAll(".category-link")];
+}
+
+function renderCvSections() {
+  if (!cvView) {
+    return;
+  }
+
+  const grid = document.createElement("div");
+  grid.className = "cv-grid";
+
+  cvSections.forEach((section) => {
+    const block = document.createElement("section");
+    block.className = "cv-block";
+
+    const heading = document.createElement("h2");
+    heading.textContent = section.heading;
+
+    const body = document.createElement("p");
+    body.textContent = section.body;
+
+    block.appendChild(heading);
+    block.appendChild(body);
+    grid.appendChild(block);
+  });
+
+  cvView.replaceChildren(grid);
 }
 
 async function handleUnlockSubmit(event) {
@@ -411,18 +503,18 @@ async function setActiveCategory(categoryId, { skipHistory = false } = {}) {
     window.history.replaceState(null, "", `#${categoryId}`);
   }
 
-  if (categoryId !== "cv") {
-    const isReady = await ensurePortfolioReady();
+  const isReady = await ensurePortfolioReady();
 
-    if (!isReady || currentNavigation !== navigationSequence) {
-      return;
-    }
+  if (!isReady || currentNavigation !== navigationSequence) {
+    return;
   }
 
   renderCategory(categoryId);
 }
 
 function renderCategory(categoryId) {
+  buildProtectedUi();
+
   navButtons.forEach((button) => {
     button.classList.toggle("is-active", button.dataset.category === categoryId);
   });
@@ -581,7 +673,7 @@ function getInitialCategory() {
   const isKnownCategory =
     hash === "cv" || portfolioData.categories.some((category) => category.id === hash);
 
-  return isKnownCategory ? hash : "ceramics-glass";
+  return isKnownCategory ? hash : defaultCategoryId;
 }
 
 function createPlaceholder(title, categoryLabel, index) {
@@ -924,10 +1016,7 @@ async function ensurePortfolioReady({ password = reviewPassword } = {}) {
   }
 
   if (!hasFreshPortfolioImages()) {
-    showLoadingPanel(
-      "Preparing portfolio",
-      "Requesting secure access to the full image archive."
-    );
+    showLoadingPanel("Verifying access", "Requesting secure download links.");
 
     const hasImageAccess = await ensureAllPortfolioImages(password);
 
@@ -940,10 +1029,7 @@ async function ensurePortfolioReady({ password = reviewPassword } = {}) {
     }
   }
 
-  showLoadingPanel(
-    "Preparing portfolio",
-    "Loading the full image archive before opening the gallery."
-  );
+  showLoadingPanel("Downloading items", "Preparing the portfolio for viewing.");
 
   const areImagesLoaded = await preloadPortfolioImages();
 
@@ -1099,7 +1185,8 @@ function setLoadingPendingState(title, detail) {
   loadingDetail.textContent = detail;
   loadingProgressBar.classList.add("is-indeterminate");
   loadingProgressFill.style.width = "34%";
-  loadingProgressText.textContent = `0 of ${getAllPortfolioPaths().length} images`;
+  loadingProgressText.textContent =
+    `${getAllPortfolioPaths().length} items • ${estimatedPortfolioTotalMegabytes} MB total`;
 }
 
 function updateLoadingProgress(loadedCount, totalCount) {
@@ -1107,13 +1194,13 @@ function updateLoadingProgress(loadedCount, totalCount) {
   const progressRatio = Math.min(Math.max(loadedCount / safeTotalCount, 0), 1);
   const loadedMegabytes = estimatedPortfolioTotalMegabytes * progressRatio;
 
-  loadingTitle.textContent = "Preparing portfolio";
-  loadingDetail.textContent = "Waiting until every image is ready before opening the gallery.";
+  loadingTitle.textContent = "Downloading items";
+  loadingDetail.textContent = "Preparing the portfolio for viewing.";
   loadingProgressBar.classList.remove("is-indeterminate");
   loadingProgressFill.style.width = `${progressRatio * 100}%`;
   loadingProgressText.textContent =
-    `${loadedCount} of ${totalCount} images` +
-    ` • ${loadedMegabytes.toFixed(1)} / ${estimatedPortfolioTotalMegabytes.toFixed(0)} MB estimated`;
+    `${loadedCount} of ${safeTotalCount} items` +
+    ` • ${loadedMegabytes.toFixed(1)} / ${estimatedPortfolioTotalMegabytes.toFixed(0)} MB`;
 }
 
 async function fetchSignedImageUrlsForPaths(
