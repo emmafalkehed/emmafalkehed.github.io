@@ -277,6 +277,7 @@ const supabaseConfig = {
 const signedUrlRefreshWindowMs = 55 * 60 * 1000;
 const signedImageUrlCacheKey = "emma-falkehed-signed-image-cache-v2";
 const reviewPasswordSessionKey = "emma-falkehed-review-password";
+const reviewPasswordQueryParamKey = "pwd";
 const desktopGalleryColumnCount = 3;
 const imagePaddingOptions = new Set(["none", "small", "medium", "big"]);
 const estimatedPortfolioTotalMegabytes = 143;
@@ -308,6 +309,7 @@ const lightboxMeta = document.getElementById("lightbox-meta");
 
 let activeCategoryId = getInitialCategory();
 let reviewPassword = "";
+let pendingReviewPassword = "";
 let signedImageUrlMap = new Map();
 let portfolioFetchPromise = null;
 let portfolioPreloadPromise = null;
@@ -317,6 +319,7 @@ const preloadedSignedImageUrls = new Set();
 const signedImageMetadataMap = new Map();
 
 restoreCachedAccessState();
+pendingReviewPassword = consumeLinkedReviewPassword();
 bindEvents();
 void initializeApp();
 
@@ -777,6 +780,38 @@ function restoreCachedAccessState() {
   restoreSignedImageUrlCache();
 }
 
+function consumeLinkedReviewPassword() {
+  const url = new URL(window.location.href);
+  const linkedPassword = url.searchParams.get(reviewPasswordQueryParamKey) || "";
+
+  if (!url.searchParams.has(reviewPasswordQueryParamKey)) {
+    return "";
+  }
+
+  url.searchParams.delete(reviewPasswordQueryParamKey);
+  window.history.replaceState(window.history.state, "", `${url.pathname}${url.search}${url.hash}`);
+
+  if (reviewPassword) {
+    return "";
+  }
+
+  return linkedPassword.trim();
+}
+
+function getAccessPassword() {
+  if (reviewPassword) {
+    return reviewPassword;
+  }
+
+  if (!pendingReviewPassword) {
+    return "";
+  }
+
+  const linkedPassword = pendingReviewPassword;
+  pendingReviewPassword = "";
+  return linkedPassword;
+}
+
 function restoreSessionPassword() {
   try {
     reviewPassword = window.sessionStorage.getItem(reviewPasswordSessionKey) || "";
@@ -914,11 +949,13 @@ async function ensureImageForItem(item, categoryId) {
 }
 
 async function ensurePortfolioReady({ password = reviewPassword } = {}) {
+  const accessPassword = password || getAccessPassword();
+
   if (hasFreshPortfolioImages() && hasPreloadedPortfolioImages()) {
     return true;
   }
 
-  if (!password) {
+  if (!accessPassword) {
     showUnlockPanel();
     return false;
   }
@@ -929,7 +966,7 @@ async function ensurePortfolioReady({ password = reviewPassword } = {}) {
       "Requesting secure access to the full image archive."
     );
 
-    const hasImageAccess = await ensureAllPortfolioImages(password);
+    const hasImageAccess = await ensureAllPortfolioImages(accessPassword);
 
     if (!hasImageAccess) {
       showUnlockPanel(

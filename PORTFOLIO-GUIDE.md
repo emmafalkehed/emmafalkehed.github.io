@@ -57,6 +57,12 @@ The site will:
 - preload the full portfolio
 - open the gallery only after all private images are loaded
 
+For reviewer sharing, you can also send a link with `?pwd=...`.
+Example: `https://emmafalkehed.github.io/?pwd=example-password`
+
+The website removes that `pwd` value from the address bar right away, then tries it once through
+the normal unlock flow. If it is wrong, the regular password form still appears.
+
 This keeps the private gallery smoother to browse, while still reducing repeated API calls during
 local development.
 
