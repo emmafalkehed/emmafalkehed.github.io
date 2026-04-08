@@ -19,7 +19,7 @@ const portfolioData = {
           meta: "Pencil holders, studio composition",
           column: 1,
           zoom: 0.5,
-          src: "assets/images/ceramics-glass-image-01.jpg",
+          src: "ceramics-glass-image-01.jpg",
           alt: "Three Penelope pencil holders arranged on a white background.",
         },
         {
@@ -28,7 +28,7 @@ const portfolioData = {
           meta: "Collection grouping, tonal palette",
           column: 2,
           padding: "none",
-          src: "assets/images/ceramics-glass-image-02.jpg",
+          src: "ceramics-glass-image-02.jpg",
           alt: "Grouped Marceau objects in varied tones on a dark background.",
         },
         {
@@ -37,7 +37,7 @@ const portfolioData = {
           meta: "Object study, top view",
           column: 3,
           padding: "small",
-          src: "assets/images/ceramics-glass-image-03.jpeg",
+          src: "ceramics-glass-image-03.jpeg",
           alt: "A dark sculptural vessel photographed from above on a pale background.",
         },
         {
@@ -46,7 +46,7 @@ const portfolioData = {
           meta: "Close material study",
           column: 1,
           padding: "big",
-          src: "assets/images/ceramics-glass-image-04.jpg",
+          src: "ceramics-glass-image-04.jpg",
           alt: "Close-up of the Ulysse Figue object's glossy twisted surface.",
         },
         {
@@ -55,7 +55,7 @@ const portfolioData = {
           meta: "Box profile, lacquer sheen",
           column: 2,
           padding: "none",
-          src: "assets/images/ceramics-glass-image-05.jpg",
+          src: "ceramics-glass-image-05.jpg",
           alt: "A lacquered Trinity box shown in a close three-quarter view.",
         },
       ],
@@ -70,7 +70,7 @@ const portfolioData = {
           meta: "Nested trays, full view",
           column: 1,
           padding: "none",
-          src: "assets/images/wood-lacquer-image-01.jpg",
+          src: "wood-lacquer-image-01.jpg",
           alt: "Two nested Nestor trays on a white background.",
         },
         {
@@ -79,7 +79,7 @@ const portfolioData = {
           meta: "Tray corner and handle",
           column: 2,
           padding: "none",
-          src: "assets/images/wood-lacquer-image-02.jpg",
+          src: "wood-lacquer-image-02.jpg",
           alt: "Close-up detail of the Nestor tray corner and handle.",
         },
         {
@@ -88,7 +88,7 @@ const portfolioData = {
           meta: "Mocha lacquer, surface detail",
           column: 3,
           padding: "none",
-          src: "assets/images/wood-lacquer-image-03.jpg",
+          src: "wood-lacquer-image-03.jpg",
           alt: "Close-up of the Trinity box in mocha lacquer.",
         },
         {
@@ -97,7 +97,7 @@ const portfolioData = {
           meta: "Sculpted profile, side view",
           column: 1,
           padding: "none",
-          src: "assets/images/wood-lacquer-image-04.jpeg",
+          src: "wood-lacquer-image-04.jpeg",
           alt: "A dark sculptural object photographed in profile on a pale background.",
         },
         {
@@ -106,7 +106,7 @@ const portfolioData = {
           meta: "Material palette and finish",
           column: 2,
           padding: "none",
-          src: "assets/images/wood-lacquer-image-05.jpg",
+          src: "wood-lacquer-image-05.jpg",
           alt: "Grouped Marceau objects photographed to show finish and surface quality.",
         },
       ],
@@ -121,7 +121,7 @@ const portfolioData = {
           meta: "Interior view with marble mantel",
           column: 1,
           padding: "none",
-          src: "assets/images/metal-silver-image-01.jpg",
+          src: "metal-silver-image-01.jpg",
           alt: "An object displayed on a marble mantel in an interior setting.",
         },
         {
@@ -130,7 +130,7 @@ const portfolioData = {
           meta: "Topography and rim detail",
           column: 2,
           padding: "none",
-          src: "assets/images/metal-silver-image-02.jpeg",
+          src: "metal-silver-image-02.jpeg",
           alt: "Dark sculptural object in close-up profile view.",
         },
         {
@@ -139,7 +139,7 @@ const portfolioData = {
           meta: "Overhead silhouette",
           column: 3,
           padding: "none",
-          src: "assets/images/metal-silver-image-03.jpeg",
+          src: "metal-silver-image-03.jpeg",
           alt: "Dark sculptural object viewed from above.",
         },
         {
@@ -148,7 +148,7 @@ const portfolioData = {
           meta: "Gloss finish detail",
           column: 1,
           padding: "none",
-          src: "assets/images/metal-silver-image-04.jpg",
+          src: "metal-silver-image-04.jpg",
           alt: "Glossy close-up of the Trinity box.",
         },
         {
@@ -157,7 +157,7 @@ const portfolioData = {
           meta: "Reflective grouping study",
           column: 2,
           padding: "none",
-          src: "assets/images/metal-silver-image-05.jpg",
+          src: "metal-silver-image-05.jpg",
           alt: "A moody grouping of Marceau objects with reflective tonal contrasts.",
         },
       ],
@@ -172,7 +172,7 @@ const portfolioData = {
           meta: "Interior placement, marble console",
           column: 1,
           padding: "none",
-          src: "assets/images/furniture-image-01.jpg",
+          src: "furniture-image-01.jpg",
           alt: "Object staged on a marble mantel in an interior.",
         },
         {
@@ -181,7 +181,7 @@ const portfolioData = {
           meta: "Collection in context",
           column: 2,
           padding: "none",
-          src: "assets/images/furniture-image-02.jpg",
+          src: "furniture-image-02.jpg",
           alt: "Grouped Marceau collection objects.",
         },
         {
@@ -190,7 +190,7 @@ const portfolioData = {
           meta: "Large and small tray composition",
           column: 3,
           padding: "none",
-          src: "assets/images/furniture-image-03.jpg",
+          src: "furniture-image-03.jpg",
           alt: "Pair of Nestor trays.",
         },
         {
@@ -199,7 +199,7 @@ const portfolioData = {
           meta: "Monolithic black form",
           column: 1,
           padding: "none",
-          src: "assets/images/furniture-image-04.jpeg",
+          src: "furniture-image-04.jpeg",
           alt: "Dark sculptural object shown in profile.",
         },
         {
@@ -208,7 +208,7 @@ const portfolioData = {
           meta: "Joinery and edge condition",
           column: 2,
           padding: "none",
-          src: "assets/images/furniture-image-05.jpg",
+          src: "furniture-image-05.jpg",
           alt: "Close-up detail of the Nestor tray emphasizing edge profile and joinery.",
         },
       ],
@@ -223,7 +223,7 @@ const portfolioData = {
           meta: "Project overview",
           column: 1,
           padding: "none",
-          src: "assets/images/projects-image-01.jpg",
+          src: "projects-image-01.jpg",
           alt: "Overview of the Marceau project objects.",
         },
         {
@@ -232,7 +232,7 @@ const portfolioData = {
           meta: "Object in interior context",
           column: 2,
           padding: "none",
-          src: "assets/images/projects-image-02.jpg",
+          src: "projects-image-02.jpg",
           alt: "Marceau object displayed in an interior environment.",
         },
         {
@@ -241,7 +241,7 @@ const portfolioData = {
           meta: "Material and joinery detail",
           column: 3,
           padding: "none",
-          src: "assets/images/projects-image-03.jpg",
+          src: "projects-image-03.jpg",
           alt: "Close-up of Nestor tray materials and joinery.",
         },
         {
@@ -250,7 +250,7 @@ const portfolioData = {
           meta: "Form exploration, overhead",
           column: 1,
           padding: "none",
-          src: "assets/images/projects-image-04.jpeg",
+          src: "projects-image-04.jpeg",
           alt: "Overhead view of a dark sculptural object.",
         },
         {
@@ -259,7 +259,7 @@ const portfolioData = {
           meta: "Accessory study and silhouette",
           column: 2,
           padding: "none",
-          src: "assets/images/projects-image-05.jpg",
+          src: "projects-image-05.jpg",
           alt: "Penelope pencil holders presented as part of a broader project study.",
         },
       ],
@@ -307,6 +307,7 @@ const imagePaddingOptions = new Set(["none", "small", "medium", "big"]);
 const portfolioImageLoadConcurrency = 4;
 const estimatedPortfolioTotalMegabytes = 143;
 const defaultCategoryId = portfolioData.categories[0]?.id || "gallery";
+const legacyPortfolioImagePrefix = "assets/images/";
 
 const categoryNav = document.getElementById("category-nav");
 const siteHeader = document.getElementById("site-header");
@@ -810,19 +811,30 @@ function getCategoryById(categoryId) {
 }
 
 function getStoragePath(item, categoryId) {
-  if (item.storagePath) {
-    return item.storagePath;
+  if (typeof item.storagePath === "string" && item.storagePath.trim()) {
+    return item.storagePath.trim();
   }
 
   if (!item.src) {
     return "";
   }
 
-  return getSourceFilename(item.src);
+  return normalizePortfolioImageSource(item.src);
 }
 
-function getSourceFilename(sourcePath) {
-  return decodeURIComponent(sourcePath.replace(/^assets\/images\//, ""));
+function normalizePortfolioImageSource(sourcePath) {
+  if (typeof sourcePath !== "string") {
+    return "";
+  }
+
+  const trimmedSourcePath = sourcePath.trim();
+
+  if (!trimmedSourcePath) {
+    return "";
+  }
+
+  const normalizedSourcePath = trimmedSourcePath.replace(/^\.?\//, "");
+  return decodeURIComponent(normalizedSourcePath.replace(legacyPortfolioImagePrefix, ""));
 }
 
 function applyImageMetadata(image, storagePath) {
@@ -1321,16 +1333,17 @@ function escapeXml(value) {
 /*
   Manual image editing guide:
 
-  1. Replace `src` with your file path when you add or swap images.
-  2. Upload the matching bucket file using the same standardized filename.
+  1. Replace `src` with the bucket filename when you add or swap images.
+  2. Upload the matching bucket file using that same standardized filename.
      Example: `ceramics-glass-image-01.jpg`
-  3. If you need a custom bucket path, set `storagePath` directly on the item.
-  4. Set `column` to `1`, `2`, or `3` to place an image in a specific desktop column.
-  5. `padding` is optional and defaults to `"none"`. Use `"small"`, `"medium"`, or `"big"`
+  3. Legacy `assets/images/...` values still work, but plain filenames are the preferred format.
+  4. If you need a custom bucket path, set `storagePath` directly on the item.
+  5. Set `column` to `1`, `2`, or `3` to place an image in a specific desktop column.
+  6. `padding` is optional and defaults to `"none"`. Use `"small"`, `"medium"`, or `"big"`
      to keep the frame size while shrinking the image slightly inside it.
-  6. `zoom` is optional and defaults to `0`. Use a value from `0` to `1`.
+  7. `zoom` is optional and defaults to `0`. Use a value from `0` to `1`.
      Example: `zoom: 0.5` renders the image at 1.5x, centered and cropped by the frame.
-  7. Fine-tune gallery crop and centering in `gallery-overrides.css`.
-  8. Each image gets a selector based on category + title, for example:
+  8. Fine-tune gallery crop and centering in `gallery-overrides.css`.
+  9. Each image gets a selector based on category + title, for example:
      .work-card[data-card="ceramics-glass-penelope"]
 */
