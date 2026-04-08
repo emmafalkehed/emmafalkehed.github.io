@@ -45,7 +45,7 @@ After entering the review password, the site now:
 
 - requests signed private image URLs from the Supabase Edge Function
 - keeps those signed URLs in `localStorage` for about 55 minutes
-- keeps the accepted password in `sessionStorage` for the current tab session
+- keeps the accepted password and reviewer id in `sessionStorage` for the current tab session
 - shows a loading page and waits until all portfolio images are loaded before opening the gallery
 
 Reviewer quick links can also include `?pwd=...`, for example
@@ -64,6 +64,24 @@ The loading screen also shows an estimated MB progress value. Right now that est
 the whole portfolio being `143 MB` in total, spread proportionally across the current image count.
 If the total portfolio weight changes later, update `estimatedPortfolioTotalMegabytes` in
 [`script.js`](/Users/dmazzuca/src/emmafalkehed/script.js).
+
+## Supabase auth configuration
+
+The private image edge function still accepts the existing single-password setup through
+`SITE_PASSWORD`, but it now also supports reviewer-specific credentials through
+`SITE_PASSWORDS_JSON`.
+
+Use short stable reviewer ids because that id is returned to the frontend session and written to the
+Supabase function logs when private images are requested.
+
+Example:
+
+```json
+{"acme":"company-password","globex":"another-company-password"}
+```
+
+Successful `download-images` requests now log the reviewer id together with the requested image
+paths, so the Supabase logs can show which company unlocked the portfolio.
 
 ## Image filenames
 
