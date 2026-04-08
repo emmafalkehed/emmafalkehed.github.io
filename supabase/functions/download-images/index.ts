@@ -31,6 +31,8 @@ import { createClient } from "npm:@supabase/supabase-js@2";
 
 const BUCKET_NAME = "Images";
 const SIGNED_URL_TTL_SECONDS = 60 * 60;
+const PASSWORD_MAX_LENGTH = 256;
+const PATH_MAX_LENGTH = 512;
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -49,20 +51,23 @@ Deno.serve(async (request) => {
   }
 
   try {
-    const { password, paths } = await request.json();
+    const body = await request.json();
+    const password = sanitizePasswordInput(body?.password);
+    const sitePassword = sanitizePasswordInput(Deno.env.get("SITE_PASSWORD"));
 
-    if (password !== Deno.env.get("SITE_PASSWORD")) {
+    if (!sitePassword) {
+      return json({ error: "Server password is not configured." }, 500);
+    }
+
+    if (!password || password !== sitePassword) {
       return json({ error: "Invalid password" }, 401);
     }
 
-    if (!Array.isArray(paths) || paths.length === 0) {
+    if (!Array.isArray(body?.paths) || body.paths.length === 0) {
       return json({ error: "No image paths were provided." }, 400);
     }
 
-    const normalizedPaths = [...new Set(paths)]
-      .filter((path) => typeof path === "string")
-      .map((path) => path.trim())
-      .filter(Boolean);
+    const normalizedPaths = sanitizeImagePaths(body.paths);
 
     if (!normalizedPaths.length) {
       return json({ error: "No valid image paths were provided." }, 400);
@@ -93,4 +98,64 @@ function json(payload: unknown, status = 200) {
     status,
     headers: corsHeaders,
   });
+}
+
+function sanitizePasswordInput(value: unknown) {
+  if (typeof value !== "string") {
+    return "";
+  }
+
+  const sanitizedValue = value.trim();
+
+  if (
+    !sanitizedValue ||
+    sanitizedValue.length > PASSWORD_MAX_LENGTH ||
+    /[\u0000-\u001F\u007F]/.test(sanitizedValue)
+  ) {
+    return "";
+  }
+
+  return sanitizedValue;
+}
+
+function sanitizeImagePaths(paths: unknown[]) {
+  return [
+    ...new Set(
+      paths
+        .map((path) => sanitizeImagePath(path))
+        .filter(Boolean)
+    ),
+  ];
+}
+
+function sanitizeImagePath(path: unknown) {
+  if (typeof path !== "string") {
+    return "";
+  }
+
+  const sanitizedPath = path.trim();
+
+  if (!sanitizedPath || sanitizedPath.length > PATH_MAX_LENGTH) {
+    return "";
+  }
+
+  if (/[\u0000-\u001F\u007F\\]/.test(sanitizedPath)) {
+    return "";
+  }
+
+  if (
+    sanitizedPath.startsWith("/") ||
+    sanitizedPath.endsWith("/") ||
+    sanitizedPath.includes("//")
+  ) {
+    return "";
+  }
+
+  const segments = sanitizedPath.split("/");
+
+  if (segments.some((segment) => !segment || segment === "." || segment === "..")) {
+    return "";
+  }
+
+  return sanitizedPath;
 }

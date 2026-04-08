@@ -46,6 +46,8 @@ After entering the review password, the site now:
 - requests signed private image URLs from the Supabase Edge Function
 - keeps those signed URLs in `localStorage` for about 55 minutes
 - keeps the accepted password in `sessionStorage` for the current tab session
+- trims and sanitizes the password before storing or sending it
+- supports one-time `?pwd=...` quick links and removes `pwd` from the URL immediately after reading it
 - shows a loading page and waits until all portfolio images are loaded before opening the gallery
 
 This keeps the smoother post-login experience while still reducing repeated API calls during local
