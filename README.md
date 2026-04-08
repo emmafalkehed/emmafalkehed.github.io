@@ -25,14 +25,14 @@ Edit [`script.js`](/Users/dmazzuca/src/emmafalkehed/script.js).
 For each item you can update:
 
 - `slug`: short unique id inside the category
-- `src`: path to your image file
+- `src`: image filename or storage key used in the Supabase `Images` bucket
 - `title`: short legend title
 - `meta`: smaller legend text
 - `alt`: accessible image description
 - `column`: desktop column placement (`1`, `2`, or `3`)
 - `padding`: inner spacing around the image (`none`, `small`, `medium`, `big`)
 - `zoom`: extra zoom inside the frame (`0` to `1`)
-- `storagePath`: optional custom Supabase bucket path if it differs from the filename in `src`
+- `storagePath`: optional custom Supabase bucket path if it differs from `src`
 
 If `src` is left empty, the site shows a generated placeholder.
 
@@ -56,12 +56,16 @@ the whole portfolio being `143 MB` in total, spread proportionally across the cu
 If the total portfolio weight changes later, update `estimatedPortfolioTotalMegabytes` in
 [`script.js`](/Users/dmazzuca/src/emmafalkehed/script.js).
 
-## Suggested image folder
+## Image filenames
 
-Place new images in [`assets/images`](/Users/dmazzuca/src/emmafalkehed/assets/images).
+Portfolio items should now use plain filenames in `src`, for example
+`ceramics-glass-image-01.jpg`.
 
-For Supabase Storage, upload each private image to the `Images` bucket using the same standardized
-filename from `assets/images`, for example `ceramics-glass-image-01.jpg`.
+Upload each private image to the Supabase `Images` bucket using that same filename, unless you set
+an explicit `storagePath`.
+
+Older `assets/images/...` values still resolve, but they are only kept as a compatibility fallback
+while existing content is cleaned up.
 
 ## Font files
 

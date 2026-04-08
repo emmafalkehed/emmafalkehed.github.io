@@ -15,7 +15,7 @@ This is where the pictures live.
 For each picture, you can change:
 
 - which category it belongs to
-- the picture file
+- the image filename
 - the title
 - the smaller description below
 
@@ -32,10 +32,6 @@ You can use it to:
 
 ## Before you start
 
-Put new pictures inside:
-
-- `assets/images`
-
 It helps to give files short, clear names.
 
 Example:
@@ -43,7 +39,7 @@ Example:
 - `marceau-detail-01.jpg`
 - `tray-side-view.jpg`
 
-For the private review site, each image should also be uploaded to Supabase Storage with the same
+For the private review site, each image should be uploaded to Supabase Storage using that same
 filename, unless you set a custom `storagePath` in `script.js`.
 
 ## What happens after login
@@ -78,7 +74,7 @@ Each picture has a small block that looks like this:
   slug: "penelope",
   title: "Penelope",
   meta: "Pencil holders, studio composition",
-  src: "assets/images/COLLECTION G&B_OBJETS DECO_POT A CRAYON_PENELOPE_01.jpg",
+  src: "COLLECTION G&B_OBJETS DECO_POT A CRAYON_PENELOPE_01.jpg",
   alt: "Three Penelope pencil holders arranged on a white background.",
 },
 ```
@@ -92,8 +88,7 @@ You can leave `alt` alone if you want, but it is good to update it when you chan
 
 ## How to replace a picture
 
-1. Put the new image in `assets/images`
-2. Upload the same file to the private Supabase bucket using the same filename
+1. Upload the new image to the private Supabase bucket using the filename you want to reference
 3. Open `script.js`
 4. Find the picture you want to replace
 5. Change only the `src` line
@@ -101,7 +96,7 @@ You can leave `alt` alone if you want, but it is good to update it when you chan
 Example:
 
 ```js
-src: "assets/images/my-new-picture.jpg",
+src: "my-new-picture.jpg",
 ```
 
 If the bucket filename is different, add:
@@ -112,8 +107,7 @@ storagePath: "my-custom-file-name.jpg",
 
 ## How to add a new picture
 
-1. Put the new image in `assets/images`
-2. Upload the same file to the private Supabase bucket using the same filename
+1. Upload the new image to the private Supabase bucket using the filename you want to reference
 3. Open `script.js`
 4. Find the category where you want it
 5. Copy one existing picture block
@@ -127,7 +121,7 @@ Example:
   slug: "new-bowl",
   title: "New bowl",
   meta: "Stoneware, satin finish",
-  src: "assets/images/new-bowl.jpg",
+  src: "new-bowl.jpg",
   alt: "Stoneware bowl on a white background.",
 },
 ```
@@ -138,6 +132,7 @@ Important:
 - use lowercase
 - use hyphens instead of spaces
 - you can also add `column`, `padding`, `zoom`, or `storagePath` when needed
+- older `assets/images/...` values still work, but use plain filenames for new edits
 
 Good examples:
 
