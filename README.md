@@ -16,7 +16,7 @@ npm run start
 ./scripts/serve.sh
 ```
 
-The site will open with `live-server` at `http://127.0.0.1:4173`.
+The website will open with `live-server` at `http://127.0.0.1:4173`.
 
 ## Update the portfolio
 
