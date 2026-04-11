@@ -14,49 +14,28 @@ const portfolioData = {
       label: "ceramics & glass",
       items: [
         {
-          slug: "penelope",
-          title: "Penelope",
-          meta: "Pencil holders, studio composition",
+          slug: "vase-antoinette-01",
+          title: "Vase Antoinette",
+          meta: "Vase in blown glass",
           column: 1,
-          zoom: 0.5,
-          src: "ceramics-glass-image-01.jpg",
-          alt: "Three Penelope pencil holders arranged on a white background.",
+          src: "ceramics-glass-vase-antoinette-01.jpg",
+          alt: "Vase Antoinette in blown glass.",
         },
         {
-          slug: "marceau-group",
-          title: "Marceau",
-          meta: "Collection grouping, tonal palette",
+          slug: "vase-antoinette-02",
+          title: "Vase Antoinette",
+          meta: "Vase in blown glass",
           column: 2,
-          padding: "none",
-          src: "ceramics-glass-image-02.jpg",
-          alt: "Grouped Marceau objects in varied tones on a dark background.",
+          src: "ceramics-glass-vase-antoinette-02.jpg",
+          alt: "Vase Antoinette in blown glass.",
         },
         {
-          slug: "black-vessel-top",
-          title: "Black vessel",
-          meta: "Object study, top view",
+          slug: "vase-antoinette-03",
+          title: "Vase Antoinette",
+          meta: "Vase in blown glass",
           column: 3,
-          padding: "small",
-          src: "ceramics-glass-image-03.jpeg",
-          alt: "A dark sculptural vessel photographed from above on a pale background.",
-        },
-        {
-          slug: "ulysse-figue",
-          title: "Ulysse Figue",
-          meta: "Close material study",
-          column: 1,
-          padding: "big",
-          src: "ceramics-glass-image-04.jpg",
-          alt: "Close-up of the Ulysse Figue object's glossy twisted surface.",
-        },
-        {
-          slug: "trinity-mocha",
-          title: "Trinity",
-          meta: "Box profile, lacquer sheen",
-          column: 2,
-          padding: "none",
-          src: "ceramics-glass-image-05.jpg",
-          alt: "A lacquered Trinity box shown in a close three-quarter view.",
+          src: "ceramics-glass-vase-antoinette-03.jpg",
+          alt: "Vase Antoinette in blown glass.",
         },
       ],
     },
@@ -73,42 +52,6 @@ const portfolioData = {
           src: "wood-lacquer-image-01.jpg",
           alt: "Two nested Nestor trays on a white background.",
         },
-        {
-          slug: "nestor-detail",
-          title: "Nestor detail",
-          meta: "Tray corner and handle",
-          column: 2,
-          padding: "none",
-          src: "wood-lacquer-image-02.jpg",
-          alt: "Close-up detail of the Nestor tray corner and handle.",
-        },
-        {
-          slug: "trinity-mocha",
-          title: "Trinity",
-          meta: "Mocha lacquer, surface detail",
-          column: 3,
-          padding: "none",
-          src: "wood-lacquer-image-03.jpg",
-          alt: "Close-up of the Trinity box in mocha lacquer.",
-        },
-        {
-          slug: "black-object-side",
-          title: "Black object",
-          meta: "Sculpted profile, side view",
-          column: 1,
-          padding: "none",
-          src: "wood-lacquer-image-04.jpeg",
-          alt: "A dark sculptural object photographed in profile on a pale background.",
-        },
-        {
-          slug: "marceau-finish",
-          title: "Marceau",
-          meta: "Material palette and finish",
-          column: 2,
-          padding: "none",
-          src: "wood-lacquer-image-05.jpg",
-          alt: "Grouped Marceau objects photographed to show finish and surface quality.",
-        },
       ],
     },
     {
@@ -123,42 +66,6 @@ const portfolioData = {
           padding: "none",
           src: "metal-silver-image-01.jpg",
           alt: "An object displayed on a marble mantel in an interior setting.",
-        },
-        {
-          slug: "black-vessel-rim",
-          title: "Black vessel",
-          meta: "Topography and rim detail",
-          column: 2,
-          padding: "none",
-          src: "metal-silver-image-02.jpeg",
-          alt: "Dark sculptural object in close-up profile view.",
-        },
-        {
-          slug: "black-vessel-overhead",
-          title: "Black vessel",
-          meta: "Overhead silhouette",
-          column: 3,
-          padding: "none",
-          src: "metal-silver-image-03.jpeg",
-          alt: "Dark sculptural object viewed from above.",
-        },
-        {
-          slug: "trinity-gloss",
-          title: "Trinity",
-          meta: "Gloss finish detail",
-          column: 1,
-          padding: "none",
-          src: "metal-silver-image-04.jpg",
-          alt: "Glossy close-up of the Trinity box.",
-        },
-        {
-          slug: "marceau-reflection",
-          title: "Marceau",
-          meta: "Reflective grouping study",
-          column: 2,
-          padding: "none",
-          src: "metal-silver-image-05.jpg",
-          alt: "A moody grouping of Marceau objects with reflective tonal contrasts.",
         },
       ],
     },
@@ -175,42 +82,6 @@ const portfolioData = {
           src: "furniture-image-01.jpg",
           alt: "Object staged on a marble mantel in an interior.",
         },
-        {
-          slug: "marceau-context",
-          title: "Marceau",
-          meta: "Collection in context",
-          column: 2,
-          padding: "none",
-          src: "furniture-image-02.jpg",
-          alt: "Grouped Marceau collection objects.",
-        },
-        {
-          slug: "nestor-composition",
-          title: "Nestor",
-          meta: "Large and small tray composition",
-          column: 3,
-          padding: "none",
-          src: "furniture-image-03.jpg",
-          alt: "Pair of Nestor trays.",
-        },
-        {
-          slug: "object-study-black",
-          title: "Object study",
-          meta: "Monolithic black form",
-          column: 1,
-          padding: "none",
-          src: "furniture-image-04.jpeg",
-          alt: "Dark sculptural object shown in profile.",
-        },
-        {
-          slug: "nestor-detail-console",
-          title: "Nestor detail",
-          meta: "Joinery and edge condition",
-          column: 2,
-          padding: "none",
-          src: "furniture-image-05.jpg",
-          alt: "Close-up detail of the Nestor tray emphasizing edge profile and joinery.",
-        },
       ],
     },
     {
@@ -226,42 +97,6 @@ const portfolioData = {
           src: "projects-image-01.jpg",
           alt: "Overview of the Marceau project objects.",
         },
-        {
-          slug: "line-bursegan-project",
-          title: "Line Bursegan",
-          meta: "Object in interior context",
-          column: 2,
-          padding: "none",
-          src: "projects-image-02.jpg",
-          alt: "Marceau object displayed in an interior environment.",
-        },
-        {
-          slug: "nestor-joinery",
-          title: "Nestor",
-          meta: "Material and joinery detail",
-          column: 3,
-          padding: "none",
-          src: "projects-image-03.jpg",
-          alt: "Close-up of Nestor tray materials and joinery.",
-        },
-        {
-          slug: "black-vessel-form",
-          title: "Black vessel",
-          meta: "Form exploration, overhead",
-          column: 1,
-          padding: "none",
-          src: "projects-image-04.jpeg",
-          alt: "Overhead view of a dark sculptural object.",
-        },
-        {
-          slug: "penelope-process",
-          title: "Penelope",
-          meta: "Accessory study and silhouette",
-          column: 2,
-          padding: "none",
-          src: "projects-image-05.jpg",
-          alt: "Penelope pencil holders presented as part of a broader project study.",
-        },
       ],
     },
   ],
@@ -276,26 +111,30 @@ const supabaseConfig = {
 
 const cvSections = [
   {
-    heading: "Biography",
-    body:
-      "Add a short introduction to Emma Falkehed here. This space works well for a concise design statement, creative focus, and approach to materials.",
-  },
-  {
     heading: "Work experience",
+    column: "left",
     body: "Add selected positions, internships, collaborations, exhibitions, or commissions here.",
   },
   {
-    heading: "Education",
-    body: "Add schools, degrees, exchange studies, workshops, or specialist training here.",
+    heading: "Contact details",
+    column: "left",
+    body: "Add email, phone, location, portfolio links, and social or professional profiles here.",
   },
   {
     heading: "Skills",
+    column: "right",
     body:
       "Add materials, processes, software, prototyping methods, languages, and production skills here.",
   },
   {
-    heading: "Contact details",
-    body: "Add email, phone, location, portfolio links, and social or professional profiles here.",
+    heading: "Education",
+    column: "right",
+    body: "Add schools, degrees, exchange studies, workshops, or specialist training here.",
+  },
+  {
+    heading: "Exhibitions & Nominations",
+    column: "right",
+    body: "Add selected exhibitions, nominations, awards, showcases, or recognitions here.",
   },
 ];
 
@@ -457,6 +296,12 @@ function renderCvSections() {
   const grid = document.createElement("div");
   grid.className = "cv-grid";
 
+  const leftColumn = document.createElement("div");
+  leftColumn.className = "cv-column";
+
+  const rightColumn = document.createElement("div");
+  rightColumn.className = "cv-column";
+
   cvSections.forEach((section) => {
     const block = document.createElement("section");
     block.className = "cv-block";
@@ -469,8 +314,16 @@ function renderCvSections() {
 
     block.appendChild(heading);
     block.appendChild(body);
-    grid.appendChild(block);
+
+    if (section.column === "right") {
+      rightColumn.appendChild(block);
+      return;
+    }
+
+    leftColumn.appendChild(block);
   });
+
+  grid.append(leftColumn, rightColumn);
 
   cvView.replaceChildren(grid);
 }
