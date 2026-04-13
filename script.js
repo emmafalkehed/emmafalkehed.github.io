@@ -5,6 +5,7 @@
   - `padding`: `"none"`, `"small"`, `"medium"`, or `"big"`; defaults to `"none"`
   - `zoom`: number from `0` to `1`; defaults to `0`
     Example: `zoom: 0.5` renders the image at 1.5x, centered and cropped by the frame
+  - `rotate`: number of degrees for manual correction when an upload displays sideways
 */
 
 const portfolioData = {
@@ -303,6 +304,7 @@ const portfolioData = {
           meta: "Process of making the box with the eggshells.",
           column: 3,
           padding: "big",
+          rotate: 90,
           src: "wood-lacquer-box-ania-05.jpg",
           alt: "Box Ania lacquered box.",
         },
@@ -1560,7 +1562,9 @@ function createWorkCard(item, categoryId, categoryLabel, index) {
   article.dataset.card = getCardSlug(categoryId, item, index);
   article.dataset.padding = getImagePadding(item);
   article.dataset.orientation = "portrait";
+  article.dataset.rotation = hasQuarterTurnRotation(getImageRotation(item)) ? "quarter-turn" : "none";
   article.style.setProperty("--card-zoom", String(getImageZoom(item)));
+  article.style.setProperty("--media-rotation", `${getImageRotation(item)}deg`);
 
   const mediaContainer = createSingleMedia(article, item, categoryId, categoryLabel, index);
 
@@ -1610,13 +1614,13 @@ function createSingleMedia(article, item, categoryId, categoryLabel, index) {
         "load",
         () => {
           rememberImageMetadata(storagePath, image.naturalWidth, image.naturalHeight);
-          syncCardOrientation(article, image.naturalWidth, image.naturalHeight);
+          syncCardLayout(article, image.naturalWidth, image.naturalHeight, item);
         },
         { once: true }
       );
     }
 
-    syncCardOrientation(article, image.width, image.height);
+    syncCardLayout(article, image.width, image.height, item);
 
     frame.appendChild(image);
     button.appendChild(frame);
@@ -1655,6 +1659,7 @@ async function openLightbox(item, categoryId, categoryLabel, index) {
   lightboxImage.src = resolveImageSource(item, categoryId, categoryLabel, index);
   lightboxImage.alt = item.alt || item.title;
   lightboxStage.dataset.padding = getImagePadding(item);
+  lightboxStage.style.setProperty("--lightbox-image-rotation", `${getImageRotation(item)}deg`);
   lightboxTitle.textContent = item.title;
   lightboxMeta.textContent = item.meta;
 
@@ -1690,19 +1695,66 @@ function getImageZoom(item) {
   return Math.min(Math.max(zoom, 0), 1);
 }
 
-function syncCardOrientation(card, width, height) {
+function getImageRotation(item) {
+  const rotation = Number(item.rotate);
+
+  if (!Number.isFinite(rotation)) {
+    return 0;
+  }
+
+  const normalizedRotation = rotation % 360;
+  return normalizedRotation < 0 ? normalizedRotation + 360 : normalizedRotation;
+}
+
+function hasQuarterTurnRotation(rotation) {
+  const normalizedRotation = Number(rotation) % 360;
+
+  if (!Number.isFinite(normalizedRotation)) {
+    return false;
+  }
+
+  return Math.abs(normalizedRotation) % 180 === 90;
+}
+
+function getDisplayedImageDimensions(width, height, item = null) {
+  let displayedWidth = Number(width);
+  let displayedHeight = Number(height);
+
+  if (
+    !Number.isFinite(displayedWidth) ||
+    !Number.isFinite(displayedHeight) ||
+    displayedWidth <= 0 ||
+    displayedHeight <= 0
+  ) {
+    return null;
+  }
+
+  if (item && hasQuarterTurnRotation(getImageRotation(item))) {
+    [displayedWidth, displayedHeight] = [displayedHeight, displayedWidth];
+  }
+
+  return {
+    width: displayedWidth,
+    height: displayedHeight,
+  };
+}
+
+function syncCardLayout(card, width, height, item = null) {
   if (!card) {
     return;
   }
 
-  const numericWidth = Number(width);
-  const numericHeight = Number(height);
+  const displayedDimensions = getDisplayedImageDimensions(width, height, item);
 
-  if (!Number.isFinite(numericWidth) || !Number.isFinite(numericHeight) || numericWidth <= 0 || numericHeight <= 0) {
+  if (!displayedDimensions) {
     return;
   }
 
-  card.dataset.orientation = numericWidth > numericHeight ? "landscape" : "portrait";
+  const { width: displayedWidth, height: displayedHeight } = displayedDimensions;
+
+  card.dataset.orientation = displayedWidth > displayedHeight ? "landscape" : "portrait";
+  card.style.setProperty("--intrinsic-frame-aspect-ratio", `${displayedWidth} / ${displayedHeight}`);
+  card.style.setProperty("--displayed-aspect-ratio", String(displayedWidth / displayedHeight));
 }
 
 function getInitialCategory() {
@@ -2706,7 +2758,8 @@ function sanitizeImagePath(path) {
      to keep the frame size while shrinking the image slightly inside it.
   7. `zoom` is optional and defaults to `0`. Use a value from `0` to `1`.
      Example: `zoom: 0.5` renders the image at 1.5x, centered and cropped by the frame.
-  8. Fine-tune gallery crop and centering in `gallery-overrides.css`.
-  9. Each image gets a selector based on category + title, for example:
+  8. `rotate` is optional. Use `90`, `180`, or `270` when a file displays sideways.
+  9. Fine-tune gallery crop and centering in `gallery-overrides.css`.
+ 10. Each image gets a selector based on category + title, for example:
      .work-card[data-card="ceramics-glass-penelope"]
 */

@@ -81,7 +81,7 @@ img {
 .category-nav {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.35rem 5.45rem;
+  gap: 0.45rem 6.85rem;
   align-items: flex-start;
 }
 
@@ -305,10 +305,13 @@ img {
   margin: 0;
   --card-padding-offset: 0rem;
   --card-orientation-padding: 0rem;
+  --card-content-offset: calc(var(--card-padding-offset) + var(--card-orientation-padding));
   --card-zoom: 0;
-  --frame-aspect-ratio: 4 / 5.35;
+  --intrinsic-frame-aspect-ratio: 4 / 5.35;
+  --displayed-aspect-ratio: 0.7476635514;
   --media-fit: cover;
   --media-scale: 1;
+  --media-rotation: 0deg;
   --media-shift-x: 0px;
   --media-shift-y: 0px;
   --media-origin: center center;
@@ -342,12 +345,12 @@ img {
 
 .work-card__frame {
   width: 100%;
-  aspect-ratio: var(--frame-aspect-ratio);
+  aspect-ratio: var(--frame-aspect-ratio, var(--intrinsic-frame-aspect-ratio));
   overflow: hidden;
   background: transparent;
   border-radius: 0;
   position: relative;
-  padding: calc(var(--card-padding-offset) + var(--card-orientation-padding));
+  padding: var(--card-content-offset);
   display: grid;
   place-items: center;
 }
@@ -392,9 +395,15 @@ img {
   margin-inline: auto;
   image-orientation: from-image;
   transform: translate(var(--media-shift-x), var(--media-shift-y))
+    rotate(var(--media-rotation))
     scale(calc(var(--media-scale) + var(--card-zoom)));
   transform-origin: var(--media-origin);
   transition: transform 220ms ease;
+}
+
+.work-card[data-rotation="quarter-turn"] .work-card__media {
+  width: calc(100% / var(--displayed-aspect-ratio));
+  height: calc(100% * var(--displayed-aspect-ratio));
 }
 
 .work-card[data-orientation="landscape"] {
@@ -409,6 +418,7 @@ img {
 .work-card__button:hover .work-card__media,
 .work-card__button:focus-visible .work-card__media {
   transform: translate(var(--media-shift-x), var(--media-shift-y))
+    rotate(var(--media-rotation))
     scale(calc(var(--media-scale) + var(--card-zoom) + 0.02));
 }
 
@@ -417,9 +427,9 @@ img {
 }
 
 .work-card__legend {
-  margin-top: calc(var(--card-padding-offset) * -1);
+  margin-top: 0;
   padding-top: 0.85rem;
-  padding-inline: var(--card-padding-offset);
+  padding-inline: var(--card-content-offset);
 }
 
 .work-card__title,
@@ -621,6 +631,8 @@ img {
   max-height: 78vh;
   height: auto;
   image-orientation: from-image;
+  transform: rotate(var(--lightbox-image-rotation, 0deg));
+  transform-origin: center center;
 }
 
 .lightbox-stage[data-padding="small"] {
@@ -711,7 +723,7 @@ img {
   }
 
   .category-nav {
-    gap: 0.45rem 0.75rem;
+    gap: 0.45rem 0.95rem;
   }
 
   .unlock-form {
