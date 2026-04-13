@@ -1179,9 +1179,9 @@ const portfolioData = {
 };
 
 const supabaseConfig = {
-  projectUrl: "https://payquixvrdzgqsxeihnj.supabase.co",
+  projectUrl: "https://huezkxyfrqfrrsdmbpoy.supabase.co",
   anonKey:
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBheXF1aXh2cmR6Z3FzeGVpaG5qIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzU0NjU0ODksImV4cCI6MjA5MTA0MTQ4OX0.SaNggYvpEq_TPJ7ZL9eJUFHH2D_XAhRWcZHsEqMlIm8",
+    "sb_publishable_vhG4wHq-UfeMfFNNupJqVg_IfsJgZnJ",
   functionName: "download-images",
 };
 
