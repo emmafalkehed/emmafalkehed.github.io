@@ -4,6 +4,6 @@
   "private": true,
   "description": "Minimal portfolio website for Emma Falkehed.",
   "scripts": {
-    "start": "live-server --host=127.0.0.1 --port=4173 --open=/index.html ."
+    "start": "live-server --host=127.0.0.1 --port=4173 --open=/index.html --mount=/.images:.images ."
   }
 }

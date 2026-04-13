@@ -107,3 +107,4 @@ Best format:
 - `.woff`
 
 If you only have `.otf` or `.ttf`, I can wire those too, but webfont files are better for a site.
+## renamings

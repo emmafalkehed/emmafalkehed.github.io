@@ -16,26 +16,264 @@ const portfolioData = {
         {
           slug: "vase-antoinette-01",
           title: "Vase Antoinette",
-          meta: "Vase in blown glass",
+          meta: "Vase in blown glass, for G&B",
           column: 1,
           src: "ceramics-glass-vase-antoinette-01.jpg",
-          alt: "Vase Antoinette in blown glass.",
+          alt: "Vase Antoinette in blown glass, for G&B",
         },
         {
           slug: "vase-antoinette-02",
           title: "Vase Antoinette",
-          meta: "Vase in blown glass",
+          meta: "Vase in blown glass, for G&B.",
           column: 2,
           src: "ceramics-glass-vase-antoinette-02.jpg",
-          alt: "Vase Antoinette in blown glass.",
+          alt: "Vase Antoinette in blown glass, for G&B",
         },
         {
           slug: "vase-antoinette-03",
           title: "Vase Antoinette",
-          meta: "Vase in blown glass",
+          meta: "Vase in blown glass, for G&B. Exists in transparent, white and celadon versions.",
           column: 3,
           src: "ceramics-glass-vase-antoinette-03.jpg",
-          alt: "Vase Antoinette in blown glass.",
+          alt: "Vase Antoinette in blown glass,for G&B",
+        },
+        {
+          slug: "boite-aurita-02",
+          title: "Aurita Box",
+          meta: "Aurita box in porcelain, transparent glaze inside, for G&B.",
+          column: 1,
+          src: "ceramics-glass-boite-aurita-02.jpg",
+          alt: "Aurita box in porcelain, transparent glaze inside, for G&B",
+        },
+        {
+          slug: "boite-aurita-03",
+          title: "Aurita Box",
+          meta: "Aurita box in porcelain, transparent glaze inside, for G&B.",
+          column: 2,
+          src: "ceramics-glass-boite-aurita-03.jpg",
+          alt: "Aurita box in porcelain, transparent glaze inside, for G&B",
+        },
+        {
+          slug: "boite-aurita-line-bursegan-01",
+          title: "Aurita Box",
+          meta: "Aurita box in porcelain, photography by Line Bursegan,for G&B.",
+          column: 3,
+          src: "ceramics-glass-boite-aurita-Line Bursegan -01.jpg",
+          alt: "Aurita box in porcelain, photography by Line Bursegan,for G&B.",
+        },
+        {
+          slug: "diffuseur-ondine-01",
+          title: "Ondine Diffuser",
+          meta: "Ondine diffuser in blown glass, for G&B.",
+          column: 1,
+          src: "ceramics-glass-diffuseur-ondine-01.jpg",
+          alt: "Ondine diffuser in blown glass, for G&B.",
+        },
+        {
+          slug: "diffuseur-ondine-04",
+          title: "Ondine Diffuser",
+          meta: "Ondine diffuser research sketches, for G&B.",
+          column: 3,
+          src: "ceramics-glass-diffuseur-ondine-04.jpg",
+          alt: "Ondine diffuser in blown glass, for G&B.",
+        },
+        {
+          slug: "diffuseur-ondine-05",
+          title: "Ondine Diffuser",
+          meta: "Ondine diffuser research sketches, for G&B.",
+          column: 1,
+          src: "ceramics-glass-diffuseur-ondine-05.jpg",
+          alt: "Ondine diffuser in blown glass, for G&B.",
+        },
+         {
+          slug: "diffuseur-ondine-06",
+          title: "Ondine Diffuser",
+          meta: "Ondine diffuser in blown glass, for G&B.",
+          column: 2,
+          src: "ceramics-glass-diffuseur-ondine-06.jpg",
+          alt: "Ondine diffuser in blown glass, for G&B.",
+        },
+        {
+          slug: "diffuseur-ondine-process-02",
+          title: "Ondine Diffuser",
+          meta: "Glassblowing process with metal mold",
+          column: 2,
+          padding: "big",
+          src: "ceramics-glass-diffuseur-ondine-process-02.png",
+          alt: "Ondine Diffuser process image.",
+        },
+        {
+          slug: "eclats-souffles-01",
+          title: "Glasses, Eclats Soufflés Collection",
+          meta: "Speckled blown glass, Eclats Soufflés Collection for G&B.",
+          column: 3,
+          src: "ceramics-glass-eclats-souffles-01.jpg",
+          alt: "Eclats Souffles blown glass object.",
+        },
+        {
+          slug: "eclats-souffles-022",
+          title: "Dessert cup, Eclats Soufflés Collection",
+          meta: "Speckled blown glass, Eclats Soufflés Collection for G&B.",
+          column: 2,
+          src: "ceramics-glass-eclats-souffles-022.jpg",
+          alt: "Eclats Souffles blown glass object.",
+        },
+        {
+          slug: "eclats-souffles-03",
+          title: "Dessert cup, Eclats Soufflés Collection",
+          meta: "Speckled blown glass, Eclats Soufflés Collection for G&B.",
+          column: 3,
+          src: "ceramics-glass-eclats-souffles-03.jpg",
+          alt: "Eclats Souffles blown glass object.",
+        },
+        {
+          slug: "eclats-souffles-04",
+          title: "Centerpiece, Eclats Soufflés Collection",
+          meta: "Speckled blown glass, Eclats Soufflés Collection for G&B.",
+          column: 1,
+          src: "ceramics-glass-eclats-souffles-04.jpg",
+          alt: "Eclats Souffles blown glass object.",
+        },
+        {
+          slug: "eclats-souffles-06",
+          title: "Centerpiece, Eclats Soufflés Collection",
+          meta: "Speckled blown glass, Eclats Soufflés Collection for G&B.",
+          column: 2,
+          src: "ceramics-glass-eclats-souffles-06.jpg",
+          alt: "Eclats Souffles blown glass object.",
+        },
+        {
+          slug: "eclats-souffles-07",
+          title: "Night Carafe, Eclats Soufflés Collection",
+          meta: "Speckled blown glass, Eclats Soufflés Collection for G&B.",
+          column: 3,
+          src: "ceramics-glass-eclats-souffles-07.jpg",
+          alt: "Eclats Souffles blown glass object.",
+        },
+        {
+          slug: "eclats-souffles-08",
+          title: "Night Carafe, Eclats Soufflés Collection",
+          meta: "Speckled blown glass, Eclats Soufflés Collection for G&B.",
+          column: 1,
+          src: "ceramics-glass-eclats-souffles-08.jpg",
+          alt: "Eclats Souffles blown glass object.",
+        },
+        {
+          slug: "eclats-souffles-09",
+          title: "Night Carafe, Eclats Soufflés Collection",
+          meta: "Speckled blown glass, Eclats Soufflés Collection for G&B.",
+          column: 2,
+          src: "ceramics-glass-eclats-souffles-09.jpg",
+          alt: "Eclats Souffles blown glass object.",
+        },
+        {
+          slug: "eclats-souffles-process-01",
+          title: "Glassblowing process",
+          meta: "Eclats Soufflés Collection glassblowing process with wooden molds",
+          column: 3,
+          padding: "big",
+          src: "ceramics-glass-eclats-souffles-process-01.jpg",
+          alt: "Eclats Souffles process image.",
+        },
+        {
+          slug: "eclats-souffles-process-03",
+          title: "Glassblowing process",
+          meta: "Eclats Soufflés Collection glassblowing process with wooden molds",
+          column: 2,
+          padding: "big",
+          src: "ceramics-glass-eclats-souffles-process-03.jpg",
+          alt: "Eclats Souffles process image.",
+        },
+        {
+          slug: "eclats-souffles-process-05",
+          title: "Glassblowing process",
+          meta: "Eclats Soufflés Collection glassblowing process with wooden molds",
+          column: 3,
+          padding: "big",
+          src: "ceramics-glass-eclats-souffles-process-05.png",
+          alt: "Eclats Souffles process image.",
+        },
+        {
+          slug: "vase-tresse-01",
+          title: "Tresse Vase",
+          meta: "Vase in glazed earthenware, for G&B.",
+          column: 1,
+          src: "ceramics-glass-vase-tresse-01.jpg",
+          alt: "Vase Tresse glass vase.",
+        },
+        {
+          slug: "vase-tresse-02",
+          title: "Tresse Vase",
+          meta: "Manufacturing process, plaster mold model.",
+          column: 2,
+          padding: "big",
+          src: "ceramics-glass-vase-tresse-02.jpg",
+          alt: "Vase Tresse glass vase.",
+        },
+        {
+          slug: "vase-tresse-03",
+          title: "Tresse Vase",
+          meta: "Vase in glazed earthenware, for G&B.",
+          column: 3,
+          src: "ceramics-glass-vase-tresse-03.jpg",
+          alt: "Vase Tresse glass vase.",
+        },
+        {
+          slug: "vase-tresse-04",
+          title: "Tresse Vase",
+          meta: "Manufacturing process, glaze research.",
+          column: 1,
+          padding: "big",
+          src: "ceramics-glass-vase-tresse-04.jpg",
+          alt: "Vase Tresse glass vase.",
+        },
+                {
+          slug: "vase-croquis-01",
+          title: "Sketches",
+          meta: "Vase research sketches",
+          column: 1,
+          src: "ceramics-glass-vase-croquis-01.jpg",
+          alt: "Vase Croquis sketch study.",
+        },
+        {
+          slug: "vase-croquis-02",
+          title: "Sketches",
+          meta: "Vase research sketches",
+          column: 2,
+          src: "ceramics-glass-vase-croquis-02.jpg",
+          alt: "Vase Croquis sketch study.",
+        },
+        {
+          slug: "vase-croquis-03",
+          title: "Sketches",
+          meta: "Vase research sketches",
+          column: 3,
+          src: "ceramics-glass-vase-croquis-03.jpg",
+          alt: "Vase Croquis sketch study.",
+        },
+                {
+          slug: "bougeoir-hestia-01",
+          title: "Hestia Candleholder",
+          meta: "Hestia candleholder in procelain, for G&B.",
+          column: 1,
+          src: "ceramics-glass-bougeoir-hestia-01.jpg",
+          alt: "Hestia candleholder in procelain, for G&B.",
+        },
+        {
+          slug: "bougeoir-hestia-02",
+          title: "Hestia Candleholder",
+          meta: "Hestia candleholder in procelain, for G&B.",
+          column: 2,
+          src: "ceramics-glass-bougeoir-hestia-02.jpg",
+          alt: "Hestia candleholder in procelain, for G&B.",
+        },
+        {
+          slug: "bougie-dune-01",
+          title: "Dune Scented Candle",
+          meta: "Dune scented candle in porcelain, for G&B.",
+          column: 3,
+          src: "ceramics-glass-bougie-dune-01.jpg",
+          alt: "Dune scented candle in porcelain, for G&B.",
         },
       ],
     },
@@ -44,13 +282,371 @@ const portfolioData = {
       label: "wood & lacquer",
       items: [
         {
-          slug: "nestor-full",
-          title: "Nestor",
-          meta: "Nested trays, full view",
+          slug: "box-ania-02",
+          title: "Box Ania",
+          meta: "Lacquered box with duck eggshells, for G&B.",
+          column: 3,
+          src: "wood-lacquer-box-ania-02.jpg",
+          alt: "Box Ania lacquered box.",
+        },
+        {
+          slug: "box-ania-03",
+          title: "Box Ania",
+          meta: "Lacquered box with duck eggshells, for G&B.",
+          column: 1,
+          src: "wood-lacquer-box-ania-03.jpg",
+          alt: "Box Ania lacquered box.",
+        },
+        {
+          slug: "box-ania-05",
+          title: "Box Ania",
+          meta: "Process of making the box with the eggshells.",
+          column: 3,
+          padding: "big",
+          src: "wood-lacquer-box-ania-05.jpg",
+          alt: "Box Ania lacquered box.",
+        },
+        {
+          slug: "box-ania-acajou-01",
+          title: "Box Ania",
+          meta: "Black tinted brushed Mahogany box, for G&B.",
+          column: 1,
+          src: "wood-lacquer-box-ania-acajou-01.jpg",
+          alt: "Box Ania Acajou lacquered box.",
+        },
+        {
+          slug: "box-ania-acajou-line-bursegan-03",
+          title: "Box Ania Acajou",
+          meta: "Ania Mahogany box, photography by Line Bursegan, for G&B.",
+          column: 2,
+          src: "wood-lacquer-box-ania-acajou-Line Bursegan-03.jpg",
+          alt: "Box Ania Acajou in a Line Bursegan view.",
+        },
+        {
+          slug: "box-lacquer",
+          title: "Lacquer Box",
+          meta: "Wood and lacquer object",
+          column: 3,
+          src: "wood-lacquer-box-laquer.jpg",
+          alt: "Wood and lacquer box.",
+        },
+        {
+          slug: "box-rhea-01",
+          title: "Tissue box Rhea",
+          meta: "White sycamore tissue box, for G&B.",
+          column: 1,
+          src: "wood-lacquer-box-rhea-01.jpg",
+          alt: "Tissue box Rhea.",
+        },
+        {
+          slug: "box-rhea-02",
+          title: "Tissue box Rhea",
+          meta: "White sycamore tissue box, for G&B.",
+          column: 2,
+          src: "wood-lacquer-box-rhea-02.jpg",
+          alt: "Tissue box Rhea.",
+        },
+        {
+          slug: "box-trinity-01",
+          title: "Box Trinity",
+          meta: "Box in lacquered wood, for G&B.",
+          column: 3,
+          src: "wood-lacquer-box-trinity-01.jpg",
+          alt: "Box Trinity lacquered box.",
+        },
+        {
+          slug: "box-trinity-02",
+          title: "Box Trinity",
+          meta: "Box in lacquered wood, for G&B.",
+          column: 1,
+          src: "wood-lacquer-box-trinity-02.jpg",
+          alt: "Box Trinity lacquered box.",
+        },
+        {
+          slug: "box-trinity-03",
+          title: "Box Trinity",
+          meta: "Box in lacquered wood, for G&B.",
+          column: 2,
+          src: "wood-lacquer-box-trinity-03.jpg",
+          alt: "Box Trinity lacquered box.",
+        },
+        {
+          slug: "box-trinity-04",
+          title: "Box Trinity",
+          meta: "Box in lacquered wood, for G&B.",
+          column: 3,
+          src: "wood-lacquer-box-trinity-04.jpg",
+          alt: "Box Trinity lacquered box.",
+        },
+        {
+          slug: "cadre-bastien-01",
+          title: "Bastien Photo Frame",
+          meta: "Frames in tinted cassia wood and white sycamore, for G&B.",
+          column: 1,
+          src: "wood-lacquer-cadre-bastien-01.jpg",
+          alt: "Cadre Bastien frame.",
+        },
+        {
+          slug: "cadre-bastien-02",
+          title: "Bastien Photo Frame",
+          meta: "Frame in tinted cassia wood, for G&B.",
+          column: 2,
+          src: "wood-lacquer-cadre-bastien-02.jpg",
+          alt: "Cadre Bastien frame.",
+        },
+        {
+          slug: "cadre-bastien-03",
+          title: "Bastien Photo Frame",
+          meta: "Frame in white sycamore, for G&B.",
+          column: 3,
+          src: "wood-lacquer-cadre-bastien-03.jpg",
+          alt: "Cadre Bastien frame.",
+        },
+        {
+          slug: "line-bursegan-interior",
+          title: "Nino Photo Frame",
+          meta: "Frame in white sycamore, photography by Line Bursegan, for G&B.",
           column: 1,
           padding: "none",
-          src: "wood-lacquer-image-01.jpg",
-          alt: "Two nested Nestor trays on a white background.",
+          src: "metal-silver-image-01.jpg",
+          alt: "An object displayed on a marble mantel in an interior setting.",
+        },
+        {
+          slug: "cadre-nino-02",
+          title: "Nino Photo Frame",
+          meta: "Frame in white sycamore wood with removable feet in tinted cassia wood, for G&B.",
+          column: 1,
+          src: "wood-lacquer-cadre-nino-02.jpg",
+          alt: "Cadre Nino frame.",
+        },
+        {
+          slug: "cadre-nino-03",
+          title: "Nino Photo Frame",
+          meta: "Frame in white sycamore wood with removable feet in tinted cassia wood, for G&B.",
+          column: 2,
+          src: "wood-lacquer-cadre-nino-03.jpg",
+          alt: "Cadre Nino frame.",
+        },
+        {
+          slug: "centredetable-noeud-01",
+          title: "Noeud Centerpiece",
+          meta: "Centerpiece in Black tinted brushed mahagony carved wood, for G&B.",
+          column: 1,
+          src: "wood-lacquer-centredetable-noeud-01.jpeg",
+          alt: "Noeud Centerpiece.",
+        },
+        {
+          slug: "centredetable-noeud-02",
+          title: "Noeud Centerpiece",
+          meta: "Centerpiece in Black tinted brushed mahagony carved wood, for G&B.",
+          column: 2,
+          src: "wood-lacquer-centredetable-noeud-02.jpeg",
+          alt: "Noeud Centerpiece.",
+        },
+        {
+          slug: "centredetable-noeud-03",
+          title: "Noeud Centerpiece",
+          meta: "Centerpiece in Black tinted brushed mahagony carved wood, for G&B.",
+          column: 3,
+          src: "wood-lacquer-centredetable-noeud-03.jpeg",
+          alt: "Noeud Centerpiece.",
+        },
+        {
+          slug: "mirroir-adam-01",
+          title: "Adam Mirror",
+          meta: "Mirror in Black tinted brushed pinewood, for G&B.",
+          column: 1,
+          src: "wood-lacquer-mirroir-adam-01.jpg",
+          alt: "Mirroir Adam mirror.",
+        },
+        {
+          slug: "mirroir-adam-02",
+          title: "Adam Mirror",
+          meta: "Mirror in Black tinted brushed pinewood, for G&B.",
+          column: 2,
+          src: "wood-lacquer-mirroir-adam-02.jpg",
+          alt: "Adam Mirror.",
+        },
+        {
+          slug: "mirroir-adam-03",
+          title: "Adam Mirror",
+          meta: "Mirror in Black tinted brushed pinewood, for G&B.",
+          column: 3,
+          src: "wood-lacquer-mirroir-adam-03.jpg",
+          alt: "Adam Mirror.",
+        },
+        {
+          slug: "mirroir-celeste-01",
+          title: "Celeste Mirror",
+          meta: "Mirror in Carved tinted Cassia wood, for G&B.",
+          column: 2,
+          src: "wood-lacquer-mirroir-celeste-01.jpg",
+          alt: "Celeste Mirror.",
+        },
+        {
+          slug: "mirroir-celeste-03",
+          title: "Celeste Mirror",
+          meta: "Mirror in Carved tinted Cassia wood, for G&B.",
+          column: 1,
+          src: "wood-lacquer-mirroir-celeste-03.jpg",
+          alt: "Celeste Mirror.",
+        },
+        {
+          slug: "mirroir-celeste-04",
+          title: "Celeste Mirror",
+          meta: "Mirror in Carved tinted Cassia wood, for G&B.",
+          column: 2,
+          src: "wood-lacquer-mirroir-celeste-04.jpg",
+          alt: "Celeste Mirror.",
+        },
+        {
+          slug: "penholder-penelope-01",
+          title: "Penholder Penelope",
+          meta: "Pen holder in lacquered wood, for G&B.",
+          column: 1,
+          src: "wood-lacquer-penholder-penelope-01.jpg",
+          alt: "Penholder Penelope.",
+        },
+        {
+          slug: "penholder-penelope-02",
+          title: "Penholder Penelope",
+          meta: "Pen holder in lacquered wood, for G&B.",
+          column: 2,
+          src: "wood-lacquer-penholder-penelope-02.jpg",
+          alt: "Penholder Penelope.",
+        },
+        {
+          slug: "penholder-penelope-03",
+          title: "Penholder Penelope",
+          meta: "Pen holder in lacquered wood, for G&B.",
+          column: 3,
+          src: "wood-lacquer-penholder-penelope-03.jpg",
+          alt: "Penholder Penelope.",
+        },
+        {
+          slug: "penholder-penelope-04",
+          title: "Penholder Penelope",
+          meta: "Pen holder in lacquered wood, for G&B.",
+          column: 1,
+          src: "wood-lacquer-penholder-penelope-04.jpg",
+          alt: "Penholder Penelope.",
+        },
+        {
+          slug: "penholder-penelope-05",
+          title: "Penholder Penelope",
+          meta: "Pen holder in lacquered wood, for G&B.",
+          column: 2,
+          src: "wood-lacquer-penholder-penelope-05.jpg",
+          alt: "Penholder Penelope.",
+        },
+        {
+          slug: "penholder-penelope-06",
+          title: "Penholder Penelope",
+          meta: "Pen holder in lacquered wood, for G&B.",
+          column: 3,
+          src: "wood-lacquer-penholder-penelope-06.jpg",
+          alt: "Penholder Penelope.",
+        },
+        {
+          slug: "plateau-coco-01",
+          title: "Coco Tray",
+          meta: "Manufacturing process of the Coco tray in bent wood.",
+          column: 2,
+          padding: "big",
+          src: "wood-lacquer-plateau-coco-01.jpg",
+          alt: "Plateau Coco tray.",
+        },
+        {
+          slug: "plateau-coco-02",
+          title: "Coco Tray",
+          meta: "Tray in mahagony bent wood and tinted rattan, for G&B.",
+          column: 3,
+          src: "wood-lacquer-plateau-coco-02.jpg",
+          alt: "Plateau Coco tray.",
+        },
+        {
+          slug: "plateau-coco-03",
+          title: "Coco Tray",
+          meta: "Tray in sycamore bent wood and tinted rattan, for G&B.",
+          column: 1,
+          src: "wood-lacquer-plateau-coco-03.jpg",
+          alt: "Plateau Coco tray.",
+        },
+        {
+          slug: "plateau-coco-05",
+          title: "Coco Tray",
+          meta: "Manufacturing process of the Coco tray in bent wood.",
+          column: 3,
+          padding: "big",
+          src: "wood-lacquer-plateau-coco-05.jpg",
+          alt: "Plateau Coco tray.",
+        },
+        {
+          slug: "plateau-nestor-01",
+          title: "Nestor Trays",
+          meta: "Nestor trays, in Amamra wood, for G&B.",
+          column: 1,
+          src: "wood-lacquer-plateau-nestor-01.jpg",
+          alt: "Nestor tray set.",
+        },
+        {
+          slug: "plateau-nestor-02",
+          title: "Nestor Tray",
+          meta: "Nestor tray in Amara wood, for G&B.",
+          column: 2,
+          src: "wood-lacquer-plateau-nestor-02.jpg",
+          alt: "Nestor tray set.",
+        },
+        {
+          slug: "plateau-nestor-03",
+          title: "Nestor Trays",
+          meta: "Trays in Amara wood and White Sycamore wood, for G&B.",
+          column: 3,
+          src: "wood-lacquer-plateau-nestor-03.jpg",
+          alt: "Nestor tray set.",
+        },
+        {
+          slug: "plateau-nestor-04",
+          title: "Nestor Tray",
+          meta: "Nested tray in white sycamore wood, for G&B.",
+          column: 1,
+          src: "wood-lacquer-plateau-nestor-04.jpg",
+          alt: "Nestor tray set.",
+        },
+        {
+          slug: "plateau-nestor-05",
+          title: "Nestor Tray",
+          meta: "Tray in White Sycamore wood, for G&B.",
+          column: 2,
+          src: "wood-lacquer-plateau-nestor-05.jpg",
+          alt: "Nestor tray set.",
+        },
+        {
+          slug: "plateau-nestor-06",
+          title: "Nestor Tray",
+          meta: "Process of the 3D handle details",
+          column: 3,
+          padding: "big",
+          src: "wood-lacquer-plateau-nestor-06.png",
+          alt: "Nestor tray set.",
+        },
+        {
+          slug: "plateau-nestor-07",
+          title: "Nestor Tray",
+          meta: "Woodworking process of the tray",
+          column: 1,
+          padding: "big",
+          src: "wood-lacquer-plateau-nestor-07.jpg",
+          alt: "Nestor tray set.",
+        },
+        {
+          slug: "plateau-nestor-08",
+          title: "Nestor Tray",
+          meta: "Woodworking process of the tray",
+          column: 2,
+          padding: "big",
+          src: "wood-lacquer-plateau-nestor-08.jpg",
+          alt: "Nestor tray set.",
         },
       ],
     },
@@ -59,13 +655,199 @@ const portfolioData = {
       label: "metal & silver",
       items: [
         {
-          slug: "line-bursegan-interior",
-          title: "Line Bursegan",
-          meta: "Interior view with marble mantel",
+          slug: "bougeoir-pli-02",
+          title: "Pli Candleholder",
+          meta: "Candleholder in cast brass, for G&B.",
+          column: 3,
+          src: "metal-silver-bougeoir-pli-02.jpg",
+          alt: "Bougeoir Pli silver candleholder.",
+        },
+        {
+          slug: "bougeoir-pli-03",
+          title: "Pli Candleholder",
+          meta: "Candleholder in cast brass, for G&B.",
           column: 1,
-          padding: "none",
-          src: "metal-silver-image-01.jpg",
-          alt: "An object displayed on a marble mantel in an interior setting.",
+          src: "metal-silver-bougeoir-pli-03.jpg",
+          alt: "Bougeoir Pli silver candleholder.",
+        },
+        {
+          slug: "bougeoir-pli-04",
+          title: "Pli Candleholder",
+          meta: "Candleholder in cast brass, for G&B.",
+          column: 2,
+          src: "metal-silver-bougeoir-pli-04.jpg",
+          alt: "Bougeoir Pli silver candleholder.",
+        },
+        {
+          slug: "coupe-barque-01",
+          title: "Barque cup",
+          meta: "Cup in brushed brass, for G&B.",
+          column: 3,
+          src: "metal-silver-coupe-barque-01.jpg",
+          alt: "Coupe Barque silver bowl.",
+        },
+        {
+          slug: "coupe-barque-02",
+          title: "Barque cup",
+          meta: "Cup in brushed brass, for G&B.",
+          column: 1,
+          src: "metal-silver-coupe-barque-02.jpg",
+          alt: "Coupe Barque silver bowl.",
+        },
+       {
+          slug: "ronds-serviette-02",
+          title: "Napkin ring",
+          meta: "Napkin ring in silver coated brass, for G&B.",
+          column: 3,
+          src: "metal-silver-ronds-serviette-02.jpg",
+          alt: "Ronds Serviette silver napkin ring.",
+        },
+        {
+          slug: "ronds-serviette-01",
+          title: "Napkin ring",
+          meta: "Napkin ring in silver coated brass, for G&B.",
+          column: 2,
+          src: "metal-silver-ronds-serviette-01.jpg",
+          alt: "Ronds Serviette silver napkin ring.",
+        },
+       {
+          slug: "ronds-serviette-07",
+          title: "Napkin ring",
+          meta: "Napkin ring in silver coated brass, for G&B.",
+          column: 2,
+          src: "metal-silver-ronds-serviette-07.jpg",
+          alt: "Ronds Serviette silver napkin ring.",
+        },
+        {
+          slug: "ronds-serviette-03",
+          title: "Napkin ring",
+          meta: "Napkin ring in silver coated brass, for G&B.",
+          column: 1,
+          src: "metal-silver-ronds-serviette-03.jpg",
+          alt: "Ronds Serviette silver napkin ring.",
+        },
+        {
+          slug: "ronds-serviette-04",
+          title: "Napkin ring",
+          meta: "Napkin ring in silver coated brass, for G&B.",
+          column: 2,
+          src: "metal-silver-ronds-serviette-04.jpg",
+          alt: "Ronds Serviette silver napkin ring.",
+        },
+        {
+          slug: "ronds-serviette-05",
+          title: "Napkin ring",
+          meta: "Napkin ring in silver coated brass, for G&B.",
+          column: 3,
+          src: "metal-silver-ronds-serviette-05.jpg",
+          alt: "Ronds Serviette silver napkin ring.",
+        },
+        {
+          slug: "ronds-serviette-06",
+          title: "Napkin ring",
+          meta: "Napkin ring in silver coated brass, for G&B.",
+          column: 1,
+          src: "metal-silver-ronds-serviette-06.jpg",
+          alt: "Ronds Serviette silver napkin ring.",
+        },
+        {
+          slug: "cardholder-silver-01",
+          title: "Cardholder",
+          meta: "Silvercoated brass cardholder, for G&B.",
+          column: 3,
+          src: "metal&silver-cardholder-silver-01.JPG",
+          alt: "Silver cardholder.",
+        },
+        {
+          slug: "cardholder-silver-02",
+          title: "Cardholder",
+          meta: "Silvercoated brass cardholder, for G&B.",
+          column: 1,
+          src: "metal&silver-cardholder-silver-02.jpg",
+          alt: "Silver cardholder.",
+        },
+        {
+          slug: "cardholder-silver-03",
+          title: "Cardholder",
+          meta: "Silvercoated brass cardholder, for G&B.",
+          column: 2,
+          src: "metal&silver-cardholder-silver-03.JPG",
+          alt: "Silver cardholder.",
+        },
+        {
+          slug: "cardholder-01",
+          title: "Cardholder",
+          meta: "Cardholder 3D print process picture.",
+          column: 3,
+          padding: "big",
+          src: "metal-silver-cardholder-01.jpg",
+          alt: "Silver cardholder.",
+        },
+        {
+          slug: "cardholder-03",
+          title: "Cardholder",
+          meta: "Cardholder brass casting process picture.",
+          column: 2,
+          padding: "big",
+          src: "metal-silver-cardholder-03.jpg",
+          alt: "Silver cardholder.",
+        },
+        {
+          slug: "socles-bougie-03",
+          title: "Candle holders",
+          meta: "Candleholders 3D printing process picture.",
+          column: 3,
+          padding: "big",
+          src: "metal-silver-socles-bougie-03.jpg",
+          alt: "Socles Bougie silver candle base.",
+        },
+        {
+          slug: "socles-bougie-01",
+          title: "Candle holders",
+          meta: "Candleholders in silver coated brass, for G&B.",
+          column: 1,
+          src: "metal-silver-socles-bougie-01.jpg",
+          alt: "Socles Bougie silver candle base.",
+        },
+        {
+          slug: "socles-bougie-02",
+          title: "Candle holders",
+          meta: "Candleholders in metal with dark patina, for G&B.",
+          column: 2,
+          src: "metal-silver-socles-bougie-02.jpg",
+          alt: "Socles Bougie silver candle base.",
+        },
+                {
+          slug: "matches-holder-02",
+          title: "Matches Holder",
+          meta: "Silvercoated metal matches holder, for G&B.",
+          column: 1,
+          src: "metal&silver-matches-holder-02.JPG.jpg",
+          alt: "Silver matches holder.",
+        },
+         {
+          slug: "box-epi-01",
+          title: "Box Epi",
+          meta: "Box in cast bronze, for G&B.",
+          column: 3,
+          src: "metal-silver-box-epi-01.jpg",
+          alt: "Box Epi silver box.",
+        },
+        {
+          slug: "box-epi-02",
+          title: "Box Epi",
+          meta: "Box in cast bronze, for G&B.",
+          column: 1,
+          src: "metal-silver-box-epi-02.jpg",
+          alt: "Box Epi silver box.",
+        },
+        {
+          slug: "box-epi-03",
+          title: "Box Epi",
+          meta: "Box in cast bronze, for G&B.",
+          column: 2,
+          src: "metal-silver-box-epi-03.jpg",
+          alt: "Box Epi silver box.",
         },
       ],
     },
@@ -74,29 +856,323 @@ const portfolioData = {
       label: "furniture",
       items: [
         {
-          slug: "line-bursegan-console",
-          title: "Line Bursegan",
-          meta: "Interior placement, marble console",
+          slug: "side-table-corde-01",
+          title: "Corde Side Table",
+          meta: "Side table with metal feet and stone tabletop, for G&B.",
+          column: 3,
+          src: "furniture-side-table-corde-01.jpg",
+          alt: "Side Table Corde.",
+        },
+        {
+          slug: "side-table-corde-02",
+          title: "Corde Side Table",
+          meta: "Side table with metal feet and stone tabletop, for G&B.",
           column: 1,
-          padding: "none",
-          src: "furniture-image-01.jpg",
-          alt: "Object staged on a marble mantel in an interior.",
+          src: "furniture-side-table-corde-02.jpg",
+          alt: "Side Table Corde.",
+        },
+        {
+          slug: "side-table-corde-03",
+          title: "Corde Side Table",
+          meta: "Side table with metal feet and stone tabletop, for G&B.",
+          column: 2,
+          src: "furniture-side-table-corde-03.jpg",
+          alt: "Side Table Corde.",
+        },
+         {
+          slug: "meuble-bas-acajou-01",
+          title: "Low cabinet",
+          meta: "Low cabinet in Mahagony black tinted brushed wood, for G&B.",
+          column: 3,
+          src: "furniture-meuble-bas-acajou-01.jpeg",
+          alt: "Meuble Bas Acajou low cabinet.",
+        },
+        {
+          slug: "meuble-bas-acajou-02",
+          title: "Low cabinet",
+          meta: "Low cabinet in Mahagony black tinted brushed wood, for G&B.",
+          column: 1,
+          src: "furniture-meuble-bas-acajou-02.jpeg",
+          alt: "Meuble Bas Acajou low cabinet.",
+        },
+        {
+          slug: "meuble-bas-acajou-03",
+          title: "Low cabinet",
+          meta: "Low cabinet in Mahagony black tinted brushed wood, for G&B.",
+          column: 2,
+          src: "furniture-meuble-bas-acajou-03.jpeg",
+          alt: "Meuble Bas Acajou low cabinet.",
+        },
+        {
+          slug: "meuble-bas-acajou-04",
+          title: "Low cabinet",
+          meta: "Communication pictures during the manufacturing process.",
+          column: 3,
+          padding: "big",
+          src: "furniture-meuble-bas-acajou-04.jpeg",
+          alt: "Meuble Bas Acajou low cabinet.",
+        },
+        {
+          slug: "meuble-bas-acajou-05",
+          title: "Low cabinet",
+          meta: "Communication pictures during the manufacturing process.",
+          column: 1,
+          padding: "big",
+          src: "furniture-meuble-bas-acajou-05.jpeg",
+          alt: "Meuble Bas Acajou low cabinet.",
+        },
+        {
+          slug: "meuble-bas-acajou-06",
+          title: "Low cabinet",
+          meta: "Low cabinet in Mahagony black tinted brushed wood, for G&B.",
+          column: 2,
+          src: "furniture-meuble-bas-acajou-06.jpeg",
+          alt: "Meuble Bas Acajou low cabinet.",
+        },
+        {
+          slug: "meuble-bas-acajou-07",
+          title: "Low cabinet",
+          meta: "Low cabinet in Mahagony black tinted brushed wood, for G&B.",
+          column: 3,
+          src: "furniture-meuble-bas-acajou-07.jpeg",
+          alt: "Meuble Bas Acajou low cabinet.",
+        },
+        {
+          slug: "meuble-bas-acajou-08",
+          title: "Low cabinet",
+          meta: "Communication pictures during the manufacturing process.",
+          column: 1,
+          padding: "big",
+          src: "furniture-meuble-bas-acajou-08.jpeg",
+          alt: "Meuble Bas Acajou low cabinet.",
+        },
+        {
+          slug: "meuble-bas-acajou-10",
+          title: "Low cabinet",
+          meta: "Low cabinet in Mahagony black tinted brushed wood, for G&B.",
+          column: 3,
+          src: "furniture-meuble-bas-acajou-10.jpeg",
+          alt: "Meuble Bas Acajou low cabinet.",
+        },
+        {
+          slug: "table-lamp-carved-wood-01",
+          title: "Table Lamp",
+          meta: "Table lamp in carved Mahagony wood, for G&B.",
+          column: 2,
+          src: "furniture-table-lamp-carved-wood-01.png",
+          alt: "Carved wood table lamp.",
+        },
+        {
+          slug: "table-lamp-carved-wood-02",
+          title: "Table Lamp",
+          meta: "Table lamp in carved Mahagony wood, for G&B.",
+          column: 3,
+          src: "furniture-table-lamp-carved-wood-02.jpeg",
+          alt: "Carved wood table lamp.",
+        },
+        {
+          slug: "table-lamp-carved-wood-03",
+          title: "Table Lamp",
+          meta: "Table lamp in carved Mahagony wood, for G&B.",
+          column: 1,
+          src: "furniture-table-lamp-carved-wood-03.jpeg",
+          alt: "Carved wood table lamp.",
+        },
+        {
+          slug: "table-lamp-carved-wood-04",
+          title: "Table Lamp",
+          meta: "Table lamp in carved Mahagony wood, for G&B.",
+          column: 2,
+          src: "furniture-table-lamp-carved-wood-04.jpeg",
+          alt: "Carved wood table lamp.",
+        },
+        {
+          slug: "table-lamp-carved-wood-05",
+          title: "Table Lamp",
+          meta: "Table lamp in carved Mahagony wood, for G&B.",
+          column: 3,
+          src: "furniture-table-lamp-carved-wood-05.jpeg",
+          alt: "Carved wood table lamp.",
+        },
+        {
+          slug: "table-lamp-carved-wood-06",
+          title: "Table Lamp",
+          meta: "Table lamp in carved Mahagony wood, for G&B.",
+          column: 1,
+          src: "furniture-table-lamp-carved-wood-06.png",
+          alt: "Carved wood table lamp.",
+        },
+        {
+          slug: "armoire-rotin-01",
+          title: "Rattan Cabinet",
+          meta: "Rattan cabinet 3D picture, for G&B.",
+          column: 1,
+          src: "furniture-armoire-rotin-01.png",
+          alt: "Armoire Rotin rattan cabinet.",
+        },
+        {
+          slug: "armoire-rotin-02",
+          title: "Rattan Cabinet",
+          meta: "Rattan cabinet 3D picture, for G&B.",
+          column: 2,
+          src: "furniture-armoire-rotin-02.png",
+          alt: "Armoire Rotin rattan cabinet.",
+        },
+        {
+          slug: "chauffeuse-cythare-01",
+          title: "Cythare lounge chair",
+          meta: "Lounge chair 3D picture, for G&B.",
+          column: 3,
+          src: "furniture-chauffeuse-cythare-01.png",
+          alt: "Chauffeuse Cythare lounge chair.",
+        },
+        {
+          slug: "chauffeuse-cythare-02",
+          title: "Cythare lounge chair",
+          meta: "Lounge chair 3D picture, for G&B.",
+          column: 1,
+          src: "furniture-chauffeuse-cythare-02.png",
+          alt: "Chauffeuse Cythare lounge chair.",
+        },
+                {
+          slug: "tete-de-lit-01",
+          title: "Bed headboard",
+          meta: "Upholstered bed headboard, for G&B.",
+          column: 3,
+          src: "furniture-tete-de-lit-01.png",
+          alt: "Tete de Lit headboard.",
+        },
+        {
+          slug: "floorlamp-carved-wood-01-jpeg",
+          title: "Floorlamp",
+          meta: "Floor lamp in carved wood, for G&B.",
+          column: 1,
+          src: "furniture-floorlamp-carved-wood-01.jpeg",
+          alt: "Carved wood floor lamp.",
+        },
+        {
+          slug: "floorlamp-carved-wood-01-png",
+          title: "Floorlamp",
+          meta: "Floor lamp in carved wood, for G&B.",
+          column: 2,
+          src: "furniture-floorlamp-carved-wood-01.png",
+          alt: "Carved wood floor lamp.",
+        },
+        {
+          slug: "floorlamp-carved-wood-03",
+          title: "Floorlamp",
+          meta: "Wood carving process picture.",
+          column: 3,
+          padding: "big",
+          src: "furniture-floorlamp-carved-wood-03.jpeg",
+          alt: "Carved wood floor lamp.",
+        },
+        {
+          slug: "floorlamp-carved-wood-04",
+          title: "Floorlamp",
+          meta: "Wood carving process picture.",
+          column: 1,
+          padding: "big",
+          src: "furniture-floorlamp-carved-wood-04.jpg",
+          alt: "Carved wood floor lamp.",
+        },
+        {
+          slug: "lampe-caissa-01",
+          title: "Caissa Table Lamp",
+          meta: "Table lamp in White plaster, for G&B.",
+          column: 2,
+          src: "furniture-lampe-caissa-01.jpg",
+          alt: "Lampe Caissa.",
+        },
+        {
+          slug: "lampe-kleos-01",
+          title: "Kleos Table Lamp",
+          meta: "Table Lamp in Black patinated bronze, for G&B.",
+          column: 3,
+          src: "furniture-lampe-kleos-01.jpg",
+          alt: "Lampe Kleos.",
+        },
+        {
+          slug: "lampe-kleos-02",
+          title: "Kleos Table Lamp",
+          meta: "Table Lamp in Black patinated bronze, for G&B.",
+          column: 1,
+          src: "furniture-lampe-kleos-02.jpg",
+          alt: "Lampe Kleos.",
+        },
+        {
+          slug: "lampe-kleos-03",
+          title: "Kleos Table Lamp",
+          meta: "Table Lamp in Black patinated bronze, for G&B.",
+          column: 2,
+          src: "furniture-lampe-kleos-03.jpg",
+          alt: "Lampe Kleos.",
+        },
+        {
+          slug: "petit-bureau-01",
+          title: "Small Desk",
+          meta: "Desk with metal feet and stone tabletop, for G&B.",
+          column: 1,
+          src: "furniture-petit-bureau-01.png",
+          alt: "Petit Bureau desk.",
+        },
+        {
+          slug: "petit-bureau-02",
+          title: "Small Desk",
+          meta: "Desk with metal feet and stone tabletop, for G&B.",
+          column: 2,
+          src: "furniture-petit-bureau-02.jpg",
+          alt: "Small desk.",
+        },
+        {
+          slug: "petit-bureau-04",
+          title: "Small Desk",
+          meta: "Metalwork process picture.",
+          column: 1,
+          padding: "big",
+          src: "furniture-petit-bureau-04.jpg",
+          alt: "Small desk.",
+        },
+        {
+          slug: "tablelamp-seurat-01",
+          title: "Seurat Table lamp",
+          meta: "Tablelamp",
+          column: 2,
+          src: "furniture-tablelamp-seurat-01.JPG",
+          alt: "Tablelamp Seurat.",
+        },
+        {
+          slug: "tablelamp-seurat-02",
+          title: "Table lamp Seurat",
+          meta: "Table lamp in speckled blown glass, for G&B.",
+          column: 3,
+          src: "furniture-tablelamp-seurat-02.JPG",
+          alt: "Tablelamp Seurat.",
+        },
+        {
+          slug: "tablelamp-seurat-03",
+          title: "Table lamp Seurat",
+          meta: "Table lamp in speckled blown glass, for G&B.",
+          column: 1,
+          src: "furniture-tablelamp-seurat-03.JPG",
+          alt: "Tablelamp Seurat.",
+        },
+        {
+          slug: "tablelamp-seurat-04",
+          title: "Table lamp Seurat",
+          meta: "Table lamp in speckled blown glass, for G&B.",
+          column: 2,
+          src: "furniture-tablelamp-seurat-04.JPG",
+          alt: "Tablelamp Seurat.",
         },
       ],
     },
     {
       id: "projects",
       label: "projects",
+      note:
+        "Due to confidentiality, I can't display hospitality project pictures, as they are still ongoing. I could gladly show physical visual material to a meeting in person.",
       items: [
-        {
-          slug: "marceau-overview",
-          title: "Marceau",
-          meta: "Project overview",
-          column: 1,
-          padding: "none",
-          src: "projects-image-01.jpg",
-          alt: "Overview of the Marceau project objects.",
-        },
       ],
     },
   ],
@@ -111,30 +1187,111 @@ const supabaseConfig = {
 
 const cvSections = [
   {
-    heading: "Work experience",
+    heading: "Professional Experience",
     column: "left",
-    body: "Add selected positions, internships, collaborations, exhibitions, or commissions here.",
+    bodyHtml: `
+      <div class="cv-entry">
+        <p class="cv-role"><strong>Gilles &amp; Boissier</strong> - Product Designer, Furniture &amp; Objects</p>
+        <p class="cv-meta">Paris | 08/2022 - Present</p>
+        <p class="cv-subtitle">G&amp;B Collection</p>
+        <ul class="cv-list">
+          <li>Design and development of furniture and objects, from concept to final product (drawings, 3D modeling, technical documentation)</li>
+          <li>Contribution to the development of the collection (new product launches, range updates, showroom activation)</li>
+          <li>Prototyping and product development with manufacturers; implementation of production processes for serial production</li>
+          <li>Sourcing and selection of manufacturers and artisans; prototype development and technical adjustments</li>
+          <li>Production follow-up through to delivery, quality control, and after-sales service management in collaboration with the logistics team</li>
+          <li>Coordination with internal teams (Art Direction, Communication, Logistics, Accounting) and external partners (artisans, manufacturers, suppliers)</li>
+        </ul>
+        <p class="cv-subtitle">FF&amp;E Projects</p>
+        <ul class="cv-list">
+          <li>Collaboration with interior architects, project managers, FF&amp;E buyers, and other stakeholders</li>
+          <li>Development of design proposals and production of FF&amp;E technical documentation</li>
+          <li>Project follow-up through all phases up to final installation</li>
+        </ul>
+      </div>
+      <div class="cv-entry">
+        <p class="cv-role"><strong>Claesson Koivisto Rune</strong> Architects - Design Assistant</p>
+        <p class="cv-meta">Stockholm | 09/2021 - 08/2022</p>
+      </div>
+      <div class="cv-entry">
+        <p class="cv-role"><strong>Skandiform</strong> - Design Collaboration</p>
+        <p class="cv-meta">Stockholm | 10/2020 - 06/2021</p>
+      </div>
+      <div class="cv-entry">
+        <p class="cv-role"><strong>Mathilde Joncquiere</strong> - Mosaic Workshop Assistant</p>
+        <p class="cv-meta">Paris | 2019 - 2021</p>
+      </div>
+      <div class="cv-entry">
+        <p class="cv-role"><strong>Marie Laurent &amp; Nicolas Contreras</strong> - Ceramics Internship</p>
+        <p class="cv-meta">Paris | 2017</p>
+      </div>
+    `,
   },
   {
     heading: "Contact details",
     column: "left",
-    body: "Add email, phone, location, portfolio links, and social or professional profiles here.",
+    body: "emma.falkehed@gmail.com   +33676012671   Paris",
   },
   {
     heading: "Skills",
     column: "right",
-    body:
-      "Add materials, processes, software, prototyping methods, languages, and production skills here.",
+    body: "Rhinoceros 3D · Keyshot · Cinema 4D · AutoCAD · Sketchup Adobe Suite (InDesign, Photoshop, Illustrator) 3D Printing"
   },
   {
     heading: "Education",
     column: "right",
-    body: "Add schools, degrees, exchange studies, workshops, or specialist training here.",
+    bodyHtml: `
+      <div class="cv-entry">
+        <p class="cv-role"><strong>Beckmans College of Design</strong> - BA in Furniture &amp; Object Design</p>
+        <p class="cv-meta">Stockholm | 2021</p>
+      </div>
+      <div class="cv-entry">
+        <p class="cv-role"><strong>École Duperré</strong> - Diplôme des Métiers d'Art, Ceramics</p>
+        <p class="cv-meta">Paris | 2017</p>
+      </div>
+      <div class="cv-entry">
+        <p class="cv-role"><strong>École Boulle</strong> - Baccalauréat in Applied Arts</p>
+        <p class="cv-meta">Paris | 2015</p>
+      </div>
+    `,
   },
   {
     heading: "Exhibitions & Nominations",
     column: "right",
-    body: "Add selected exhibitions, nominations, awards, showcases, or recognitions here.",
+    bodyHtml: `
+      <div class="cv-entry">
+        <p class="cv-role"><strong>Arthreads Global Graduate Show 2021</strong> - Nominee</p>
+      </div>
+      <div class="cv-entry">
+        <p class="cv-role"><strong>Graduation Show "Time Well Spent"</strong></p>
+        <p class="cv-meta">Stockholm | 05/2021</p>
+      </div>
+      <div class="cv-entry">
+        <p class="cv-role"><strong>Stockholm Design Week</strong></p>
+        <p class="cv-meta">Stockholm | 02/2021</p>
+      </div>
+      <div class="cv-entry">
+        <p class="cv-role"><strong>Beckmans x Designtorget</strong></p>
+        <p class="cv-meta">Stockholm | 08/2020</p>
+      </div>
+      <div class="cv-entry">
+        <p class="cv-role"><strong>Group Exhibition "Paysages"</strong></p>
+        <p class="cv-meta">Ateliers de Paris | 04/2017</p>
+      </div>
+      <div class="cv-entry">
+        <p class="cv-subtitle">Languages</p>
+        <p class="cv-role"><strong>French</strong></p>
+        <p class="cv-meta">Native</p>
+      </div>
+      <div class="cv-entry">
+        <p class="cv-role"><strong>Swedish</strong></p>
+        <p class="cv-meta">Full professional proficiency</p>
+      </div>
+      <div class="cv-entry">
+        <p class="cv-role"><strong>English</strong></p>
+        <p class="cv-meta">Full professional proficiency</p>
+      </div>
+    `,
   },
 ];
 
@@ -151,6 +1308,7 @@ const portfolioImageLoadConcurrency = 4;
 const estimatedPortfolioTotalMegabytes = 143;
 const defaultCategoryId = portfolioData.categories[0]?.id || "gallery";
 const legacyPortfolioImagePrefix = "assets/images/";
+const localPortfolioImagePrefix = ".images/";
 
 const categoryNav = document.getElementById("category-nav");
 const siteHeader = document.getElementById("site-header");
@@ -183,11 +1341,13 @@ let reviewPassword = "";
 let pendingReviewPassword = "";
 let reviewReviewerId = "";
 let signedImageUrlMap = new Map();
+let localImageAvailabilityMap = new Map();
+let localImageAvailabilityPromiseMap = new Map();
 let portfolioFetchPromise = null;
 let portfolioPreloadPromise = null;
 let navigationSequence = 0;
 let galleryColumnCount = getGalleryColumnCount();
-const preloadedSignedImageUrls = new Set();
+const preloadedImageUrls = new Set();
 const signedImageMetadataMap = new Map();
 
 restoreCachedAccessState();
@@ -309,8 +1469,14 @@ function renderCvSections() {
     const heading = document.createElement("h2");
     heading.textContent = section.heading;
 
-    const body = document.createElement("p");
-    body.textContent = section.body;
+    const body = document.createElement(section.bodyHtml ? "div" : "p");
+
+    if (section.bodyHtml) {
+      body.className = "cv-rich";
+      body.innerHTML = section.bodyHtml.trim();
+    } else {
+      body.textContent = section.body;
+    }
 
     block.appendChild(heading);
     block.appendChild(body);
@@ -402,9 +1568,10 @@ function createWorkCard(item, categoryId, categoryLabel, index) {
   article.className = "work-card";
   article.dataset.card = getCardSlug(categoryId, item, index);
   article.dataset.padding = getImagePadding(item);
+  article.dataset.orientation = "portrait";
   article.style.setProperty("--card-zoom", String(getImageZoom(item)));
 
-  const mediaContainer = createSingleMedia(item, categoryId, categoryLabel, index);
+  const mediaContainer = createSingleMedia(article, item, categoryId, categoryLabel, index);
 
   const legend = document.createElement("div");
   legend.className = "work-card__legend";
@@ -425,7 +1592,7 @@ function createWorkCard(item, categoryId, categoryLabel, index) {
   return article;
 }
 
-function createSingleMedia(item, categoryId, categoryLabel, index) {
+function createSingleMedia(article, item, categoryId, categoryLabel, index) {
   const button = document.createElement("button");
   button.className = "work-card__button";
   button.type = "button";
@@ -436,9 +1603,9 @@ function createSingleMedia(item, categoryId, categoryLabel, index) {
   frame.dataset.padding = getImagePadding(item);
 
   const storagePath = getStoragePath(item, categoryId);
-  const signedImageUrl = storagePath ? getFreshSignedImageUrl(storagePath) : "";
+  const imageUrl = storagePath ? getResolvedImageUrl(storagePath) : "";
 
-  if (signedImageUrl || !item.src) {
+  if (imageUrl || !item.src) {
     const image = document.createElement("img");
     image.className = "work-card__media";
     applyImageMetadata(image, storagePath);
@@ -452,10 +1619,13 @@ function createSingleMedia(item, categoryId, categoryLabel, index) {
         "load",
         () => {
           rememberImageMetadata(storagePath, image.naturalWidth, image.naturalHeight);
+          syncCardOrientation(article, image.naturalWidth, image.naturalHeight);
         },
         { once: true }
       );
     }
+
+    syncCardOrientation(article, image.width, image.height);
 
     frame.appendChild(image);
     button.appendChild(frame);
@@ -510,9 +1680,9 @@ function closeLightbox() {
 
 function resolveImageSource(item, categoryId, categoryLabel, index) {
   const storagePath = getStoragePath(item, categoryId);
-  const signedImageUrl = storagePath ? getFreshSignedImageUrl(storagePath) : "";
+  const imageUrl = storagePath ? getResolvedImageUrl(storagePath) : "";
 
-  return signedImageUrl || createPlaceholder(item.title, categoryLabel, index);
+  return imageUrl || createPlaceholder(item.title, categoryLabel, index);
 }
 
 function getImagePadding(item) {
@@ -527,6 +1697,21 @@ function getImageZoom(item) {
   }
 
   return Math.min(Math.max(zoom, 0), 1);
+}
+
+function syncCardOrientation(card, width, height) {
+  if (!card) {
+    return;
+  }
+
+  const numericWidth = Number(width);
+  const numericHeight = Number(height);
+
+  if (!Number.isFinite(numericWidth) || !Number.isFinite(numericHeight) || numericWidth <= 0 || numericHeight <= 0) {
+    return;
+  }
+
+  card.dataset.orientation = numericWidth > numericHeight ? "landscape" : "portrait";
 }
 
 function getInitialCategory() {
@@ -606,27 +1791,14 @@ function renderGalleryCategory(category) {
   galleryTrack.classList.remove("is-hidden");
   galleryTrack.innerHTML = "";
   galleryTrack.dataset.columns = String(galleryColumnCount);
-
-  if (galleryColumnCount === desktopGalleryColumnCount) {
-    galleryTrack.dataset.layout = "columns";
-
-    const columns = Array.from({ length: desktopGalleryColumnCount }, (_, columnIndex) => {
-      const column = document.createElement("div");
-      column.className = "gallery-track__column";
-      column.dataset.column = String(columnIndex + 1);
-      galleryTrack.appendChild(column);
-      return column;
-    });
-
-    category.items.forEach((item, index) => {
-      const columnIndex = getItemDesktopColumn(item, index) - 1;
-      columns[columnIndex].appendChild(createWorkCard(item, category.id, category.label, index));
-    });
-
-    return;
-  }
-
   galleryTrack.dataset.layout = "grid";
+
+  if (category.note) {
+    const note = document.createElement("p");
+    note.className = "gallery-category-note";
+    note.textContent = category.note;
+    galleryTrack.appendChild(note);
+  }
 
   category.items.forEach((item, index) => {
     galleryTrack.appendChild(createWorkCard(item, category.id, category.label, index));
@@ -734,6 +1906,83 @@ function getAllPortfolioPaths() {
   return [
     ...new Set(portfolioData.categories.flatMap((category) => getCategoryPaths(category.id))),
   ];
+}
+
+function getLocalImageUrl(path) {
+  if (!path) {
+    return "";
+  }
+
+  const encodedPath = path
+    .split("/")
+    .map((segment) => encodeURIComponent(segment))
+    .join("/");
+
+  return `${localPortfolioImagePrefix}${encodedPath}`;
+}
+
+function getLocalImageIfAvailable(path) {
+  return localImageAvailabilityMap.get(path) ? getLocalImageUrl(path) : "";
+}
+
+function getResolvedImageUrl(path) {
+  return getLocalImageIfAvailable(path) || getFreshSignedImageUrl(path);
+}
+
+function hasResolvedImageUrl(path) {
+  return Boolean(getResolvedImageUrl(path));
+}
+
+async function ensureLocalImageForPath(path) {
+  if (!path) {
+    return false;
+  }
+
+  if (localImageAvailabilityMap.has(path)) {
+    return localImageAvailabilityMap.get(path);
+  }
+
+  if (localImageAvailabilityPromiseMap.has(path)) {
+    return localImageAvailabilityPromiseMap.get(path);
+  }
+
+  const localImageUrl = getLocalImageUrl(path);
+  const availabilityPromise = new Promise((resolve) => {
+    const image = new Image();
+    let isSettled = false;
+
+    const settle = (isAvailable) => {
+      if (isSettled) {
+        return;
+      }
+
+      isSettled = true;
+      localImageAvailabilityMap.set(path, isAvailable);
+      localImageAvailabilityPromiseMap.delete(path);
+      resolve(isAvailable);
+    };
+
+    image.onload = () => settle(true);
+    image.onerror = () => settle(false);
+    image.src = localImageUrl;
+
+    if (image.complete) {
+      settle(image.naturalWidth > 0);
+    }
+  });
+
+  localImageAvailabilityPromiseMap.set(path, availabilityPromise);
+  return availabilityPromise;
+}
+
+async function ensureLocalImagesForPaths(paths) {
+  const sanitizedPaths = sanitizeImagePaths(paths);
+
+  if (!sanitizedPaths.length) {
+    return;
+  }
+
+  await Promise.all(sanitizedPaths.map((path) => ensureLocalImageForPath(path)));
 }
 
 function restoreCachedAccessState() {
@@ -910,24 +2159,30 @@ function hasFreshCategoryImages(categoryId) {
     return true;
   }
 
-  return paths.every((path) => Boolean(getFreshSignedImageUrl(path)));
+  return paths.every((path) => hasResolvedImageUrl(path));
 }
 
 function hasFreshPortfolioImages() {
-  return getAllPortfolioPaths().every((path) => Boolean(getFreshSignedImageUrl(path)));
+  return getAllPortfolioPaths().every((path) => hasResolvedImageUrl(path));
+}
+
+function hasLocalPortfolioImages() {
+  return getAllPortfolioPaths().every((path) => Boolean(getLocalImageIfAvailable(path)));
 }
 
 function hasPreloadedPortfolioImages() {
   return getAllPortfolioPaths().every((path) => {
-    const signedUrl = getFreshSignedImageUrl(path);
-    return Boolean(signedUrl) && preloadedSignedImageUrls.has(signedUrl);
+    const imageUrl = getResolvedImageUrl(path);
+    return Boolean(imageUrl) && preloadedImageUrls.has(imageUrl);
   });
 }
 
 async function ensureImageForItem(item, categoryId) {
   const storagePath = getStoragePath(item, categoryId);
 
-  if (!storagePath || getFreshSignedImageUrl(storagePath)) {
+  await ensureLocalImagesForPaths([storagePath]);
+
+  if (!storagePath || hasResolvedImageUrl(storagePath)) {
     return true;
   }
 
@@ -940,12 +2195,18 @@ async function ensureImageForItem(item, categoryId) {
 
 async function ensurePortfolioReady({ password = reviewPassword } = {}) {
   const accessPassword = sanitizePasswordInput(password) || getAccessPassword();
+  await ensureLocalImagesForPaths(getAllPortfolioPaths());
+  const hasLocalAccess = hasLocalPortfolioImages();
+
+  if (hasLocalAccess) {
+    clearSessionAuth();
+  }
 
   if (hasFreshPortfolioImages() && hasPreloadedPortfolioImages()) {
     return true;
   }
 
-  if (!accessPassword) {
+  if (!accessPassword && !hasLocalAccess) {
     showUnlockPanel();
     return false;
   }
@@ -981,8 +2242,9 @@ async function ensurePortfolioReady({ password = reviewPassword } = {}) {
 
 async function ensureAllPortfolioImages(password = reviewPassword) {
   const sanitizedPassword = sanitizePasswordInput(password);
+  await ensureLocalImagesForPaths(getAllPortfolioPaths());
 
-  if (hasFreshPortfolioImages()) {
+  if (hasFreshPortfolioImages() || hasLocalPortfolioImages()) {
     return true;
   }
 
@@ -994,7 +2256,7 @@ async function ensureAllPortfolioImages(password = reviewPassword) {
     return portfolioFetchPromise;
   }
 
-  const missingPaths = getAllPortfolioPaths().filter((path) => !getFreshSignedImageUrl(path));
+  const missingPaths = getAllPortfolioPaths().filter((path) => !hasResolvedImageUrl(path));
 
   portfolioFetchPromise = fetchSignedImageUrlsForPaths(sanitizedPassword, missingPaths).finally(() => {
     portfolioFetchPromise = null;
@@ -1017,9 +2279,9 @@ async function preloadPortfolioImages() {
   const urlsToPreload = allPaths
     .map((path) => ({
       path,
-      signedUrl: getFreshSignedImageUrl(path),
+      imageUrl: getResolvedImageUrl(path),
     }))
-    .filter(({ signedUrl }) => signedUrl && !preloadedSignedImageUrls.has(signedUrl));
+    .filter(({ imageUrl }) => imageUrl && !preloadedImageUrls.has(imageUrl));
 
   portfolioPreloadPromise = runPortfolioPreload(allPaths, urlsToPreload).finally(() => {
     portfolioPreloadPromise = null;
@@ -1051,9 +2313,9 @@ async function runPortfolioPreload(allPaths, urlsToPreload) {
         }
 
         try {
-          const metadata = await preloadSignedImage(nextImage.signedUrl);
+          const metadata = await preloadSignedImage(nextImage.imageUrl);
           rememberImageMetadata(nextImage.path, metadata.width, metadata.height);
-          preloadedSignedImageUrls.add(nextImage.signedUrl);
+          preloadedImageUrls.add(nextImage.imageUrl);
           completedCount += 1;
           updateLoadingProgress(completedCount, allPaths.length);
         } catch (error) {
