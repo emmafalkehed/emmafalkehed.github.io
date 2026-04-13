@@ -1294,6 +1294,8 @@ const galleryCardFrameAspectRatio = "4 / 5";
 const imagePaddingOptions = new Set(["none", "small", "medium", "big"]);
 const portfolioImageLoadConcurrency = 4;
 const estimatedPortfolioTotalMegabytes = 60.5;
+const publicDocumentTitle = "Emma Falkehed";
+const protectedDocumentTitle = "Emma Falkehed \u00b7 Portfolio";
 const defaultCategoryId = portfolioData.categories[0]?.id || "gallery";
 const legacyPortfolioImagePrefix = "assets/images/";
 const localPortfolioImagePrefix = ".images/";
@@ -1304,6 +1306,7 @@ const localImageDirectoryStateUnknown = "unknown";
 
 const categoryNav = document.getElementById("category-nav");
 const siteHeader = document.getElementById("site-header");
+const siteTitle = document.getElementById("site-title");
 const galleryView = document.getElementById("gallery-view");
 const cvView = document.getElementById("cv-view");
 const galleryTrack = document.getElementById("gallery-track");
@@ -1369,6 +1372,10 @@ function bindEvents() {
     }
 
     void setActiveCategory(button.dataset.category || defaultCategoryId);
+  });
+
+  siteTitle?.addEventListener("click", () => {
+    void setActiveCategory(defaultCategoryId);
   });
 
   unlockForm.addEventListener("submit", (event) => {
@@ -1542,6 +1549,7 @@ async function setActiveCategory(categoryId, { skipHistory = false } = {}) {
 
 function renderCategory(categoryId) {
   buildProtectedUi();
+  setDocumentTitle(protectedDocumentTitle);
 
   navButtons.forEach((button) => {
     button.classList.toggle("is-active", button.dataset.category === categoryId);
@@ -1760,6 +1768,7 @@ function createPlaceholder(title, categoryLabel, index) {
 }
 
 function showUnlockPanel(message = "", state = "") {
+  setDocumentTitle(publicDocumentTitle);
   siteHeader.classList.add("is-hidden");
   galleryView.classList.remove("is-hidden");
   cvView.classList.add("is-hidden");
@@ -1798,6 +1807,10 @@ function setUnlockPending(isPending) {
   unlockInput.disabled = isPending;
   unlockButton.disabled = isPending;
   unlockButton.textContent = isPending ? "Loading..." : "Enter";
+}
+
+function setDocumentTitle(title) {
+  document.title = title;
 }
 
 function renderGalleryCategory(category) {

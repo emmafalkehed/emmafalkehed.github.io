@@ -78,6 +78,17 @@ img {
   white-space: nowrap;
 }
 
+.site-title {
+  all: unset;
+  display: inline;
+  cursor: pointer;
+}
+
+.site-title:focus-visible {
+  outline: 1px solid currentColor;
+  outline-offset: 2px;
+}
+
 .category-nav {
   display: flex;
   flex-wrap: wrap;
