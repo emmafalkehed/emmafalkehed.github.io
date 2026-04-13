@@ -390,6 +390,7 @@ img {
   max-width: none;
   object-fit: var(--media-fit);
   margin-inline: auto;
+  image-orientation: from-image;
   transform: translate(var(--media-shift-x), var(--media-shift-y))
     scale(calc(var(--media-scale) + var(--card-zoom)));
   transform-origin: var(--media-origin);
@@ -619,6 +620,7 @@ img {
   max-width: 100%;
   max-height: 78vh;
   height: auto;
+  image-orientation: from-image;
 }
 
 .lightbox-stage[data-padding="small"] {

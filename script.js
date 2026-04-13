@@ -285,7 +285,7 @@ const portfolioData = {
           slug: "box-ania-02",
           title: "Box Ania",
           meta: "Lacquered box with duck eggshells, for G&B.",
-          column: 3,
+          column: 1,
           src: "wood-lacquer-box-ania-02.jpg",
           alt: "Box Ania lacquered box.",
         },
@@ -1157,14 +1157,6 @@ const portfolioData = {
           src: "furniture-tablelamp-seurat-04.JPG",
           alt: "Tablelamp Seurat.",
         },
-      ],
-    },
-    {
-      id: "projects",
-      label: "projects",
-      note:
-        "Due to confidentiality, I can't display hospitality project pictures, as they are still ongoing. I could gladly show physical visual material to a meeting in person.",
-      items: [
       ],
     },
   ],
