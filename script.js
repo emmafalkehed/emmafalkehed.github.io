@@ -1077,14 +1077,6 @@ const portfolioData = {
           alt: "Carved wood floor lamp.",
         },
         {
-          slug: "lampe-caissa-01",
-          title: "Caissa Table Lamp",
-          meta: "Table lamp in White plaster, for G&B.",
-          column: 2,
-          src: "furniture-lampe-caissa-01.jpg",
-          alt: "Lampe Caissa.",
-        },
-        {
           slug: "lampe-kleos-01",
           title: "Kleos Table Lamp",
           meta: "Table Lamp in Black patinated bronze, for G&B.",
