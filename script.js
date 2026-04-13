@@ -1305,10 +1305,14 @@ const pathMaxLength = 512;
 const desktopGalleryColumnCount = 3;
 const imagePaddingOptions = new Set(["none", "small", "medium", "big"]);
 const portfolioImageLoadConcurrency = 4;
-const estimatedPortfolioTotalMegabytes = 143;
+const estimatedPortfolioTotalMegabytes = 60.5;
 const defaultCategoryId = portfolioData.categories[0]?.id || "gallery";
 const legacyPortfolioImagePrefix = "assets/images/";
 const localPortfolioImagePrefix = ".images/";
+const localImageStatusUrl = "local-image-status.json";
+const localImageDirectoryStateEnabled = "enabled";
+const localImageDirectoryStateDisabled = "disabled";
+const localImageDirectoryStateUnknown = "unknown";
 
 const categoryNav = document.getElementById("category-nav");
 const siteHeader = document.getElementById("site-header");
@@ -1343,6 +1347,9 @@ let reviewReviewerId = "";
 let signedImageUrlMap = new Map();
 let localImageAvailabilityMap = new Map();
 let localImageAvailabilityPromiseMap = new Map();
+let localImageDirectoryState = localImageDirectoryStateUnknown;
+let localImageDirectoryStatusPromise = null;
+let unavailablePortfolioImagePaths = new Set();
 let portfolioFetchPromise = null;
 let portfolioPreloadPromise = null;
 let navigationSequence = 0;
@@ -1922,11 +1929,23 @@ function getLocalImageUrl(path) {
 }
 
 function getLocalImageIfAvailable(path) {
+  if (localImageDirectoryState === localImageDirectoryStateDisabled) {
+    return "";
+  }
+
   return localImageAvailabilityMap.get(path) ? getLocalImageUrl(path) : "";
 }
 
 function getResolvedImageUrl(path) {
   return getLocalImageIfAvailable(path) || getFreshSignedImageUrl(path);
+}
+
+function isUnavailablePortfolioImagePath(path) {
+  return unavailablePortfolioImagePaths.has(path);
+}
+
+function hasSettledImageUrl(path) {
+  return hasResolvedImageUrl(path) || isUnavailablePortfolioImagePath(path);
 }
 
 function hasResolvedImageUrl(path) {
@@ -1935,6 +1954,12 @@ function hasResolvedImageUrl(path) {
 
 async function ensureLocalImageForPath(path) {
   if (!path) {
+    return false;
+  }
+
+  const canUseLocalImages = await ensureLocalImageDirectoryStatus();
+
+  if (!canUseLocalImages) {
     return false;
   }
 
@@ -1959,6 +1984,11 @@ async function ensureLocalImageForPath(path) {
       isSettled = true;
       localImageAvailabilityMap.set(path, isAvailable);
       localImageAvailabilityPromiseMap.delete(path);
+
+      if (isAvailable) {
+        unavailablePortfolioImagePaths.delete(path);
+      }
+
       resolve(isAvailable);
     };
 
@@ -1982,7 +2012,57 @@ async function ensureLocalImagesForPaths(paths) {
     return;
   }
 
+  const canUseLocalImages = await ensureLocalImageDirectoryStatus();
+
+  if (!canUseLocalImages) {
+    return;
+  }
+
   await Promise.all(sanitizedPaths.map((path) => ensureLocalImageForPath(path)));
+}
+
+async function ensureLocalImageDirectoryStatus() {
+  if (localImageDirectoryState !== localImageDirectoryStateUnknown) {
+    return localImageDirectoryState === localImageDirectoryStateEnabled;
+  }
+
+  if (localImageDirectoryStatusPromise) {
+    return localImageDirectoryStatusPromise;
+  }
+
+  localImageDirectoryStatusPromise = fetch(localImageStatusUrl, {
+    cache: "no-store",
+  })
+    .then(async (response) => {
+      if (!response.ok) {
+        throw new Error("Local image status is unavailable.");
+      }
+
+      const payload = await response.json().catch(() => ({}));
+      const hasLocalImages = payload?.hasLocalImages === true;
+
+      localImageDirectoryState = hasLocalImages
+        ? localImageDirectoryStateEnabled
+        : localImageDirectoryStateDisabled;
+
+      if (!hasLocalImages) {
+        localImageAvailabilityMap = new Map();
+        localImageAvailabilityPromiseMap = new Map();
+      }
+
+      return hasLocalImages;
+    })
+    .catch(() => {
+      localImageDirectoryState = localImageDirectoryStateDisabled;
+      localImageAvailabilityMap = new Map();
+      localImageAvailabilityPromiseMap = new Map();
+      return false;
+    })
+    .finally(() => {
+      localImageDirectoryStatusPromise = null;
+    });
+
+  return localImageDirectoryStatusPromise;
 }
 
 function restoreCachedAccessState() {
@@ -2159,19 +2239,27 @@ function hasFreshCategoryImages(categoryId) {
     return true;
   }
 
-  return paths.every((path) => hasResolvedImageUrl(path));
+  return paths.every((path) => hasSettledImageUrl(path));
 }
 
 function hasFreshPortfolioImages() {
-  return getAllPortfolioPaths().every((path) => hasResolvedImageUrl(path));
+  return getAllPortfolioPaths().every((path) => hasSettledImageUrl(path));
 }
 
 function hasLocalPortfolioImages() {
+  if (localImageDirectoryState !== localImageDirectoryStateEnabled) {
+    return false;
+  }
+
   return getAllPortfolioPaths().every((path) => Boolean(getLocalImageIfAvailable(path)));
 }
 
 function hasPreloadedPortfolioImages() {
   return getAllPortfolioPaths().every((path) => {
+    if (isUnavailablePortfolioImagePath(path)) {
+      return true;
+    }
+
     const imageUrl = getResolvedImageUrl(path);
     return Boolean(imageUrl) && preloadedImageUrls.has(imageUrl);
   });
@@ -2182,7 +2270,7 @@ async function ensureImageForItem(item, categoryId) {
 
   await ensureLocalImagesForPaths([storagePath]);
 
-  if (!storagePath || hasResolvedImageUrl(storagePath)) {
+  if (!storagePath || hasSettledImageUrl(storagePath)) {
     return true;
   }
 
@@ -2471,24 +2559,33 @@ async function fetchSignedImageUrlsForPaths(
 
     const fetchedAt = Date.now();
     let receivedCount = 0;
+    sanitizedPaths.forEach((path) => unavailablePortfolioImagePaths.delete(path));
 
     (payload.images || []).forEach((entry) => {
       const signedUrl = entry.signedUrl || entry.signedURL || entry.signed_url || entry.url;
 
       if (entry.path && signedUrl) {
         signedImageUrlMap.set(entry.path, { signedUrl, fetchedAt });
+        unavailablePortfolioImagePaths.delete(entry.path);
         receivedCount += 1;
       }
     });
 
+    const unresolvedPaths = Array.isArray(payload.missingPaths)
+      ? sanitizeImagePaths(payload.missingPaths)
+      : sanitizedPaths.filter((path) => !getFreshSignedImageUrl(path));
+
     if (!receivedCount) {
-      throw new Error("No private image URLs were returned.");
+      console.warn("No signed image URLs were returned by Supabase.", {
+        requestedPaths: sanitizedPaths,
+        missingPaths: unresolvedPaths,
+        payload,
+      });
     }
 
-    const unresolvedPaths = sanitizedPaths.filter((path) => !getFreshSignedImageUrl(path));
-
     if (unresolvedPaths.length) {
-      throw new Error("Some private images could not be unlocked.");
+      unresolvedPaths.forEach((path) => unavailablePortfolioImagePaths.add(path));
+      console.warn("Some private images could not be found in Supabase Storage.", unresolvedPaths);
     }
 
     reviewReviewerId = getReviewerIdFromPayload(payload);

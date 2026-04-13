@@ -18,6 +18,9 @@ npm run start
 
 The website will open with `live-server` at `http://127.0.0.1:4173`.
 
+When `.images` is missing or has no image files, the local preview now skips the local image probe
+path and uses the normal authenticated Supabase image flow instead.
+
 ## Update the portfolio
 
 Edit [`script.js`](/Users/dmazzuca/src/emmafalkehed/script.js).

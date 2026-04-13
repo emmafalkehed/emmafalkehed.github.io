@@ -92,16 +92,36 @@ Deno.serve(async (request) => {
       return json({ error: error.message }, 500);
     }
 
+    const signedEntries = (data ?? []).filter((entry) => {
+      const signedUrl = getSignedUrlFromEntry(entry);
+      return typeof entry?.path === "string" && Boolean(signedUrl);
+    });
+    const signedPathSet = new Set(signedEntries.map((entry) => entry.path));
+    const missingPaths = normalizedPaths.filter((path) => !signedPathSet.has(path));
+
+    if (missingPaths.length) {
+      console.warn(
+        JSON.stringify({
+          event: "download-images.missing_paths",
+          reviewerId,
+          missingPathCount: missingPaths.length,
+          missingPaths,
+        })
+      );
+    }
+
     console.info(
       JSON.stringify({
         event: "download-images.access_granted",
         reviewerId,
         pathCount: normalizedPaths.length,
+        signedPathCount: signedEntries.length,
+        missingPathCount: missingPaths.length,
         paths: normalizedPaths,
       })
     );
 
-    return json({ reviewerId, images: data ?? [] }, 200);
+    return json({ reviewerId, images: data ?? [], missingPaths }, 200);
   } catch (error) {
     const message = error instanceof Error ? error.message : "Unexpected error";
     return json({ error: message }, 500);
@@ -113,6 +133,21 @@ function json(payload: unknown, status = 200) {
     status,
     headers: corsHeaders,
   });
+}
+
+function getSignedUrlFromEntry(entry: unknown) {
+  if (!entry || typeof entry !== "object") {
+    return "";
+  }
+
+  const candidateEntry = entry as Record<string, unknown>;
+  const signedUrl =
+    candidateEntry.signedUrl ??
+    candidateEntry.signedURL ??
+    candidateEntry.signed_url ??
+    candidateEntry.url;
+
+  return typeof signedUrl === "string" ? signedUrl : "";
 }
 
 function getReviewerIdForPassword(password: unknown) {

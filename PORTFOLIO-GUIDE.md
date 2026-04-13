@@ -365,6 +365,9 @@ After that:
 - a browser window may open by itself
 - if not, open your browser and go to `http://127.0.0.1:4173`
 
+If the `.images` folder is empty or missing, the preview will automatically use the normal secure
+Supabase image loading path.
+
 ### While you are editing
 
 1. Keep Terminal open
