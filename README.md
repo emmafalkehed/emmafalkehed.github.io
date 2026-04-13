@@ -33,9 +33,8 @@ For each item you can update:
 - `meta`: smaller legend text
 - `alt`: accessible image description
 - `column`: desktop column placement (`1`, `2`, or `3`)
-- `padding`: inner spacing around the image (`none`, `small`, `medium`, `big`)
+- `padding`: inner frame spacing around the image (`none`, `small`, `medium`, `big`)
 - `zoom`: extra zoom inside the frame (`0` to `1`)
-- `rotate`: optional manual rotation in degrees (`90`, `180`, `270`) for sideways uploads
 - `storagePath`: optional custom Supabase bucket path if it differs from `src`
 
 If `src` is left empty, the site shows a generated placeholder.

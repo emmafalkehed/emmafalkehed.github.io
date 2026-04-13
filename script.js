@@ -5,7 +5,6 @@
   - `padding`: `"none"`, `"small"`, `"medium"`, or `"big"`; defaults to `"none"`
   - `zoom`: number from `0` to `1`; defaults to `0`
     Example: `zoom: 0.5` renders the image at 1.5x, centered and cropped by the frame
-  - `rotate`: number of degrees for manual correction when an upload displays sideways
 */
 
 const portfolioData = {
@@ -304,7 +303,6 @@ const portfolioData = {
           meta: "Process of making the box with the eggshells.",
           column: 3,
           padding: "big",
-          rotate: 90,
           src: "wood-lacquer-box-ania-05.jpg",
           alt: "Box Ania lacquered box.",
         },
@@ -1289,6 +1287,7 @@ const reviewReviewerIdSessionKey = "emma-falkehed-reviewer-id";
 const passwordMaxLength = 256;
 const pathMaxLength = 512;
 const desktopGalleryColumnCount = 3;
+const galleryCardFrameAspectRatio = "4 / 5";
 const imagePaddingOptions = new Set(["none", "small", "medium", "big"]);
 const portfolioImageLoadConcurrency = 4;
 const estimatedPortfolioTotalMegabytes = 60.5;
@@ -1562,9 +1561,7 @@ function createWorkCard(item, categoryId, categoryLabel, index) {
   article.dataset.card = getCardSlug(categoryId, item, index);
   article.dataset.padding = getImagePadding(item);
   article.dataset.orientation = "portrait";
-  article.dataset.rotation = hasQuarterTurnRotation(getImageRotation(item)) ? "quarter-turn" : "none";
   article.style.setProperty("--card-zoom", String(getImageZoom(item)));
-  article.style.setProperty("--media-rotation", `${getImageRotation(item)}deg`);
 
   const mediaContainer = createSingleMedia(article, item, categoryId, categoryLabel, index);
 
@@ -1595,12 +1592,12 @@ function createSingleMedia(article, item, categoryId, categoryLabel, index) {
 
   const frame = document.createElement("div");
   frame.className = "work-card__frame";
-  frame.dataset.padding = getImagePadding(item);
 
   const storagePath = getStoragePath(item, categoryId);
   const imageUrl = storagePath ? getResolvedImageUrl(storagePath) : "";
+  const shouldRenderPlaceholder = storagePath ? isUnavailablePortfolioImagePath(storagePath) : false;
 
-  if (imageUrl || !item.src) {
+  if (imageUrl || shouldRenderPlaceholder || !item.src) {
     const image = document.createElement("img");
     image.className = "work-card__media";
     applyImageMetadata(image, storagePath);
@@ -1614,13 +1611,13 @@ function createSingleMedia(article, item, categoryId, categoryLabel, index) {
         "load",
         () => {
           rememberImageMetadata(storagePath, image.naturalWidth, image.naturalHeight);
-          syncCardLayout(article, image.naturalWidth, image.naturalHeight, item);
+          syncCardLayout(article, image.naturalWidth, image.naturalHeight);
         },
         { once: true }
       );
     }
 
-    syncCardLayout(article, image.width, image.height, item);
+    syncCardLayout(article, image.width, image.height);
 
     frame.appendChild(image);
     button.appendChild(frame);
@@ -1659,7 +1656,6 @@ async function openLightbox(item, categoryId, categoryLabel, index) {
   lightboxImage.src = resolveImageSource(item, categoryId, categoryLabel, index);
   lightboxImage.alt = item.alt || item.title;
   lightboxStage.dataset.padding = getImagePadding(item);
-  lightboxStage.style.setProperty("--lightbox-image-rotation", `${getImageRotation(item)}deg`);
   lightboxTitle.textContent = item.title;
   lightboxMeta.textContent = item.meta;
 
@@ -1695,66 +1691,34 @@ function getImageZoom(item) {
   return Math.min(Math.max(zoom, 0), 1);
 }
 
-function getImageRotation(item) {
-  const rotation = Number(item.rotate);
-
-  if (!Number.isFinite(rotation)) {
-    return 0;
-  }
-
-  const normalizedRotation = rotation % 360;
-  return normalizedRotation < 0 ? normalizedRotation + 360 : normalizedRotation;
-}
-
-function hasQuarterTurnRotation(rotation) {
-  const normalizedRotation = Number(rotation) % 360;
-
-  if (!Number.isFinite(normalizedRotation)) {
-    return false;
-  }
-
-  return Math.abs(normalizedRotation) % 180 === 90;
-}
-
-function getDisplayedImageDimensions(width, height, item = null) {
-  let displayedWidth = Number(width);
-  let displayedHeight = Number(height);
+function getImageOrientation(width, height) {
+  const normalizedWidth = Number(width);
+  const normalizedHeight = Number(height);
 
   if (
-    !Number.isFinite(displayedWidth) ||
-    !Number.isFinite(displayedHeight) ||
-    displayedWidth <= 0 ||
-    displayedHeight <= 0
+    !Number.isFinite(normalizedWidth) ||
+    !Number.isFinite(normalizedHeight) ||
+    normalizedWidth <= 0 ||
+    normalizedHeight <= 0
   ) {
     return null;
   }
 
-  if (item && hasQuarterTurnRotation(getImageRotation(item))) {
-    [displayedWidth, displayedHeight] = [displayedHeight, displayedWidth];
-  }
-
-  return {
-    width: displayedWidth,
-    height: displayedHeight,
-  };
+  return normalizedWidth > normalizedHeight ? "landscape" : "portrait";
 }
 
-function syncCardLayout(card, width, height, item = null) {
+function syncCardLayout(card, width, height) {
   if (!card) {
     return;
   }
 
-  const displayedDimensions = getDisplayedImageDimensions(width, height, item);
+  const orientation = getImageOrientation(width, height);
 
-  if (!displayedDimensions) {
+  if (!orientation) {
     return;
   }
 
-  const { width: displayedWidth, height: displayedHeight } = displayedDimensions;
-
-  card.dataset.orientation = displayedWidth > displayedHeight ? "landscape" : "portrait";
-  card.style.setProperty("--intrinsic-frame-aspect-ratio", `${displayedWidth} / ${displayedHeight}`);
-  card.style.setProperty("--displayed-aspect-ratio", String(displayedWidth / displayedHeight));
+  card.dataset.orientation = orientation;
 }
 
 function getInitialCategory() {
@@ -1835,6 +1799,7 @@ function renderGalleryCategory(category) {
   galleryTrack.innerHTML = "";
   galleryTrack.dataset.columns = String(galleryColumnCount);
   galleryTrack.dataset.layout = "grid";
+  galleryTrack.style.setProperty("--gallery-card-frame-aspect-ratio", galleryCardFrameAspectRatio);
 
   if (category.note) {
     const note = document.createElement("p");
@@ -1973,11 +1938,19 @@ function getLocalImageIfAvailable(path) {
 }
 
 function getResolvedImageUrl(path) {
+  if (isLocalPreviewModeEnabled()) {
+    return getLocalImageIfAvailable(path);
+  }
+
   return getLocalImageIfAvailable(path) || getFreshSignedImageUrl(path);
 }
 
 function isUnavailablePortfolioImagePath(path) {
   return unavailablePortfolioImagePaths.has(path);
+}
+
+function isLocalPreviewModeEnabled() {
+  return localImageDirectoryState === localImageDirectoryStateEnabled;
 }
 
 function hasSettledImageUrl(path) {
@@ -2023,6 +1996,8 @@ async function ensureLocalImageForPath(path) {
 
       if (isAvailable) {
         unavailablePortfolioImagePaths.delete(path);
+      } else if (isLocalPreviewModeEnabled()) {
+        unavailablePortfolioImagePaths.add(path);
       }
 
       resolve(isAvailable);
@@ -2283,7 +2258,7 @@ function hasFreshPortfolioImages() {
 }
 
 function hasLocalPortfolioImages() {
-  if (localImageDirectoryState !== localImageDirectoryStateEnabled) {
+  if (!isLocalPreviewModeEnabled()) {
     return false;
   }
 
@@ -2310,6 +2285,11 @@ async function ensureImageForItem(item, categoryId) {
     return true;
   }
 
+  if (isLocalPreviewModeEnabled()) {
+    unavailablePortfolioImagePaths.add(storagePath);
+    return true;
+  }
+
   if (!reviewPassword) {
     return false;
   }
@@ -2320,10 +2300,12 @@ async function ensureImageForItem(item, categoryId) {
 async function ensurePortfolioReady({ password = reviewPassword } = {}) {
   const accessPassword = sanitizePasswordInput(password) || getAccessPassword();
   await ensureLocalImagesForPaths(getAllPortfolioPaths());
-  const hasLocalAccess = hasLocalPortfolioImages();
+  const isLocalPreviewMode = isLocalPreviewModeEnabled();
+  const hasLocalAccess = isLocalPreviewMode || hasLocalPortfolioImages();
 
-  if (hasLocalAccess) {
+  if (isLocalPreviewMode) {
     clearSessionAuth();
+    clearSignedImageUrlCache();
   }
 
   if (hasFreshPortfolioImages() && hasPreloadedPortfolioImages()) {
@@ -2367,6 +2349,10 @@ async function ensurePortfolioReady({ password = reviewPassword } = {}) {
 async function ensureAllPortfolioImages(password = reviewPassword) {
   const sanitizedPassword = sanitizePasswordInput(password);
   await ensureLocalImagesForPaths(getAllPortfolioPaths());
+
+  if (isLocalPreviewModeEnabled()) {
+    return true;
+  }
 
   if (hasFreshPortfolioImages() || hasLocalPortfolioImages()) {
     return true;
@@ -2755,11 +2741,11 @@ function sanitizeImagePath(path) {
   4. If you need a custom bucket path, set `storagePath` directly on the item.
   5. Set `column` to `1`, `2`, or `3` to place an image in a specific desktop column.
   6. `padding` is optional and defaults to `"none"`. Use `"small"`, `"medium"`, or `"big"`
-     to keep the frame size while shrinking the image slightly inside it.
+     to add a frame inset while keeping the card height fixed; the legend stays aligned
+     vertically and shifts only on the x-axis to match the inset.
   7. `zoom` is optional and defaults to `0`. Use a value from `0` to `1`.
      Example: `zoom: 0.5` renders the image at 1.5x, centered and cropped by the frame.
-  8. `rotate` is optional. Use `90`, `180`, or `270` when a file displays sideways.
-  9. Fine-tune gallery crop and centering in `gallery-overrides.css`.
- 10. Each image gets a selector based on category + title, for example:
+  8. Fine-tune gallery crop and centering in `gallery-overrides.css`.
+  9. Each image gets a selector based on category + title, for example:
      .work-card[data-card="ceramics-glass-penelope"]
 */

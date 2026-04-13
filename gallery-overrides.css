@@ -1,14 +1,12 @@
 /*
   Manual gallery display controls:
 
-  - Loaded images now follow their natural aspect ratio by default.
-  - `--frame-aspect-ratio` mainly affects the loading placeholder shape.
+  - Gallery cards always use a fixed `4:5` frame.
   - Increase `--media-scale` or use `zoom` in `script.js` to crop in.
-  - Use `--media-shift-x` / `--media-shift-y` to re-center.
+  - Use `--media-shift-x` / `--media-shift-y` to re-center inside that fixed box.
 
   Example:
   .work-card[data-card="ceramics-glass-penelope"] {
-    --frame-aspect-ratio: 3 / 4;
     --media-scale: 1.04;
     --media-shift-x: -6px;
     --media-shift-y: -12px;
@@ -36,7 +34,6 @@
 .work-card[data-card="projects-line-bursegan-project"],
 .work-card[data-card="projects-nestor-joinery"],
 .work-card[data-card="projects-black-vessel-form"] {
-  --frame-aspect-ratio: 4 / 5;
   --media-scale: 1;
   --media-shift-x: 0px;
   --media-shift-y: 0px;

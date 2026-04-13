@@ -303,30 +303,28 @@ img {
 .work-card {
   width: 100%;
   margin: 0;
-  --card-padding-offset: 0rem;
-  --card-orientation-padding: 0rem;
-  --card-content-offset: calc(var(--card-padding-offset) + var(--card-orientation-padding));
+  --card-frame-inset: 0rem;
+  --card-legend-inline-offset: 0rem;
   --card-zoom: 0;
-  --intrinsic-frame-aspect-ratio: 4 / 5.35;
-  --displayed-aspect-ratio: 0.7476635514;
-  --media-fit: cover;
   --media-scale: 1;
-  --media-rotation: 0deg;
   --media-shift-x: 0px;
   --media-shift-y: 0px;
   --media-origin: center center;
 }
 
 .work-card[data-padding="small"] {
-  --card-padding-offset: 0.75rem;
+  --card-frame-inset: 0.75rem;
+  --card-legend-inline-offset: 0.75rem;
 }
 
 .work-card[data-padding="medium"] {
-  --card-padding-offset: 1.5rem;
+  --card-frame-inset: 1.5rem;
+  --card-legend-inline-offset: 1.5rem;
 }
 
 .work-card[data-padding="big"] {
-  --card-padding-offset: 2.25rem;
+  --card-frame-inset: 2.25rem;
+  --card-legend-inline-offset: 2.25rem;
 }
 
 .work-card__button {
@@ -345,22 +343,17 @@ img {
 
 .work-card__frame {
   width: 100%;
-  aspect-ratio: var(--frame-aspect-ratio, var(--intrinsic-frame-aspect-ratio));
+  aspect-ratio: var(--gallery-card-frame-aspect-ratio, 4 / 5);
   overflow: hidden;
   background: transparent;
   border-radius: 0;
   position: relative;
-  padding: var(--card-content-offset);
+  padding: var(--card-frame-inset);
   display: grid;
   place-items: center;
 }
 
 .work-card__frame:not(.is-loading) {
-  background: linear-gradient(140deg, rgba(16, 16, 16, 0.035), rgba(16, 16, 16, 0.085));
-  background-clip: content-box;
-}
-
-.work-card[data-orientation="landscape"] .work-card__frame:not(.is-loading) {
   background: #ffffff;
   background-clip: content-box;
 }
@@ -371,7 +364,7 @@ img {
 
 .work-card__loading {
   position: absolute;
-  inset: var(--card-padding-offset);
+  inset: var(--card-frame-inset);
   background:
     linear-gradient(
       120deg,
@@ -391,34 +384,21 @@ img {
   width: 100%;
   height: 100%;
   max-width: none;
-  object-fit: var(--media-fit);
+  object-fit: cover;
   margin-inline: auto;
-  image-orientation: from-image;
   transform: translate(var(--media-shift-x), var(--media-shift-y))
-    rotate(var(--media-rotation))
     scale(calc(var(--media-scale) + var(--card-zoom)));
   transform-origin: var(--media-origin);
   transition: transform 220ms ease;
 }
 
-.work-card[data-rotation="quarter-turn"] .work-card__media {
-  width: calc(100% / var(--displayed-aspect-ratio));
-  height: calc(100% * var(--displayed-aspect-ratio));
-}
-
-.work-card[data-orientation="landscape"] {
-  --card-orientation-padding: 1.4rem;
-  --media-fit: contain;
-}
-
-.work-card[data-orientation="portrait"] {
-  --media-fit: cover;
+.work-card[data-orientation="landscape"] .work-card__media {
+  object-fit: contain;
 }
 
 .work-card__button:hover .work-card__media,
 .work-card__button:focus-visible .work-card__media {
   transform: translate(var(--media-shift-x), var(--media-shift-y))
-    rotate(var(--media-rotation))
     scale(calc(var(--media-scale) + var(--card-zoom) + 0.02));
 }
 
@@ -429,7 +409,7 @@ img {
 .work-card__legend {
   margin-top: 0;
   padding-top: 0.85rem;
-  padding-inline: var(--card-content-offset);
+  padding-inline: var(--card-legend-inline-offset);
 }
 
 .work-card__title,
@@ -630,9 +610,6 @@ img {
   max-width: 100%;
   max-height: 78vh;
   height: auto;
-  image-orientation: from-image;
-  transform: rotate(var(--lightbox-image-rotation, 0deg));
-  transform-origin: center center;
 }
 
 .lightbox-stage[data-padding="small"] {
