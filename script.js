@@ -3,6 +3,9 @@
 
   - `column`: `1`, `2`, or `3` for desktop column placement
   - `padding`: `"none"`, `"small"`, `"medium"`, or `"big"`; defaults to `"none"`
+    Applies only to the fixed gallery card frame.
+  - `lightboxPadding`: `"none"`, `"small"`, `"medium"`, or `"big"`; defaults to `"none"`
+    Optional extra inset for the expanded image view.
   - `zoom`: number from `0` to `1`; defaults to `0`
     Example: `zoom: 0.5` renders the image at 1.5x, centered and cropped by the frame
 */
@@ -1385,6 +1388,12 @@ function bindEvents() {
     closeLightbox();
   });
 
+  lightboxStage.addEventListener("click", (event) => {
+    if (event.target === lightboxStage) {
+      closeLightbox();
+    }
+  });
+
   window.addEventListener("hashchange", () => {
     const hashCategory = window.location.hash.replace("#", "");
     const nextCategory = portfolioData.categories.find((category) => category.id === hashCategory)
@@ -1655,7 +1664,7 @@ async function openLightbox(item, categoryId, categoryLabel, index) {
 
   lightboxImage.src = resolveImageSource(item, categoryId, categoryLabel, index);
   lightboxImage.alt = item.alt || item.title;
-  lightboxStage.dataset.padding = getImagePadding(item);
+  lightboxStage.dataset.padding = getLightboxPadding(item);
   lightboxTitle.textContent = item.title;
   lightboxMeta.textContent = item.meta;
 
@@ -1679,6 +1688,10 @@ function resolveImageSource(item, categoryId, categoryLabel, index) {
 
 function getImagePadding(item) {
   return imagePaddingOptions.has(item.padding) ? item.padding : "none";
+}
+
+function getLightboxPadding(item) {
+  return imagePaddingOptions.has(item.lightboxPadding) ? item.lightboxPadding : "none";
 }
 
 function getImageZoom(item) {
@@ -2741,11 +2754,13 @@ function sanitizeImagePath(path) {
   4. If you need a custom bucket path, set `storagePath` directly on the item.
   5. Set `column` to `1`, `2`, or `3` to place an image in a specific desktop column.
   6. `padding` is optional and defaults to `"none"`. Use `"small"`, `"medium"`, or `"big"`
-     to add a frame inset while keeping the card height fixed; the legend stays aligned
+     to add a frame inset while keeping the gallery card height fixed; the legend stays aligned
      vertically and shifts only on the x-axis to match the inset.
-  7. `zoom` is optional and defaults to `0`. Use a value from `0` to `1`.
+  7. `lightboxPadding` is optional and defaults to `"none"`. Use it only if the expanded image
+     view also needs an inset.
+  8. `zoom` is optional and defaults to `0`. Use a value from `0` to `1`.
      Example: `zoom: 0.5` renders the image at 1.5x, centered and cropped by the frame.
-  8. Fine-tune gallery crop and centering in `gallery-overrides.css`.
-  9. Each image gets a selector based on category + title, for example:
+  9. Fine-tune gallery crop and centering in `gallery-overrides.css`.
+  10. Each image gets a selector based on category + title, for example:
      .work-card[data-card="ceramics-glass-penelope"]
 */
