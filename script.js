@@ -2574,6 +2574,9 @@ async function fetchSignedImageUrlsForPaths(
     const unresolvedPaths = Array.isArray(payload.missingPaths)
       ? sanitizeImagePaths(payload.missingPaths)
       : sanitizedPaths.filter((path) => !getFreshSignedImageUrl(path));
+    const unrequestedSupabasePaths = Array.isArray(payload.unrequestedSupabasePaths)
+      ? sanitizeImagePaths(payload.unrequestedSupabasePaths)
+      : [];
 
     if (!receivedCount) {
       console.warn("No signed image URLs were returned by Supabase.", {
@@ -2585,7 +2588,14 @@ async function fetchSignedImageUrlsForPaths(
 
     if (unresolvedPaths.length) {
       unresolvedPaths.forEach((path) => unavailablePortfolioImagePaths.add(path));
-      console.warn("Some private images could not be found in Supabase Storage.", unresolvedPaths);
+      console.warn("Missing requested pictures from Supabase.", unresolvedPaths);
+    }
+
+    if (unrequestedSupabasePaths.length) {
+      console.info(
+        "Pictures present in Supabase but missing from frontend request.",
+        unrequestedSupabasePaths
+      );
     }
 
     reviewReviewerId = getReviewerIdFromPayload(payload);

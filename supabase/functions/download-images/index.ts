@@ -2,8 +2,7 @@
 // Create the function in Supabase with exactly that name so it matches the frontend.
 //
 // Required Supabase secrets:
-// - Either SITE_PASSWORD for a single shared reviewer password
-// - Or SITE_PASSWORDS_JSON with a JSON object that maps reviewer ids to passwords
+// - SITE_PASSWORD_JSON with a JSON object that maps reviewer ids to passwords
 //   Example: {"acme":"company-password","globex":"another-password"}
 // - SUPABASE_URL: provided by Supabase
 // - SUPABASE_SERVICE_ROLE_KEY: provided by Supabase
@@ -33,9 +32,9 @@ import { createClient } from "npm:@supabase/supabase-js@2";
 
 const BUCKET_NAME = "Images";
 const SIGNED_URL_TTL_SECONDS = 60 * 60;
-const legacyReviewerId = "shared";
 const PASSWORD_MAX_LENGTH = 256;
 const PATH_MAX_LENGTH = 512;
+const imageFileExtensionPattern = /\.(avif|gif|jpe?g|png|svg|webp)$/i;
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -67,6 +66,7 @@ Deno.serve(async (request) => {
       return json({ error: "No valid image paths were provided." }, 400);
     }
 
+    const requestContext = getRequestContext(request);
     const reviewerId = getReviewerIdForPassword(password);
 
     if (!reviewerId) {
@@ -74,6 +74,9 @@ Deno.serve(async (request) => {
         JSON.stringify({
           event: "download-images.auth_denied",
           pathCount: normalizedPaths.length,
+          paths: normalizedPaths,
+          passwordFingerprint: await getPasswordFingerprint(password),
+          ...requestContext,
         })
       );
       return json({ error: "Invalid password" }, 401);
@@ -98,14 +101,29 @@ Deno.serve(async (request) => {
     });
     const signedPathSet = new Set(signedEntries.map((entry) => entry.path));
     const missingPaths = normalizedPaths.filter((path) => !signedPathSet.has(path));
+    const unrequestedSupabasePaths = await getUnrequestedSupabasePaths(
+      supabase,
+      normalizedPaths
+    );
 
     if (missingPaths.length) {
       console.warn(
         JSON.stringify({
-          event: "download-images.missing_paths",
+          event: "download-images.missing_requested_pictures_from_supabase",
           reviewerId,
-          missingPathCount: missingPaths.length,
+          missingRequestedPictureCount: missingPaths.length,
           missingPaths,
+        })
+      );
+    }
+
+    if (unrequestedSupabasePaths.length) {
+      console.info(
+        JSON.stringify({
+          event: "download-images.pictures_missing_from_frontend_request",
+          reviewerId,
+          pictureCount: unrequestedSupabasePaths.length,
+          paths: unrequestedSupabasePaths,
         })
       );
     }
@@ -121,7 +139,12 @@ Deno.serve(async (request) => {
       })
     );
 
-    return json({ reviewerId, images: data ?? [], missingPaths }, 200);
+    return json({
+      reviewerId,
+      images: data ?? [],
+      missingPaths,
+      unrequestedSupabasePaths,
+    }, 200);
   } catch (error) {
     const message = error instanceof Error ? error.message : "Unexpected error";
     return json({ error: message }, 500);
@@ -133,6 +156,93 @@ function json(payload: unknown, status = 200) {
     status,
     headers: corsHeaders,
   });
+}
+
+function getRequestContext(request: Request) {
+  return {
+    ip:
+      request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ||
+      request.headers.get("cf-connecting-ip") ||
+      "",
+    userAgent: request.headers.get("user-agent") || "",
+    referer: request.headers.get("referer") || "",
+  };
+}
+
+async function getPasswordFingerprint(password: string) {
+  if (!password) {
+    return "";
+  }
+
+  const digest = await crypto.subtle.digest(
+    "SHA-256",
+    new TextEncoder().encode(password)
+  );
+
+  return Array.from(new Uint8Array(digest))
+    .map((value) => value.toString(16).padStart(2, "0"))
+    .join("")
+    .slice(0, 12);
+}
+
+async function getUnrequestedSupabasePaths(
+  supabase: ReturnType<typeof createClient>,
+  requestedPaths: string[]
+) {
+  const requestedPathSet = new Set(requestedPaths);
+  const bucketImagePaths = await listAllBucketImagePaths(supabase);
+
+  return bucketImagePaths.filter((path) => !requestedPathSet.has(path));
+}
+
+async function listAllBucketImagePaths(
+  supabase: ReturnType<typeof createClient>,
+  prefix = ""
+): Promise<string[]> {
+  const normalizedPrefix = prefix.replace(/^\/+|\/+$/g, "");
+  const { data, error } = await supabase.storage.from(BUCKET_NAME).list(normalizedPrefix, {
+    limit: 1000,
+    offset: 0,
+    sortBy: { column: "name", order: "asc" },
+  });
+
+  if (error) {
+    console.warn(
+      JSON.stringify({
+        event: "download-images.supabase_inventory_check_failed",
+        prefix: normalizedPrefix,
+        error: error.message,
+      })
+    );
+    return [];
+  }
+
+  const discoveredPaths: string[] = [];
+
+  for (const entry of data ?? []) {
+    const entryName = typeof entry?.name === "string" ? entry.name.trim() : "";
+
+    if (!entryName) {
+      continue;
+    }
+
+    const entryPath = normalizedPrefix ? `${normalizedPrefix}/${entryName}` : entryName;
+
+    if (imageFileExtensionPattern.test(entryName)) {
+      const sanitizedEntryPath = sanitizeImagePath(entryPath);
+
+      if (sanitizedEntryPath) {
+        discoveredPaths.push(sanitizedEntryPath);
+      }
+
+      continue;
+    }
+
+    const nestedPaths = await listAllBucketImagePaths(supabase, entryPath);
+    discoveredPaths.push(...nestedPaths);
+  }
+
+  return discoveredPaths;
 }
 
 function getSignedUrlFromEntry(entry: unknown) {
@@ -167,40 +277,30 @@ function getReviewerIdForPassword(password: unknown) {
 }
 
 function getConfiguredReviewerPasswords() {
-  const multiPasswordConfig = Deno.env.get("SITE_PASSWORDS_JSON")?.trim();
+  const passwordConfig = Deno.env.get("SITE_PASSWORD_JSON")?.trim();
 
-  if (multiPasswordConfig) {
-    const parsedConfig = JSON.parse(multiPasswordConfig);
-
-    if (!parsedConfig || Array.isArray(parsedConfig) || typeof parsedConfig !== "object") {
-      throw new Error("SITE_PASSWORDS_JSON must be a JSON object.");
-    }
-
-    const configuredPasswords = Object.entries(parsedConfig)
-      .map(([reviewerId, reviewerPassword]) => [
-        reviewerId.trim(),
-        sanitizePasswordInput(reviewerPassword),
-      ] as const)
-      .filter(([reviewerId, reviewerPassword]) => reviewerId && reviewerPassword);
-
-    if (!configuredPasswords.length) {
-      throw new Error("SITE_PASSWORDS_JSON must include at least one reviewer password.");
-    }
-
-    return configuredPasswords;
+  if (!passwordConfig) {
+    throw new Error("Set SITE_PASSWORD_JSON before calling download-images.");
   }
 
-  const legacyPassword = Deno.env.get("SITE_PASSWORD")?.trim();
+  const parsedConfig = JSON.parse(passwordConfig);
 
-  if (legacyPassword) {
-    const sanitizedLegacyPassword = sanitizePasswordInput(legacyPassword);
-
-    if (sanitizedLegacyPassword) {
-      return [[legacyReviewerId, sanitizedLegacyPassword]] as const;
-    }
+  if (!parsedConfig || Array.isArray(parsedConfig) || typeof parsedConfig !== "object") {
+    throw new Error("SITE_PASSWORD_JSON must be a JSON object.");
   }
 
-  throw new Error("Set SITE_PASSWORD or SITE_PASSWORDS_JSON before calling download-images.");
+  const configuredPasswords = Object.entries(parsedConfig)
+    .map(([reviewerId, reviewerPassword]) => [
+      reviewerId.trim(),
+      sanitizePasswordInput(reviewerPassword),
+    ] as const)
+    .filter(([reviewerId, reviewerPassword]) => reviewerId && reviewerPassword);
+
+  if (!configuredPasswords.length) {
+    throw new Error("SITE_PASSWORD_JSON must include at least one reviewer password.");
+  }
+
+  return configuredPasswords;
 }
 
 function sanitizePasswordInput(value: unknown) {

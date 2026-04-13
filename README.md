@@ -66,15 +66,13 @@ This keeps the smoother post-login experience while still reducing repeated API 
 development.
 
 The loading screen also shows an estimated MB progress value. Right now that estimate is based on
-the whole portfolio being `143 MB` in total, spread proportionally across the current image count.
+the whole portfolio being `60.5 MB` in total, spread proportionally across the current image count.
 If the total portfolio weight changes later, update `estimatedPortfolioTotalMegabytes` in
 [`script.js`](/Users/dmazzuca/src/emmafalkehed/script.js).
 
 ## Supabase auth configuration
 
-The private image edge function still accepts the existing single-password setup through
-`SITE_PASSWORD`, but it now also supports reviewer-specific credentials through
-`SITE_PASSWORDS_JSON`.
+The private image edge function reads reviewer credentials from `SITE_PASSWORD_JSON`.
 
 Use short stable reviewer ids because that id is returned to the frontend session and written to the
 Supabase function logs when private images are requested.
